@@ -98,21 +98,17 @@ class mainWin(QtGui.QMainWindow, Ui_MainWindow):
         name = QtGui.QFileDialog.getOpenFileName(self, 'Open File')
         print name 
 
-def other_thread(thread_name):
-    while 1==1:
-        print ui.dial_GaussianBlur_kSizeG.value()
-
 if __name__ == "__main__":
     import sys
     filter_argument = {"GaussianBlur":{"kSizeG":(1,11)}, "detailEnhance":{"sigmaM":(0,100),"sigmaS":(0,200)}, "bilateralFilter":{"time":(1,10)}, "Laplacian":{"threshold":(0,255)}, }
-    edge_argument = {"lowerThr":(0,500), "upperThr":(0,500), "contourStep":(1,15)}
+    edge_argument = {"lowerThr":(0,500), "upperThr":(0,500), "contourStep":(1,15), "dilateEdgeIter":(0,10)}
 
     app = QtGui.QApplication(sys.argv)
     MainWindow = QtGui.QMainWindow()
     ui = mainWin(MainWindow, filter_argument, edge_argument)
 
     try:
-        thread.start_new_thread( process_image, ("process", ui) )
+        thread.start_new_thread( process_image, ("geometry.png", ui) )
     except Exception as e:
         print "Error: unable to start thread",e
 

@@ -1,14 +1,15 @@
 import numpy as np 
 import cv2
 
-def process_image(thread_name, ui):
-	img = cv2.imread("caradel_2.jpg")
+def process_image(img_name, ui):
+	img = cv2.imread(img_name)
 	out = np.zeros(img.shape[:-1])
 	while 1 == 1:
-		img = cv2.imread("caradel_2.jpg")
+		img = cv2.imread(img_name)
 		out = np.zeros(img.shape)
 		lowerThr = ui.slider_lowerThr.value()
 		upperThr = ui.slider_upperThr.value()
+		dilateEdgeIter = ui.slider_dilateEdgeIter.value()
 		contourStep = ui.slider_contourStep.value()
 		GaussianBlur_kSizeG = 2*ui.dial_GaussianBlur_kSizeG.value()+1
 		detailEnhance_sigmaM = ui.dial_detailEnhance_sigmaM.value()
@@ -16,8 +17,6 @@ def process_image(thread_name, ui):
 		bilateralFilter_time = ui.dial_bilateralFilter_time.value()
 		Laplacian_threshold = ui.dial_Laplacian_threshold.value()
 		
-		if ui.radioFilter_GaussianBlur.isChecked():
-			img = cv2.GaussianBlur(img,(GaussianBlur_kSizeG,GaussianBlur_kSizeG),0)
 		if ui.radioFilter_detailEnhance.isChecked():
 			img = cv2.detailEnhance(img, sigma_s=detailEnhance_sigmaS, sigma_r=float(detailEnhance_sigmaM)/100)
 		if ui.radioFilter_bilateralFilter.isChecked():
@@ -28,17 +27,33 @@ def process_image(thread_name, ui):
 			ret,thresh1 = cv2.threshold(lapa,Laplacian_threshold,255,cv2.THRESH_BINARY)
 			lapa = cv2.bitwise_and(lapa, thresh1)
 			img = np.uint8(img*(255.0 - 1.0*lapa)/255.0)
+		if ui.radioFilter_GaussianBlur.isChecked():
+			img = cv2.GaussianBlur(img,(GaussianBlur_kSizeG,GaussianBlur_kSizeG),0)
 
-		edges = cv2.Canny(img.astype(np.uint8),lowerThr,upperThr,apertureSize = 3)
+		edges = cv2.Canny(img,lowerThr,upperThr,apertureSize = 3)
+
+		if dilateEdgeIter > 0:
+			edges = cv2.dilate(edges,np.ones((3,3),np.uint8),iterations = dilateEdgeIter)
 
 		_, contours, _ = cv2.findContours(edges, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+
+		# count = 0
+		# for i in contours:
+		# 	cv2.drawContours(out, [i], 0, (255,255,255), -1)
+		# 	M = cv2.moments(i)
+		# 	cx = int(M['m10']/M['m00']) if M['m00'] != 0 else 0
+		# 	cy = int(M['m01']/M['m00']) if M['m00'] != 0 else 0
+		# 	cv2.putText(img,str(count),(cx,cy), cv2.FONT_HERSHEY_SIMPLEX, 0.5,(0,0,0),1,cv2.LINE_AA)
+		# 	count += 1
+
 		for i in contours:
 			for j in range (contourStep,len(i),contourStep):
 				cv2.line(out,(i[j,0,0],i[j,0,1]),(i[j-contourStep,0,0],i[j-contourStep,0,1]),255,1)
 		
 		cv2.imshow("ima", img)
 		# cv2.imshow("ima", thresh1)
-		cv2.imshow("edge", out)
+		cv2.imshow("contour", out)
+		cv2.imshow("edges",edges)
 		k = cv2.waitKey(1)
 		if k == 27:
 			break
@@ -58,10 +73,10 @@ if __name__ == "__main__":
 	cv2.createTrackbar('thr', 'image',0,255,nothing)
 	cv2.createTrackbar('step', 'image',1,10,nothing)
 
-	img = cv2.imread("mona_lisa.jpg")
+	img = cv2.imread("geometry.png")
 	out = np.zeros(img.shape[:-1])
 	while 1 == 1:
-		img = cv2.imread("mona_lisa.jpg")
+		img = cv2.imread("geometry.png")
 		out = np.zeros(img.shape)
 		# img = cv2.flip(img,1)
 		lower_thr = cv2.getTrackbarPos('lower','image')
@@ -84,6 +99,7 @@ if __name__ == "__main__":
 		edges = cv2.Canny(img.astype(np.uint8),lower_thr,upper_thr,apertureSize = k_size)
 
 		_, contours, _ = cv2.findContours(edges, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+
 		for i in contours:
 			for j in range (step,len(i),step):
 				cv2.line(out,(i[j,0,0],i[j,0,1]),(i[j-step,0,0],i[j-step,0,1]),255,1)

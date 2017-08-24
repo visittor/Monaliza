@@ -48,3 +48,5 @@ Temporary Items
 *.jpg
 *.rar
 *.ui
+*.png
+*.pyc
