@@ -100,7 +100,7 @@ class mainWin(QtGui.QMainWindow, Ui_MainWindow):
 
 if __name__ == "__main__":
     import sys
-    filter_argument = {"GaussianBlur":{"kSizeG":(1,11)}, "detailEnhance":{"sigmaM":(0,100),"sigmaS":(0,200)}, "bilateralFilter":{"time":(1,10)}, "Laplacian":{"threshold":(0,255)}, }
+    filter_argument = {"GaussianBlur":{"kSizeG":(1,11)}, "detailEnhance":{"sigmaM":(0,100),"sigmaS":(0,200)}, "bilateralFilter":{"time":(1,10)}, "Laplacian":{"threshold":(0,255)}, "Threshold":{"lowerThr":(2,10),"upperThr":(0,10)}, "MedianBlur":{"ksize":(1,10)} }
     edge_argument = {"lowerThr":(0,500), "upperThr":(0,500), "contourStep":(1,15), "dilateEdgeIter":(0,10)}
 
     app = QtGui.QApplication(sys.argv)
@@ -108,7 +108,7 @@ if __name__ == "__main__":
     ui = mainWin(MainWindow, filter_argument, edge_argument)
 
     try:
-        thread.start_new_thread( process_image, ("geometry.png", ui) )
+        thread.start_new_thread( process_image, ("ploy_2.jpg", ui) )
     except Exception as e:
         print "Error: unable to start thread",e
 

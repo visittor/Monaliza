@@ -1,6 +1,26 @@
 import numpy as np 
 import cv2
 
+def check_close(hierarchy, index):
+	if hierarchy[index,2] != -1:
+		if hierarchy[hierarchy[index,2],0] == -1 and hierarchy[ hierarchy[index,2], 1] == -1:
+			return True
+	return False
+
+def verticle_paint(cnt, shape, step = 10):
+	mask = np.zeros(shape, np.uint8)
+	cv2.drawContours(mask, [cnt], -1, 255, -1)
+	pixelpoints = np.transpose(np.nonzero(mask))
+	out = []
+	for y in range(step, shape[0], step):
+		row = np.where(pixelpoints[:, 0] == y)
+		row = pixelpoints[row]
+		if len(row)>0:
+			max_row = np.amax(row[:,1])
+			min_row = np.amin(row[:,1])
+			out.append([(min_row, y), (max_row, y)])
+	return out
+
 def process_image(img_name, ui):
 	img = cv2.imread(img_name)
 	out = np.zeros(img.shape[:-1])
@@ -16,6 +36,9 @@ def process_image(img_name, ui):
 		detailEnhance_sigmaS = ui.dial_detailEnhance_sigmaS.value()
 		bilateralFilter_time = ui.dial_bilateralFilter_time.value()
 		Laplacian_threshold = ui.dial_Laplacian_threshold.value()
+		thr_upperThr = ui.dial_Threshold_upperThr.value()
+		thr_lowerThr = ui.dial_Threshold_lowerThr.value()
+		median_ksize = ui.dial_MedianBlur_ksize.value()
 		
 		if ui.radioFilter_detailEnhance.isChecked():
 			img = cv2.detailEnhance(img, sigma_s=detailEnhance_sigmaS, sigma_r=float(detailEnhance_sigmaM)/100)
@@ -27,25 +50,31 @@ def process_image(img_name, ui):
 			ret,thresh1 = cv2.threshold(lapa,Laplacian_threshold,255,cv2.THRESH_BINARY)
 			lapa = cv2.bitwise_and(lapa, thresh1)
 			img = np.uint8(img*(255.0 - 1.0*lapa)/255.0)
+		if ui.radioFilter_Threshold.isChecked():
+			img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+			img = cv2.adaptiveThreshold(img_gray,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,cv2.THRESH_BINARY,2*thr_lowerThr + 1,thr_upperThr)
+			img = cv2.GaussianBlur(img,(3,3),0)
+			img = cv2.adaptiveThreshold(img,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,cv2.THRESH_BINARY,2*thr_lowerThr + 1,thr_upperThr)
 		if ui.radioFilter_GaussianBlur.isChecked():
 			img = cv2.GaussianBlur(img,(GaussianBlur_kSizeG,GaussianBlur_kSizeG),0)
+		if ui.radioFilter_MedianBlur.isChecked():
+			img = cv2.medianBlur(img,2*median_ksize + 1)
+
+
 
 		edges = cv2.Canny(img,lowerThr,upperThr,apertureSize = 3)
 
 		if dilateEdgeIter > 0:
 			edges = cv2.dilate(edges,np.ones((3,3),np.uint8),iterations = dilateEdgeIter)
 
-		_, contours, _ = cv2.findContours(edges, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+		_, contours, hierarchy  = cv2.findContours(edges, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
-		# count = 0
-		# for i in contours:
-		# 	cv2.drawContours(out, [i], 0, (255,255,255), -1)
-		# 	M = cv2.moments(i)
-		# 	cx = int(M['m10']/M['m00']) if M['m00'] != 0 else 0
-		# 	cy = int(M['m01']/M['m00']) if M['m00'] != 0 else 0
-		# 	cv2.putText(img,str(count),(cx,cy), cv2.FONT_HERSHEY_SIMPLEX, 0.5,(0,0,0),1,cv2.LINE_AA)
-		# 	count += 1
-
+		for i in range(len(contours)):
+			if check_close(hierarchy[0], i):
+				cv2.drawContours(out, [contours[i]], -1,255, 1)
+				painting = verticle_paint(contours[i], [img.shape[0],img.shape[1]], step = 2)
+				for p in painting:
+					cv2.line(out, p[0], p[1], 255, 1)
 		for i in contours:
 			for j in range (contourStep,len(i),contourStep):
 				cv2.line(out,(i[j,0,0],i[j,0,1]),(i[j-contourStep,0,0],i[j-contourStep,0,1]),255,1)
