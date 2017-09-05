@@ -104,7 +104,4 @@ class Filter_manager(object):
 	def apply(self, img):
 		for filter_ in self.__filters:
 			img = filter_.apply(img)
-		return img
-
-	
-	
+		return img	
