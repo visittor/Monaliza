@@ -31,7 +31,9 @@ class mainWin(QtGui.QMainWindow, Ui_MainWindow):
         self.setup_filter()
         self.set_menu_bar()
         self.__start_flag = threading.Event()
+        self.__is_arrayFile = threading.Event()
         self.__start_flag.clear()
+        self.__is_arrayFile.clear()
         self.__ImageProcessing_thread = None
         self.__filter_manager_factory = None
         self.__tween_factory = lambda x:None
@@ -86,28 +88,55 @@ class mainWin(QtGui.QMainWindow, Ui_MainWindow):
 
     def set_menu_bar(self):
         self.actionUse_local_file.triggered.connect(self.create_project_from_local_file)
+        self.actionSave_cnt.setEnabled(False)
+        self.actionSave_cnt.triggered.connect(self.save_contour)
+        self.actionLoad_cnt.triggered.connect(self.create_project_from_npz)
 
-    def get_filter_manager_factory(self, filter_manager_factory):
+    def set_filter_manager_factory(self, filter_manager_factory):
         self.__filter_manager_factory = filter_manager_factory
 
-    def get_tween_factory(self, tween_factory):
+    def set_tween_factory(self, tween_factory):
         self.__tween_factory = tween_factory
 
     def create_project_from_local_file(self):
         file_name = QtGui.QFileDialog.getOpenFileName(self, 'Open File')
-        self.__create_ImageProcessing_thread( str(file_name) ) 
+        self.__create_ImageProcessing_thread( str(file_name) )
 
-    def __create_ImageProcessing_thread(self, file_name):
-        self.__start_flag.clear()
-        if self.__ImageProcessing_thread is not None:
-            self.__ImageProcessing_thread.join()
-        self.__ImageProcessing_thread = ImageProcessing(start_flag = self.__start_flag, ui = self)
+    def create_project_from_npz(self):
+        file_name = QtGui.QFileDialog.getOpenFileName(self, 'Open File')
+        self.__create_ImageProcessing_thread_from_contour( str(file_name) )
+
+    def save_contour(self):
+        file_name = QtGui.QFileDialog.getSaveFileName(self, 'Save File')
+        if self.__ImageProcessing_thread.is_alive():
+            self.__ImageProcessing_thread.save_contour( str(file_name) )
+
+    def __create_ImageProcessing_thread_from_contour(self, file_name):
+        self.__create_ImageProcessing_thread()
+        self.__ImageProcessing_thread.recieve_contour_from_filename(file_name)
+        self.__start_flag.set()
+        self.__is_arrayFile.set()
+        self.__ImageProcessing_thread.start()
+        time.sleep(1)
+        if self.__ImageProcessing_thread.is_alive():
+            self.actionSave_cnt.setEnabled(True)
+
+    def __create_ImageProcessing_thread_from_image(self, file_name):
+        self.__create_ImageProcessing_thread()
         self.__ImageProcessing_thread.recieve_image_from_filename(file_name)
-        self.__ImageProcessing_thread.attach_filter( self.__filter_manager_factory(self) )
-        self.__ImageProcessing_thread.attach_tween( self.__tween_factory(self) )
-        
         self.__start_flag.set()
         self.__ImageProcessing_thread.start()
+        time.sleep(1)
+        if self.__ImageProcessing_thread.is_alive():
+            self.actionSave_cnt.setEnabled(True)
+
+    def __create_ImageProcessing_thread(self):
+        self.clear_flag()
+        if self.__ImageProcessing_thread is not None and self.__ImageProcessing_thread.is_alive():
+            self.__ImageProcessing_thread.join()
+        self.__ImageProcessing_thread = ImageProcessing(start_flag = self.__start_flag, is_arrayFile = self.__is_arrayFile, ui = self)
+        self.__ImageProcessing_thread.attach_filter( self.__filter_manager_factory(self) )
+        self.__ImageProcessing_thread.attach_tween( self.__tween_factory(self) )
 
     def closeEvent(self, event):
         print "closing"
@@ -115,11 +144,15 @@ class mainWin(QtGui.QMainWindow, Ui_MainWindow):
         if self.__ImageProcessing_thread is not None:
             self.__ImageProcessing_thread.join()
 
+    def clear_flag(self):
+        self.__is_arrayFile.clear()
+        self.__start_flag.clear()
+
 if __name__ == "__main__":
     import sys
     app = QtGui.QApplication(sys.argv)
     MainWindow = QtGui.QMainWindow()
     ui = mainWin(MainWindow, "development.cfg")
-    ui.get_filter_manager_factory(filter_factory)
+    ui.set_filter_manager_factory(filter_factory)
     MainWindow.show()
     sys.exit(app.exec_())
