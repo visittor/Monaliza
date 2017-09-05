@@ -34,7 +34,7 @@ class mainWin(QtGui.QMainWindow, Ui_MainWindow):
         self.__start_flag.clear()
         self.__ImageProcessing_thread = None
         self.__filter_manager_factory = None
-        self.__tween_factory = None
+        self.__tween_factory = lambda x:None
 
     def get_config(self, file_cfg):
         self.__config = ConfigParser.ConfigParser()
@@ -101,7 +101,7 @@ class mainWin(QtGui.QMainWindow, Ui_MainWindow):
         self.__start_flag.clear()
         if self.__ImageProcessing_thread is not None:
             self.__ImageProcessing_thread.join()
-        self.__ImageProcessing_thread = ImageProcessing(start_flag = self.__start_flag)
+        self.__ImageProcessing_thread = ImageProcessing(start_flag = self.__start_flag, ui = self)
         self.__ImageProcessing_thread.recieve_image_from_filename(file_name)
         self.__ImageProcessing_thread.attach_filter( self.__filter_manager_factory(self) )
         self.__ImageProcessing_thread.attach_tween( self.__tween_factory(self) )
@@ -121,6 +121,5 @@ if __name__ == "__main__":
     MainWindow = QtGui.QMainWindow()
     ui = mainWin(MainWindow, "development.cfg")
     ui.get_filter_manager_factory(filter_factory)
-    ui.get_tween_factory(lambda x:x)
     MainWindow.show()
     sys.exit(app.exec_())
