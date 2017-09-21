@@ -37,6 +37,7 @@ class mainWin(QtGui.QMainWindow, Ui_MainWindow):
         self.__ImageProcessing_thread = None
         self.__filter_manager_factory = None
         self.__tween_factory = lambda x:None
+        self.Lock = threading.Lock()
 
     def get_config(self, file_cfg):
         self.__config = ConfigParser.ConfigParser()
@@ -88,9 +89,12 @@ class mainWin(QtGui.QMainWindow, Ui_MainWindow):
 
     def set_menu_bar(self):
         self.actionUse_local_file.triggered.connect(self.create_project_from_local_file)
+        self.actionUse_local_file.setShortcut("Ctrl+N")
         self.actionSave_cnt.setEnabled(False)
         self.actionSave_cnt.triggered.connect(self.save_contour)
+        self.actionSave_cnt.setShortcut("Ctrl+S")
         self.actionLoad_cnt.triggered.connect(self.create_project_from_npz)
+        self.actionLoad_cnt.setShortcut("Ctrl+L")
 
     def set_filter_manager_factory(self, filter_manager_factory):
         self.__filter_manager_factory = filter_manager_factory
@@ -100,7 +104,7 @@ class mainWin(QtGui.QMainWindow, Ui_MainWindow):
 
     def create_project_from_local_file(self):
         file_name = QtGui.QFileDialog.getOpenFileName(self, 'Open File')
-        self.__create_ImageProcessing_thread( str(file_name) )
+        self.__create_ImageProcessing_thread_from_image( str(file_name) )
 
     def create_project_from_npz(self):
         file_name = QtGui.QFileDialog.getOpenFileName(self, 'Open File')
@@ -129,14 +133,20 @@ class mainWin(QtGui.QMainWindow, Ui_MainWindow):
         time.sleep(1)
         if self.__ImageProcessing_thread.is_alive():
             self.actionSave_cnt.setEnabled(True)
+        print self.__ImageProcessing_thread
 
     def __create_ImageProcessing_thread(self):
         self.clear_flag()
         if self.__ImageProcessing_thread is not None and self.__ImageProcessing_thread.is_alive():
+            print "wait ..."
             self.__ImageProcessing_thread.join()
+        del self.__ImageProcessing_thread
+        time.sleep(1)
         self.__ImageProcessing_thread = ImageProcessing(start_flag = self.__start_flag, is_arrayFile = self.__is_arrayFile, ui = self)
-        self.__ImageProcessing_thread.attach_filter( self.__filter_manager_factory(self) )
-        self.__ImageProcessing_thread.attach_tween( self.__tween_factory(self) )
+        filter_manager = self.__filter_manager_factory(self)
+        tween = self.__tween_factory(self)
+        self.__ImageProcessing_thread.attach_filter( filter_manager )
+        self.__ImageProcessing_thread.attach_tween( tween )
 
     def closeEvent(self, event):
         print "closing"

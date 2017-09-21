@@ -1,6 +1,7 @@
 import cv2
 import numpy as np 
 import threading
+from matplotlib import pyplot as plt
 
 class ImageProcessing(threading.Thread):
 	
@@ -8,6 +9,7 @@ class ImageProcessing(threading.Thread):
 	
 	def __init__(self, start_flag = None, is_arrayFile = None, ui = None):
 		threading.Thread.__init__(self)
+		self.ui = ui
 		self.__edges_detection_module = Edge_detection(ui)
 		self.__contour_point = np.array([])
 		self.__hierarchy = np.array([])
@@ -16,12 +18,23 @@ class ImageProcessing(threading.Thread):
 		self.__start_flag = start_flag
 		self.__is_arrayFile = is_arrayFile
 
+	def clear_image(self):
+		self.__image = np.zeros([480,640])
+
 	def recieve_image(self, img):
 		self.__image = img
 
 	def recieve_image_from_filename(self, file_name):
-		img = cv2.imread(file_name)
-		self.recieve_image(img)
+		with self.ui.Lock:
+			img = cv2.imread(file_name)
+			self.recieve_image(img)
+			plt.subplot(311)
+			plt.hist(img[:,:,0].ravel(),256,[0,256])
+			plt.subplot(312)
+			plt.hist(img[:,:,1].ravel(),256,[0,256])
+			plt.subplot(313)
+			plt.hist(img[:,:,2].ravel(),256,[0,256])
+			plt.show()
 
 	def recieve_contour_from_filename(self, file_name):
 		shape = self.__edges_detection_module.load_countour(file_name)
@@ -55,17 +68,21 @@ class ImageProcessing(threading.Thread):
 			self.__is_arrayFile = self.artificial_flag()
 		self.__start_flag.wait()
 		while self.__start_flag is None or self.__start_flag.is_set():
-			img = self.__image.copy()
-
+			# with self.ui.Lock:
 			if self.__is_arrayFile.is_set() == False:
+				img = self.__image.copy()
 				img = self.apply_filter(img)
 				self.__edges_detection_module.update_img(img)
+				self.show_img(img)
 
 			self.show_contour()
-			self.show_img(img)
 			if cv2.waitKey(1)&0xFF == 27:
 				break
-		cv2.destroyAllWindows()
+		cv2.destroyWindow("image")
+		cv2.destroyWindow("contour")
+		print "Leave thread"
+		cv2.waitKey(10)
+		return 0
 
 	class artificial_flag(object):
 
@@ -95,10 +112,8 @@ class Filter(object):
 
 class Filter_manager(object):
 
-	__filters = []
-
 	def __init__(self):
-		pass
+		self.__filters = []
 
 	def append_filter(self, filter_):
 		self.__filters.append(filter_)
@@ -128,7 +143,7 @@ class Edge_detection(object):
 		self.__tween = None
 
 	def update_img(self, img):
-		self.__edges = cv2.Canny(img.copy(), self.__ui.lower_thr_edges.value(), self.__ui.upper_thr_edges.value(), apertureSize = 3)
+		self.__edges = cv2.Canny(img.copy(), self.__ui.lower_thr_edges.value(), self.__ui.upper_thr_edges.value(), apertureSize = 3, L2gradient =True)
 		self.__find_contour()
 
 	def attach_tween(self, tween):
@@ -138,7 +153,11 @@ class Edge_detection(object):
 		self.__edges = self.__tween(self.__edges) if callable(self.__tween) else self.__edges
 		c = cv2.findContours( self.__edges, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
 		self.__contour_points = [ np.array(i[::self.__ui.cnt_step.value()]) for i in c[1] if len(i[::self.__ui.cnt_step.value()]) > 1]
+		self.__filter_contour()
 		self.__hierarchy = c[2]
+
+	def __filter_contour(self):
+		self.__contour_points = [ np.array(i) for i in self.__contour_points if len(i) > self.__ui.cnt_min_lenght.value()]
 
 	def set_contour(self, contour, hierarchy):
 		self.__contour_points = contour
