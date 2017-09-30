@@ -1,50 +1,68 @@
 import numpy as np 
 import cv2
 
+def to_coor(coor1, coor2, section_line):
+	delta = coor1 - coor2 ## x1-x2/y1-y2 = x1-secx/y1-secy --> x1-(y1-secy)*(x1-x2/y1-y2) --> dely_*x +delx_*y  = -c, y = sec, [x;y] = A'*[-c;sec]
+	A = np.array([[delta[1], delta[0]],[0, 1]] , dtype = float)
+	b = np.array([[ delta[1]*coor1[0]+delta[0]*coor1[1] ], [section_line]], dtype = float)
+
+	return np.linalg.solve(A, b).ravel()
+
+
 def clipping(cnt, section_line, step = 1):
-	# print cnt.shape
 	index_upper = np.where(cnt[:,0,1] < section_line)[0]
-	di = np.diff(index_upper)
-	out = np.split(index_upper, np.where((di != step) & (di < len(cnt)-1))[0] + 1)
-	# out[0] = np.append([out[0]], [out[-1]])
-	# out = np.delete(out,-1,0)
-	if len(cnt) == 426 and len(di) > 0 and len(out)>1:
-		print max(di), len(cnt)
-		
-		print out
-	return out
+	index_lower = np.where(cnt[:,0,1] >= section_line)[0]
+	
+	d_upper = np.diff(index_upper)
+	d_lower = np.diff(index_lower)
+	
+	cruster_upper = np.array([[i[0], i[-1]] for i in np.split(index_upper, np.where(d_upper != step)[0] + 1) if len(i) > 0]).ravel()
+	cruster_lower = np.array([[i[0], i[-1]] for i in np.split(index_lower, np.where(d_lower != step)[0] + 1) if len(i) > 0]).ravel()
+
+	dc_upper = np.diff(cruster_upper)
+	dc_lower = np.diff(cruster_lower)
+
+	head_tail_upper = np.hstack([np.array([ cruster_upper[i] for i in range(len(dc_upper)) if dc_upper[i] > 0 ]), cruster_upper[-1]]) if len(cruster_upper) > 0 else []
+	head_tail_lower = np.hstack([np.array([ cruster_lower[i] for i in range(len(dc_lower)) if dc_lower[i] > 0 ]), cruster_lower[-1]]) if len(cruster_lower) > 0 else []
+
+	collected = None
+	for indx in head_tail_upper:
+		i = (indx+1)%len(cnt)
+		if i in head_tail_lower:
+			point = to_coor(cnt[indx,0], cnt[i,0], section_line)
+			collected = np.vstack([collected,point]) if collected is not None else np.array([point])
+	for indx in head_tail_lower:
+		i = (indx+1)%len(cnt)
+		if i in head_tail_upper:
+			point = to_coor(cnt[indx,0], cnt[i,0], section_line)
+			collected = np.vstack([collected,point]) if collected is not None else np.array([point])
+
+	return collected
 
 def infill_polygon(cnts, shape = (640,480), step = 10):
 	infill = [[]]*len(cnts)
 	for sec in range(10,shape[0], step):
 		indx = 0
 		for cnt in cnts:
-			seqs = clipping(cnt, sec)
-			for i in range(len(seqs)): #####
-				if len(seqs[i]) == 0:
-					pass
-				else:
-					infill[indx].append( np.array( [cnt[max(seqs[i])], cnt[min(seqs[(i+1)%len(seqs)])]] ) ) 
+			points = clipping(cnt, sec)
+			if points is not None:
+				points = points[np.argsort(points[:,0])]
+				points = points.astype(int)
+				for i in range(0, len(points), 2):
+					infill[indx].append( np.array([points[i], points[i+1]])) 
 			indx += 1
 	return infill
 
-with np.load( 'geometry.npz' ) as data:
+with np.load( 'picture/geometry.npz' ) as data:
 	contour = data['contour']
 	hierarchy = data['hierarchy'].copy()
 	shape = data['shape']
-infills = infill_polygon(contour, shape = shape)
-print "*..",len(infills), len(contour)	
+infills = infill_polygon(contour, shape = shape, step = 1)
 blank = np.zeros(shape)
-# for i in range(50):
-# 	print contour[i][0]
-# 	cv2.putText(blank, str(i), (contour[i][0,0,0],contour[i][0,0,1]), cv2.FONT_HERSHEY_PLAIN, 5, 255)
-# 	cv2.drawContours(blank, contour, i, 255, 1)
 cv2.drawContours(blank, contour, 21, 255, 1)
-print "**",len(contour[21])
 for inf in infills:
 	for line in inf:
-		# print line
-		cv2.line(blank, (line[0][0,0], line[0][0,1]), (line[1][0,0], line[1][0,1]), 255, 1)
+		cv2.line(blank, (line[0,0], line[0,1]), (line[1,0], line[1,1]), 255, 1)
 for cnt in contour:
 	if len(cnt) == 426:
 		print cnt[0,0,0]

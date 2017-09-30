@@ -152,7 +152,11 @@ class Edge_detection(object):
 	def __find_contour(self):
 		self.__edges = self.__tween(self.__edges) if callable(self.__tween) else self.__edges
 		c = cv2.findContours( self.__edges, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
-		self.__contour_points = [ np.array(i[::self.__ui.cnt_step.value()]) for i in c[1] if len(i[::self.__ui.cnt_step.value()]) > 1]
+		for i in range(len(c[1])):
+			epsilon = float((self.__ui.cnt_step.value())*cv2.arcLength(c[1][i],True))/1000.0
+			c[1][i] = cv2.approxPolyDP(c[1][i],epsilon,True)
+		self.__contour_points = c[1]
+		# self.__contour_points = [ np.array(i[::self.__ui.cnt_step.value()]) for i in c[1] if len(i[::self.__ui.cnt_step.value()]) > 1]
 		self.__filter_contour()
 		self.__hierarchy = c[2]
 
