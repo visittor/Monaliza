@@ -53,12 +53,9 @@ class Sharpening(Filter):
 		if self.ui.is_Sharpening.isChecked():
 			ksize = 2*self.ui.Sharpening_ksize.value() + 1
 			weight = float(self.ui.Sharpening_weight.value()) / 100.0
-			# img_blur = np.zeros( img.shape, dtype = np.uint8)
-			# img_blur = cv2.GaussianBlur(img, (ksize,ksize), 0.0)
-			laplacian = cv2.Laplacian(img,cv2.CV_16S)
-			laplacian = (laplacian/2)+127
-			laplacian = laplacian.astype(np.uint8)
-			img = cv2.addWeighted(img, 1.0 + weight, laplacian, -weight, 0)
+			img_blur = np.zeros( img.shape, dtype = np.uint8)
+			img_blur = cv2.GaussianBlur(img, (ksize,ksize), 0.0)
+			img = cv2.addWeighted(img, 1.0 + weight, img_blur, -weight, 0)
 		return img
 
 class Grammar(Filter):
@@ -158,7 +155,7 @@ class PencilEffect(Filter):
 
 	def __color_dodge(self, img, mask):
 		return cv2.divide(img, 255 - mask, scale = 256)
-
+		
 	def __color_burn(self, img, mask):
 		return 255 - cv2.divide(255-img, 255-mask, scale = 256)
 
@@ -174,6 +171,32 @@ class PencilEffect(Filter):
 			cv2.GaussianBlur(img_inv, (ksize,ksize), 0.0, img_inv)
 			img = self.__color_dodge(img, img_inv)
 		return img
+class ContrashBrightnessAdjustor(Filter):
+	def __init__(self, ui = None):
+		Filter.__init__(self, "ContrashBrightnessAdjustor",ui = ui)
+
+	def apply(self, img):
+		if self.ui.is_ContrashBrightnessAdjustor.isChecked():
+			alpha = self.ui.ContrashBrightnessAdjustor_alpha.value()/100.0
+			beta = self.ui.ContrashBrightnessAdjustor_beta.value()
+			src2 = np.ones(img.shape, dtype = np.uint8)
+			img = cv2.addWeighted(img, alpha, src2, beta, 0)
+		return img
+
+class BilateralFilter(Filter):
+	def __init__(self, ui = None):
+		Filter.__init__(self, "BilateralFilter", ui = ui)
+
+	def apply(self, img):
+		if self.ui.is_BilateralFilter.isChecked():
+			d = self.ui.BilateralFilter_d.value()
+			sigmaColor = self.ui.BilateralFilter_sigmaColor.value()
+			sigmaSpace = self.ui.BilateralFilter_sigmaSpace.value()
+			iterate = self.ui.BilateralFilter_iterate.value()
+			for i in range(iterate):
+				img = cv2.bilateralFilter(img, d, sigmaColor, sigmaSpace)
+			return img
+		return img
 
 def filter_factory(ui):
 	filter_manager = Filter_manager()
@@ -187,14 +210,18 @@ def filter_factory(ui):
 	bitcut = Bit_cut(ui = ui)
 	filter2d = Filter2D(ui = ui)
 	pencil_effect = PencilEffect(ui = ui)
+	adjust_brighness = ContrashBrightnessAdjustor( ui = ui )
+	bilateral = BilateralFilter( ui = ui )
 
 	filter_manager.append_filter(grammar)
 	filter_manager.append_filter(bitcut)
 	filter_manager.append_filter(gaussian_filter)
 	filter_manager.append_filter(median_blur)
-	filter_manager.append_filter(sharpening)
+	filter_manager.append_filter(bilateral)
 	filter_manager.append_filter(pencil_effect)
+	filter_manager.append_filter(adjust_brighness)
 	filter_manager.append_filter(filter2d)
+	filter_manager.append_filter(sharpening)
 	filter_manager.append_filter(stepthr)
 	filter_manager.append_filter(threshold)
 	

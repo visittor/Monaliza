@@ -61,6 +61,13 @@ class ImageProcessing(threading.Thread):
 	def show_img(self, img):
 		cv2.imshow("image", img)
 
+	def save_image(self, image):
+		img = np.zeros([self.__image.shape[0], self.__image.shape[1]], dtype = np.uint8)
+		cnts = self.__edges_detection_module.contour
+		cv2.drawContours(img, cnts, -1, 255, 1)
+		cv2.imwrite("out_im.jpg", image)
+		cv2.imwrite("out_edge.jpg", img)
+
 	def run(self):
 		if self.__start_flag is None:
 			self.__start_flag = self.artificial_flag()
@@ -78,6 +85,10 @@ class ImageProcessing(threading.Thread):
 			self.show_contour()
 			if cv2.waitKey(1)&0xFF == 27:
 				break
+			elif cv2.waitKey(1)&0xFF == ord('s'):
+				print "s"
+				self.save_image(img)
+				
 		cv2.destroyWindow("image")
 		cv2.destroyWindow("contour")
 		print "Leave thread"
@@ -151,17 +162,21 @@ class Edge_detection(object):
 
 	def __find_contour(self):
 		self.__edges = self.__tween(self.__edges) if callable(self.__tween) else self.__edges
-		c = cv2.findContours( self.__edges, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
-		for i in range(len(c[1])):
-			epsilon = float((self.__ui.cnt_step.value())*cv2.arcLength(c[1][i],True))/1000.0
-			c[1][i] = cv2.approxPolyDP(c[1][i],epsilon,True)
-		self.__contour_points = c[1]
-		# self.__contour_points = [ np.array(i[::self.__ui.cnt_step.value()]) for i in c[1] if len(i[::self.__ui.cnt_step.value()]) > 1]
+		c = cv2.findContours( self.__edges, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+		if self.__ui.is_arc_lenght.isChecked():
+			for i in range(len(c[1])):
+				epsilon = float((self.__ui.epsilon.value())*cv2.arcLength(c[1][i],True))/1000.0
+				c[1][i] = cv2.approxPolyDP(c[1][i],epsilon,True)
+			self.__contour_points = c[1]
+		elif self.__ui.is_cnt_step.isChecked():
+			self.__contour_points = [ np.array(i[::self.__ui.cnt_step.value()]) for i in c[1] if len(i[::self.__ui.cnt_step.value()]) > 1]
+		else:
+			self.__contour_points = c[1]
 		self.__filter_contour()
 		self.__hierarchy = c[2]
 
 	def __filter_contour(self):
-		self.__contour_points = [ np.array(i) for i in self.__contour_points if len(i) > self.__ui.cnt_min_lenght.value()]
+		self.__contour_points = [ np.array(i) for i in self.__contour_points if len(i) >= self.__ui.cnt_min_lenght.value()]
 
 	def set_contour(self, contour, hierarchy):
 		self.__contour_points = contour
