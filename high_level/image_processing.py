@@ -55,6 +55,8 @@ class ImageProcessing(threading.Thread):
 	def show_contour(self):
 		img = np.zeros([self.__image.shape[0], self.__image.shape[1]], dtype = np.uint8)
 		cnts = self.__edges_detection_module.contour
+		if self.ui.milestone2.isChecked():
+			self.__edges_detection_module.identify_polygons(cnts, img)
 		cv2.drawContours(img, cnts, -1, 255, 1)
 		cv2.imshow("contour", img)
 
@@ -64,6 +66,8 @@ class ImageProcessing(threading.Thread):
 	def save_image(self, image):
 		img = np.zeros([self.__image.shape[0], self.__image.shape[1]], dtype = np.uint8)
 		cnts = self.__edges_detection_module.contour
+		if self.ui.milestone2.isChecked():
+			self.__edges_detection_module.identify_polygons(cnts, img)
 		cv2.drawContours(img, cnts, -1, 255, 1)
 		cv2.imwrite("out_im.jpg", image)
 		cv2.imwrite("out_edge.jpg", img)
@@ -163,20 +167,40 @@ class Edge_detection(object):
 	def __find_contour(self):
 		self.__edges = self.__tween(self.__edges) if callable(self.__tween) else self.__edges
 		c = cv2.findContours( self.__edges, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+		cnts_filtered = self.__filter_contour(c[1])
 		if self.__ui.is_arc_lenght.isChecked():
-			for i in range(len(c[1])):
-				epsilon = float((self.__ui.epsilon.value())*cv2.arcLength(c[1][i],True))/1000.0
-				c[1][i] = cv2.approxPolyDP(c[1][i],epsilon,True)
-			self.__contour_points = c[1]
+			for i in range(len(cnts_filtered)):
+				epsilon = float((self.__ui.epsilon.value())*cv2.arcLength(cnts_filtered[i],True))/1000.0
+				cnts_filtered[i] = cv2.approxPolyDP(cnts_filtered[i],epsilon,True)
+			self.__contour_points = cnts_filtered
 		elif self.__ui.is_cnt_step.isChecked():
-			self.__contour_points = [ np.array(i[::self.__ui.cnt_step.value()]) for i in c[1] if len(i[::self.__ui.cnt_step.value()]) > 1]
+			self.__contour_points = [ np.array(i[::self.__ui.cnt_step.value()]) for i in cnts_filtered if len(i[::self.__ui.cnt_step.value()]) > 1]
 		else:
-			self.__contour_points = c[1]
-		self.__filter_contour()
+			self.__contour_points = cnts_filtered
 		self.__hierarchy = c[2]
 
-	def __filter_contour(self):
-		self.__contour_points = [ np.array(i) for i in self.__contour_points if len(i) >= self.__ui.cnt_min_lenght.value()]
+	def __filter_contour(self, cnts):
+		return [ np.array(i) for i in cnts if len(i) >= self.__ui.cnt_min_lenght.value()]
+
+	def identify_polygons(self, cnts, img):
+		for cnt in cnts:
+			self.__identify_polygon(cnt, img)
+	def __identify_polygon(self, cnt, img):
+		i = 0
+		indx_list = range(0, len(cnt))
+		while i < len(indx_list):
+			j = i+1
+			while j < len(indx_list):
+				if np.linalg.norm(cnt[indx_list[i]] - cnt[indx_list[j]]) <= self.__ui.milestone2maxlenght.value():
+					indx_list.pop(j)
+				else:
+					j += 1
+			i += 1
+		n = str(len(indx_list)) if len(indx_list) <= self.__ui.milestone2maxpolygon.value() else "circle"
+		M = cv2.moments(cnt)
+		cx = int(M['m10']/M['m00']) if M['m00'] != 0 else 0
+		cy = int(M['m01']/M['m00']) if M['m00'] != 0 else 0
+		cv2.putText(img, n+"("+str(cx)+","+str(cy)+")",(cx,cy), cv2.FONT_HERSHEY_COMPLEX_SMALL, 0.5,255,1,cv2.LINE_AA)
 
 	def set_contour(self, contour, hierarchy):
 		self.__contour_points = contour

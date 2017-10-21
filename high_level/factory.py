@@ -49,13 +49,35 @@ class Sharpening(Filter):
 	def __init__(self, ui = None):
 		Filter.__init__(self, "Sharpening", ui = ui)
 
+	def unsharp_masking(self, img, ksize, weight):
+		img_blur = img_blur = cv2.GaussianBlur(img, (ksize,ksize), 0.0)
+		return cv2.addWeighted(img, 1.0 + weight, img_blur, -weight, 0)
+
+	def overlay(self, target, blend, scale = 0.5):
+		add_ = np.where(blend >= 127)
+		sub_ = np.where(blend < 127)
+
+		blend[sub_] = 255 - blend[sub_]
+		blend = blend - 127
+		target_add = cv2.addWeighted(target, 1, blend, scale, 0)
+		target_sub = cv2.addWeighted(target, 1, blend, -scale, 0)
+		target[add_] = target_add[add_]
+		target[sub_] = target_sub[sub_]
+
+		return target
+
+	def high_pass_filter(self, img, ksize, weight):
+		laplacian = cv2.Laplacian(img, cv2.CV_64F, ksize = ksize, scale = 1, delta = 0)
+		laplacian *= (127.0/laplacian.max()) if laplacian.max() > -laplacian.min() else (127.0/(laplacian.min()))
+		laplacian += 127
+		return self.overlay(img, laplacian.astype(np.uint8), scale = weight)
+
 	def apply(self, img):
 		if self.ui.is_Sharpening.isChecked():
 			ksize = 2*self.ui.Sharpening_ksize.value() + 1
 			weight = float(self.ui.Sharpening_weight.value()) / 100.0
-			img_blur = np.zeros( img.shape, dtype = np.uint8)
-			img_blur = cv2.GaussianBlur(img, (ksize,ksize), 0.0)
-			img = cv2.addWeighted(img, 1.0 + weight, img_blur, -weight, 0)
+			mode = self.ui.Sharpening_mode.value()
+			return self.unsharp_masking(img, ksize, weight) if mode == 0 else self.high_pass_filter(img, ksize, weight) 
 		return img
 
 class Grammar(Filter):

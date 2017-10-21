@@ -95,6 +95,9 @@ class mainWin(QtGui.QMainWindow, Ui_MainWindow):
         self.actionSave_cnt.setShortcut("Ctrl+S")
         self.actionLoad_cnt.triggered.connect(self.create_project_from_npz)
         self.actionLoad_cnt.setShortcut("Ctrl+L")
+        self.milestone2.stateChanged.connect(self.milestone2statechange)
+        self.milestone2maxpolygon.setEnabled(False)
+        self.milestone2maxlenght.setEnabled(False)
 
     def set_filter_manager_factory(self, filter_manager_factory):
         self.__filter_manager_factory = filter_manager_factory
@@ -147,6 +150,14 @@ class mainWin(QtGui.QMainWindow, Ui_MainWindow):
         tween = self.__tween_factory(self)
         self.__ImageProcessing_thread.attach_filter( filter_manager )
         self.__ImageProcessing_thread.attach_tween( tween )
+
+    def milestone2statechange(self):
+        if self.milestone2.isChecked():
+            self.milestone2maxpolygon.setEnabled(True)
+            self.milestone2maxlenght.setEnabled(True)
+        else:
+            self.milestone2maxpolygon.setEnabled(False)
+            self.milestone2maxlenght.setEnabled(False)
 
     def closeEvent(self, event):
         print "closing"
