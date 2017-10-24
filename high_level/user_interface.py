@@ -98,6 +98,7 @@ class mainWin(QtGui.QMainWindow, Ui_MainWindow):
         self.milestone2.stateChanged.connect(self.milestone2statechange)
         self.milestone2maxpolygon.setEnabled(False)
         self.milestone2maxlenght.setEnabled(False)
+        self.milestone3.clicked.connect(self.milestone3_clicked)
 
     def set_filter_manager_factory(self, filter_manager_factory):
         self.__filter_manager_factory = filter_manager_factory
@@ -145,7 +146,7 @@ class mainWin(QtGui.QMainWindow, Ui_MainWindow):
             self.__ImageProcessing_thread.join()
         del self.__ImageProcessing_thread
         time.sleep(1)
-        self.__ImageProcessing_thread = ImageProcessing(start_flag = self.__start_flag, is_arrayFile = self.__is_arrayFile, ui = self)
+        self.__ImageProcessing_thread = ImageProcessing(start_flag = self.__start_flag, is_arrayFile = self.__is_arrayFile, ui = self, config = self.__config)
         filter_manager = self.__filter_manager_factory(self)
         tween = self.__tween_factory(self)
         self.__ImageProcessing_thread.attach_filter( filter_manager )
@@ -158,6 +159,10 @@ class mainWin(QtGui.QMainWindow, Ui_MainWindow):
         else:
             self.milestone2maxpolygon.setEnabled(False)
             self.milestone2maxlenght.setEnabled(False)
+
+    def milestone3_clicked(self):
+        if self.__ImageProcessing_thread is not None:
+            self.__ImageProcessing_thread.identify_color()
 
     def closeEvent(self, event):
         print "closing"

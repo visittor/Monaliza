@@ -3,8 +3,8 @@ import cv2
 
 def to_coor(coor1, coor2, section_line):
 	delta = coor1 - coor2 ## x1-x2/y1-y2 = x1-secx/y1-secy --> x1-(y1-secy)*(x1-x2/y1-y2) --> dely_*x +delx_*y  = -c, y = sec, [x;y] = A'*[-c;sec]
-	A = np.array([[delta[1], delta[0]],[0, 1]] , dtype = float)
-	b = np.array([[ delta[1]*coor1[0]+delta[0]*coor1[1] ], [section_line]], dtype = float)
+	A = np.array([[delta[1], -delta[0]],[0, 1]] , dtype = float)
+	b = np.array([[ delta[1]*coor1[0]-delta[0]*coor1[1] ], [section_line]], dtype = float)
 
 	return np.linalg.solve(A, b).ravel()
 
@@ -39,6 +39,9 @@ def clipping(cnt, section_line, step = 1):
 
 	return collected
 
+# def isCloseContour (cnt):
+
+
 def infill_polygon(cnts, shape = (640,480), step = 10):
 	infill = [[]]*len(cnts)
 	for sec in range(10,shape[0], step):
@@ -53,25 +56,18 @@ def infill_polygon(cnts, shape = (640,480), step = 10):
 			indx += 1
 	return infill
 
-with np.load( 'picture/geometry.npz' ) as data:
+with np.load( 'picture/test_open_polygon_infill.npz' ) as data:
+# with np.load( 'picture/test_close_polygon_infill.npz' ) as data:
+# with np.load( 'picture/geometry.npz' ) as data:
 	contour = data['contour']
 	hierarchy = data['hierarchy'].copy()
 	shape = data['shape']
 infills = infill_polygon(contour, shape = shape, step = 1)
 blank = np.zeros(shape)
-cv2.drawContours(blank, contour, 21, 255, 1)
+cv2.drawContours(blank, contour, -1, 255, 1)
 for inf in infills:
 	for line in inf:
 		cv2.line(blank, (line[0,0], line[0,1]), (line[1,0], line[1,1]), 255, 1)
-for cnt in contour:
-	if len(cnt) == 426:
-		print cnt[0,0,0]
-		cv2.circle(blank, (cnt[0,0,0],cnt[0,0,1]), 3, 255)
-		cv2.circle(blank, (cnt[109,0,0],cnt[109,0,1]), 3, 255)
-		cv2.circle(blank, (cnt[413,0,0],cnt[413,0,1]), 3, 255)
-		cv2.circle(blank, (cnt[425,0,0],cnt[425,0,1]), 3, 255)
-		cv2.circle(blank, (cnt[71,0,0],cnt[71,0,1]), 3, 255)
-		cv2.circle(blank, (cnt[24,0,0],cnt[24,0,1]), 3, 255)
 
 cv2.imshow("blank", blank)
 cv2.waitKey(0)

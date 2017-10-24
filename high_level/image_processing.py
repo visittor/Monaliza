@@ -7,10 +7,10 @@ class ImageProcessing(threading.Thread):
 	
 	__filter_manager = None
 	
-	def __init__(self, start_flag = None, is_arrayFile = None, ui = None):
+	def __init__(self, start_flag = None, is_arrayFile = None, ui = None, config = None):
 		threading.Thread.__init__(self)
 		self.ui = ui
-		self.__edges_detection_module = Edge_detection(ui)
+		self.__edges_detection_module = Edge_detection(ui, config = config)
 		self.__contour_point = np.array([])
 		self.__hierarchy = np.array([])
 		self.__image = np.zeros([480,640])
@@ -57,11 +57,17 @@ class ImageProcessing(threading.Thread):
 		cnts = self.__edges_detection_module.contour
 		if self.ui.milestone2.isChecked():
 			self.__edges_detection_module.identify_polygons(cnts, img)
+		if self.ui.MileStone3Show_lebels.isChecked():
+			self.__edges_detection_module.lebel_color(img)
 		cv2.drawContours(img, cnts, -1, 255, 1)
 		cv2.imshow("contour", img)
 
 	def show_img(self, img):
 		cv2.imshow("image", img)
+
+	def identify_color(self):
+		self.__edges_detection_module.identify_color(self.__image)
+
 
 	def save_image(self, image):
 		img = np.zeros([self.__image.shape[0], self.__image.shape[1]], dtype = np.uint8)
@@ -79,7 +85,6 @@ class ImageProcessing(threading.Thread):
 			self.__is_arrayFile = self.artificial_flag()
 		self.__start_flag.wait()
 		while self.__start_flag is None or self.__start_flag.is_set():
-			# with self.ui.Lock:
 			if self.__is_arrayFile.is_set() == False:
 				img = self.__image.copy()
 				img = self.apply_filter(img)
@@ -111,7 +116,7 @@ class ImageProcessing(threading.Thread):
 			pass
 
 class Filter(object):
-	def __init__(self, name, ui = None):
+	def __init__(self, name, ui = None, config = None):
 		self.__name = name
 		self.ui = ui
 
@@ -127,7 +132,7 @@ class Filter(object):
 
 class Filter_manager(object):
 
-	def __init__(self):
+	def __init__(self, config = None):
 		self.__filters = []
 
 	def append_filter(self, filter_):
@@ -150,12 +155,49 @@ class Filter_manager(object):
 
 class Edge_detection(object):
 
-	def __init__(self, ui):
+	class __color (object):
+		def __init__(self, value, name = "Unknown"):
+			self.__value = value
+			self.__name = name
+		def findDistanceRGB (self, value):
+			return numpy.linalg.norm(self.__value - self.value)
+		def findDistanceLAB (self, value):
+			return numpy.linalg.norm(self.__value - self.value)
+		def findDistanceHSV (self, value):
+			value = self.RGB2HSV(value)
+			return np.abs(value[0] - self.__value[0]) if np.abs(value[0] - self.__value[0]) < 127 else np.abs(255 - np.abs(value[0] - self.__value[0]))
+		@staticmethod
+		def RGB2HSV(value):
+			val = value/max(value)
+			v = max(val)
+			s = (v - min(val))/v if v != 0 else 0
+			h = 60*(val[1] - val[0])/(v - min(val)) if v == val[2] else 120 + 60*(val[0]-val[2])/(v-min(val)) if v == val[1] else 240 + 60*(val[2]-val[1])/(v-min(val))
+			h = h+360 if h < 0 else h
+			return (h/2,255*s,255*v,0)
+		@property
+		def value(self):
+			return self.__value
+		@property
+		def name(self):
+			return self.__name
+
+	def __init__(self, ui, config = None):
 		self.__ui = ui
 		self.__edges = np.zeros( (480, 640), dtype = np.uint8)
 		self.__contour_points = np.array([])
 		self.__hierarchy = np.array([])
+		self.__color_array = np.array([])
+		self.__color_dict = {-1:self.__color([1000,1000,1000])}
 		self.__tween = None
+		self.__configuration(config)
+
+	def __configuration(self, config):
+		self.__config = config
+		if self.__config is not None:
+			for n,value in enumerate (self.__config.items("color")):
+				self.__color_dict[n] = self.__color (eval(value[1]), name = value[0])
+		else:
+			self.__color_dict[0] = self.__color ([0,0,0])
 
 	def update_img(self, img):
 		self.__edges = cv2.Canny(img.copy(), self.__ui.lower_thr_edges.value(), self.__ui.upper_thr_edges.value(), apertureSize = 3, L2gradient =True)
@@ -185,6 +227,7 @@ class Edge_detection(object):
 	def identify_polygons(self, cnts, img):
 		for cnt in cnts:
 			self.__identify_polygon(cnt, img)
+
 	def __identify_polygon(self, cnt, img):
 		i = 0
 		indx_list = range(0, len(cnt))
@@ -202,22 +245,52 @@ class Edge_detection(object):
 		cy = int(M['m01']/M['m00']) if M['m00'] != 0 else 0
 		cv2.putText(img, n+"("+str(cx)+","+str(cy)+")",(cx,cy), cv2.FONT_HERSHEY_COMPLEX_SMALL, 0.5,255,1,cv2.LINE_AA)
 
-	def set_contour(self, contour, hierarchy):
+	def identify_color(self, img):
+		self.__color_array = np.zeros(len(self.__contour_points)) - 1
+		for i in range(0,len(self.__contour_points)):
+			mask = np.zeros(img.shape[:2], np.uint8) 
+			cv2.drawContours(mask, self.__contour_points, i, 255, -1)
+			mean = cv2.mean(img, mask = mask)
+			min_dist = 300
+			min_index = -1
+			for j,k in self.__color_dict.items():
+				m = k.findDistanceHSV(np.array(mean))
+				if min_dist > m:
+					min_dist = m
+					min_index = j
+			print min_dist, min_index, self.__color.RGB2HSV(np.array(mean)), i
+			self.__color_array[i] = min_index
+		print self.__color_array
+		print "finish"
+
+	def lebel_color(self, img):
+		if len(self.__color_array) == len(self.__contour_points):
+			for i,cnt in enumerate(self.__contour_points):
+				M = cv2.moments(cnt)
+				cx = int(M['m10']/M['m00']) if M['m00'] != 0 else 0
+				cy = int(M['m01']/M['m00']) if M['m00'] != 0 else 0
+				color = self.__color_dict[self.__color_array[i]].name 
+				cv2.putText(img, color+" "+str(i), (cx,cy), cv2.FONT_HERSHEY_COMPLEX_SMALL, 0.75, 255, 1, cv2.LINE_AA)
+
+	def set_contour(self, contour, hierarchy, color):
 		self.__contour_points = contour
 		self.__hierarchy = hierarchy
+		self.__color_array = color
 
 	def save_contour(self, path, shape):
 		shape = np.array(shape)[:2]
 		contour = self.__contour_points
 		hierarchy = self.__hierarchy
-		np.savez(path, shape = shape, contour = contour, hierarchy = hierarchy)
+		color = self.__color_array
+		np.savez(path, shape = shape, contour = contour, hierarchy = hierarchy, color = color)
 
 	def load_countour(self, path):
 		with np.load( path ) as data:
 			contour = data['contour']
 			hierarchy = data['hierarchy'].copy()
 			shape = data['shape']
-		self.set_contour(contour, hierarchy)
+			color = data.get('color', np.zeros(len(contour)))
+		self.set_contour(contour, hierarchy, color)
 		return shape
 
 	@property
@@ -226,4 +299,12 @@ class Edge_detection(object):
 
 	@property
 	def contour(self):
-		return self.__contour_points		
+		return self.__contour_points	
+
+	@property
+	def color_array(self):
+		return self.__color_array
+
+	@property 
+	def color_dict (self):
+		return self.__color_dict	
