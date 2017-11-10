@@ -37,11 +37,10 @@ class Threshold(Filter):
 			block_size = 2*self.ui.Threshold_block_size.value() + 1
 			c = self.ui.Threshold_c.value()
 			ksize = 2*self.ui.Threshold_ksize_median_blur.value() + 1
-			if len(img.shape) > 2:
-				img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-			cv2.medianBlur(img, ksize, img)
-			thr = cv2.adaptiveThreshold( img, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, block_size, c)
-			return thr
+			gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+			ret,th1 = cv2.threshold(gray,c,255,cv2.THRESH_BINARY_INV)
+			img = cv2.bitwise_and(img, img, mask = th1)
+			return img
 		return img
 
 class Sharpening(Filter):
@@ -154,23 +153,6 @@ class Bit_cut(Filter):
 			cv2.bitwise_and(img, mask, img)
 		return img
 
-class Filter2D(Filter):
-	def __init__(self, ui = None):
-		Filter.__init__(self, "Filter2D", ui = ui)
-		self.__kernel = np.array([[-1,-2,-1],
-								 [ 0, 0, 0],
-								 [ 1, 2, 1]])
-		# self.__kernel = np.ones((5,5), dtype = float)/25.0
-
-	def apply(self, img):
-		if self.ui.is_Filter2D.isChecked():
-			# self.__kernel = np.ones( (self.ui.Filter2D_para1.value(), self.ui.Filter2D_para1.value()), dtype = float)/float(self.ui.Filter2D_para1.value()**2)
-			# thresh = self.ui.Filter2D_para1.value()
-			# ret,img = cv2.threshold(img, thresh, 255, cv2.THRESH_BINARY) 
-			img = cv2.Laplacian(img,cv2.CV_64F)
-			# cv2.filter2D(img, -1, self.__kernel, img)
-		return img
-
 class PencilEffect(Filter):
 	def __init__(self, ui = None):
 		Filter.__init__(self, "PencilEffect",ui = ui)
@@ -220,6 +202,29 @@ class BilateralFilter(Filter):
 			return img
 		return img
 
+class HUE_SAT(Filter):
+	def __init__(self, ui = None):
+		Filter.__init__(self, "HUE_SAT", ui = ui)
+		self.__grammarR = 1.0
+		self.__grammarG = 1.0
+		self.__grammarB = 1.0
+		self.__lookupR = np.array([])
+		self.__lookupG = np.array([])
+		self.__lookupB = np.array([])
+
+	def apply(self, img):
+		if self.ui.is_HUE_SAT.isChecked():
+			hue_lower = self.ui.HUE_SAT_hue_lower.value()
+			hue_upper = self.ui.HUE_SAT_hue_upper.value()
+			sat_offSet = self.ui.HUE_SAT_sat_offSet.value()
+			img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+			indx = np.where( (hue_lower <= img_hsv[:,:,0]) & (img_hsv[:,:,0] <= hue_upper) )
+			img_hsv[indx] = (img_hsv[indx].astype(np.int16) + np.array([0,sat_offSet,0], dtype = np.int16)).astype(np.uint8)
+			img = cv2.cvtColor(img_hsv, cv2.COLOR_HSV2BGR)
+			return img
+		return img
+
+
 def filter_factory(ui):
 	filter_manager = Filter_manager()
 
@@ -230,19 +235,19 @@ def filter_factory(ui):
 	grammar = Grammar(ui = ui)
 	stepthr = StepThreshold(ui = ui)
 	bitcut = Bit_cut(ui = ui)
-	filter2d = Filter2D(ui = ui)
 	pencil_effect = PencilEffect(ui = ui)
 	adjust_brighness = ContrashBrightnessAdjustor( ui = ui )
 	bilateral = BilateralFilter( ui = ui )
+	hue_sat = HUE_SAT( ui = ui)
 
 	filter_manager.append_filter(grammar)
+	filter_manager.append_filter(hue_sat)
 	filter_manager.append_filter(bitcut)
 	filter_manager.append_filter(gaussian_filter)
 	filter_manager.append_filter(median_blur)
 	filter_manager.append_filter(bilateral)
 	filter_manager.append_filter(pencil_effect)
 	filter_manager.append_filter(adjust_brighness)
-	filter_manager.append_filter(filter2d)
 	filter_manager.append_filter(sharpening)
 	filter_manager.append_filter(stepthr)
 	filter_manager.append_filter(threshold)

@@ -5,6 +5,9 @@ from image_processing import ImageProcessing
 from factory import filter_factory
 
 import cv2
+import numpy as np
+from matplotlib import pyplot as plt
+
 import time
 import threading
 import ConfigParser
@@ -38,6 +41,7 @@ class mainWin(QtGui.QMainWindow, Ui_MainWindow):
         self.__filter_manager_factory = None
         self.__tween_factory = lambda x:None
         self.Lock = threading.Lock()
+        self.__roi = None
 
     def get_config(self, file_cfg):
         self.__config = ConfigParser.ConfigParser()
@@ -49,7 +53,7 @@ class mainWin(QtGui.QMainWindow, Ui_MainWindow):
         while 1==1:
             if self.__config.has_section(str(num_sec)):
                 name = self.__config.get(str(num_sec), 'filter_name')
-                setattr(self, "is_"+name, QtGui.QCheckBox(self.tab1_scroll))
+                setattr(self, "is_"+name, QtGui.QCheckBox(self.scrollAreaWidgetContents))
                 getattr(self, "is_"+name).setObjectName(_fromUtf8("is_"+name))
                 getattr(self, "is_"+name).setGeometry(QtCore.QRect(10, y, 150, 20))
                 getattr(self, "is_"+name).setText(_translate("MainWindow", name, None))
@@ -90,15 +94,24 @@ class mainWin(QtGui.QMainWindow, Ui_MainWindow):
     def set_menu_bar(self):
         self.actionUse_local_file.triggered.connect(self.create_project_from_local_file)
         self.actionUse_local_file.setShortcut("Ctrl+N")
+
         self.actionSave_cnt.setEnabled(False)
         self.actionSave_cnt.triggered.connect(self.save_contour)
         self.actionSave_cnt.setShortcut("Ctrl+S")
+
         self.actionLoad_cnt.triggered.connect(self.create_project_from_npz)
         self.actionLoad_cnt.setShortcut("Ctrl+L")
+
         self.milestone2.stateChanged.connect(self.milestone2statechange)
         self.milestone2maxpolygon.setEnabled(False)
         self.milestone2maxlenght.setEnabled(False)
+
         self.milestone3.clicked.connect(self.milestone3_clicked)
+
+        self.capture_img.clicked.connect(self.capture)
+
+        self.select_roi.clicked.connect(self.load_roi)
+
 
     def set_filter_manager_factory(self, filter_manager_factory):
         self.__filter_manager_factory = filter_manager_factory
@@ -173,6 +186,41 @@ class mainWin(QtGui.QMainWindow, Ui_MainWindow):
     def clear_flag(self):
         self.__is_arrayFile.clear()
         self.__start_flag.clear()
+
+    def load_roi(self):
+        file_name = str( QtGui.QFileDialog.getOpenFileName(self, 'Open File') )
+        print "loading ..."
+        roi = cv2.imread(file_name, 0)
+        # roi = cv2.threshold(roi, 127, 255, cv2.THRESH_BINARY) 
+        self.__roi = np.zeros((roi.shape[0],roi.shape[1],3), np.uint8)
+        self.__roi[:,:,0] = roi
+        self.__roi[:,:,1] = roi
+        self.__roi[:,:,2] = roi
+        print "Done!!"
+
+    def capture(self):
+        cap = cv2.VideoCapture(self.camera_ID_spinbox.value())
+        ret,img = cap.read()
+        if ret:
+            if self.__roi is not None:
+                shape0 = self.__roi.shape[0] if self.__roi.shape[0] < img.shape[0] else img.shape[0]
+                shape1 = self.__roi.shape[1] if self.__roi.shape[1] < img.shape[1] else img.shape[1]
+                img[:shape0, :shape1] = ((img[:shape0,:shape1].astype(np.uint16) * self.__roi[:shape0,:shape1].astype(np.uint16))/255).astype(np.uint8)
+            img_rgb = img[:,:,::-1]
+            plt.imshow(img_rgb)
+            plt.show()
+            filename = str( QtGui.QFileDialog.getSaveFileName(self, 'Save File') )
+            if filename:
+                try:
+                    cv2.imwrite( filename, img)
+                except cv2.error as e:
+                    filename += ".jpg"
+                    cv2.imwrite( filename, img)
+                finally:
+                    cap.release
+        else:
+            cap.release()
+
 
 if __name__ == "__main__":
     import sys

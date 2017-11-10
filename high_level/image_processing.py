@@ -74,6 +74,8 @@ class ImageProcessing(threading.Thread):
 		cnts = self.__edges_detection_module.contour
 		if self.ui.milestone2.isChecked():
 			self.__edges_detection_module.identify_polygons(cnts, img)
+		if self.ui.MileStone3Show_lebels.isChecked():
+			self.__edges_detection_module.lebel_color(img)
 		cv2.drawContours(img, cnts, -1, 255, 1)
 		cv2.imwrite("out_im.jpg", image)
 		cv2.imwrite("out_edge.jpg", img)
@@ -168,12 +170,14 @@ class Edge_detection(object):
 			return np.abs(value[0] - self.__value[0]) if np.abs(value[0] - self.__value[0]) < 127 else np.abs(255 - np.abs(value[0] - self.__value[0]))
 		@staticmethod
 		def RGB2HSV(value):
-			val = value/max(value)
-			v = max(val)
-			s = (v - min(val))/v if v != 0 else 0
-			h = 60*(val[1] - val[0])/(v - min(val)) if v == val[2] else 120 + 60*(val[0]-val[2])/(v-min(val)) if v == val[1] else 240 + 60*(val[2]-val[1])/(v-min(val))
-			h = h+360 if h < 0 else h
-			return (h/2,255*s,255*v,0)
+			hsv = cv2.cvtColor(np.uint8([[value]]), cv2.COLOR_BGR2HSV)[0][0]
+			# val = value/max(value)
+			# v = max(val)
+			# s = (v - min(val))/v if v != 0 else 0
+			# h = 60*(val[1] - val[0])/(v - min(val)) if v == val[2] else 120 + 60*(val[0]-val[2])/(v-min(val)) if v == val[1] else 240 + 60*(val[2]-val[1])/(v-min(val))
+			# h = h+360 if h < 0 else h
+			# return (h/2,255*s,255*v,0)
+			return hsv
 		@property
 		def value(self):
 			return self.__value
@@ -210,6 +214,7 @@ class Edge_detection(object):
 		self.__edges = self.__tween(self.__edges) if callable(self.__tween) else self.__edges
 		c = cv2.findContours( self.__edges, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 		cnts_filtered = self.__filter_contour(c[1])
+		print cnts_filtered[0].shape
 		if self.__ui.is_arc_lenght.isChecked():
 			for i in range(len(cnts_filtered)):
 				epsilon = float((self.__ui.epsilon.value())*cv2.arcLength(cnts_filtered[i],True))/1000.0
@@ -254,7 +259,7 @@ class Edge_detection(object):
 			min_dist = 300
 			min_index = -1
 			for j,k in self.__color_dict.items():
-				m = k.findDistanceHSV(np.array(mean))
+				m = k.findDistanceHSV(np.array(mean).astype(np.uint8))
 				if min_dist > m:
 					min_dist = m
 					min_index = j
@@ -289,7 +294,11 @@ class Edge_detection(object):
 			contour = data['contour']
 			hierarchy = data['hierarchy'].copy()
 			shape = data['shape']
-			color = data.get('color', np.zeros(len(contour)))
+			try:
+				color = data['color']
+			except Exception as e:
+				color = np.zeros(len(contour))
+				print e
 		self.set_contour(contour, hierarchy, color)
 		return shape
 

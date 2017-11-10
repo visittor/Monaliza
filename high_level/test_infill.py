@@ -56,9 +56,9 @@ def infill_polygon(cnts, shape = (640,480), step = 10):
 			indx += 1
 	return infill
 
-with np.load( 'picture/test_open_polygon_infill.npz' ) as data:
+# with np.load( 'picture/test_open_polygon_infill.npz' ) as data:
 # with np.load( 'picture/test_close_polygon_infill.npz' ) as data:
-# with np.load( 'picture/geometry.npz' ) as data:
+with np.load( 'picture/geometry.npz' ) as data:
 	contour = data['contour']
 	hierarchy = data['hierarchy'].copy()
 	shape = data['shape']

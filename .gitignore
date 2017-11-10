@@ -53,3 +53,4 @@ Temporary Items
 *.avi
 *.npz
 high_level/parameter.txt
+*.xlsx
