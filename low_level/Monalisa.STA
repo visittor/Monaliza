@@ -1,0 +1,112 @@
+
+ROM used:   6978/33788 (21%)
+            6978/33788 (21%) including unused fragments
+
+            1.2 Average locations per line
+            5.4 Average locations per statement
+
+RAM used:   511/8192 (6%) at main() level
+            676/8192 (8%) worst case
+
+Stack size: 128
+
+Lines Stmts  %   Files
+----- ----- ---  -----
+    5     0   0  $linker.c
+  158    24   2  BITWISE_LIB.c
+  144     0   0  BITWISE_LIB.H
+  109     0   0  CONFIG_PIC24.H
+  862     0   0  ..\..\..\..\..\Program Files (x86)\PICC\devices\24FJ48GA002.H
+ 1351   524  40  ..\..\..\..\..\Program Files (x86)\PICC\drivers\stdlib.h
+   32     0   0  ..\..\..\..\..\Program Files (x86)\PICC\drivers\stddef.h
+  423     0   0  ..\..\..\..\..\Program Files (x86)\PICC\drivers\string.h
+   28     0   0  ..\..\..\..\..\Program Files (x86)\PICC\drivers\ctype.h
+   37     0   0  ..\..\..\..\..\Program Files (x86)\PICC\drivers\stdio.h
+  326   134  10  ..\..\..\..\..\Program Files (x86)\PICC\drivers\stdlibm.h
+   76    13   1  ..\..\..\..\..\Program Files (x86)\PICC\drivers\memmgmt.c
+  163     0   0  ..\..\..\..\..\Program Files (x86)\PICC\drivers\stdint.h
+   32     0   0  BL_support.h
+   37     0   0  CDATPIC24.H
+  451   160  12  EVENT_DRIVEN_CCS.c
+  275     0   0  EVENT_DRIVEN_CCS.h
+  108     0   0  EVENT_TYPE_CCS.h
+  934   425  33  MainMonalisa.c
+   89     0   0  MainMonalisa.h
+  121     0   0  PIDModule.H
+  135    15   1  PIDModule.c
+----- -----
+ 5896  1295 Total
+
+Page ROM  %  RAM   Vol Diff  Functions:
+---- --- --- ---   --- ----  ----------
+0    196   1    8             @MULFF
+0    426   3    8             @ADDFF
+0    272   2    0             @MULFF64
+0    264   2    8             @DIVFF64
+0     36   0    9   150  3.6  create_node
+0     16   0    7    60  3.1  update_node
+0     52   0    7   180  4.5  insert_node_after
+0     46   0    7   192  3.8  remove_node
+0    126   1   13   705  9.2  traverse
+0    178   1   13   919 12.3  malloc
+0     66   0    9   380  6.3  free
+0     62   0    9   206  3.2  QPtrXInit
+0    106   1   11   382  5.6  QPtrXPut
+0    106   1   13   408  6.4  QPtrXGet
+0     62   0    9   206  3.2  Q8UXInit
+0    108   1   12   382  5.6  Q8UXPut
+0    100   1   13   384  5.9  Q8UXGet
+0     16   0    5    35  2.4  Q8UXCount
+0     10   0    0    21  0.9  DisableIntr
+0      8   0    0    21  0.9  EnableIntr
+0    406   3    0  1036  6.3  main
+0    110   1    3  1163  2.9  HardwareInit
+0     22   0    0   209  2.3  GlobalVarInit
+0     44   0    0   204  4.8  DynamicMemInit
+0     34   0    0    88  2.4  UARTQueueInit
+0    104   1   10   631  8.6  SendTx1
+0     56   0    4   434  4.4  MotorMovingX
+0     56   0    4   434  4.4  MotorMovingY
+0    170   1    9    80  2.1  computeInstantlyDistantX
+0    100   1    0             @I64TOF64
+0     68   0    0             @F64TO48
+0    170   1    9    80  2.1  computeInstantlyDistantY
+0    660   5    6  3539  5.9  CheckProtocal
+0     58   0    2             @ITOF
+0     44   0    4             @SFTOI
+0     26   0    5    83  2.9  convert_8to16bit
+0    494   4    5  1817  7.6  INT_TMR5
+0    104   1    8             @FLT
+0    116   1    7   468  6.6  testIC1
+0    110   1    7   441  6.1  testIC2
+0    116   1    7   468  6.6  testIC3
+0    110   1    7   441  6.1  testIC4
+0    322   2    6  1918 11.1  RDA1
+0     68   0    2   197  4.4  TBE1ISR
+0     82   1    3   359  4.7  ResetX
+0     82   1    3   359  4.7  ResetY
+0    146   1    5   233  2.8  InitialPID
+0    336   2   17   490  4.3  PIDVelocityForm
+ Inline         0             @cinit1
+
+Program metrics:
+    Functions               39
+    Statements              1295
+    Comments                331
+    Volume (V)              35248
+    Difficulty (D)          194.0
+    Effort to implement (E) 6836794
+    Time to implement (T)   105 hours, 30 minutes
+    Est Delivered Bugs (B)  12
+    Cyclomatic Complexity   86
+    Maintainability (MI)    29
+
+ Segment     Used  Free
+-----------  ----  ----
+00000-00BFE     0  3072  
+00C00-00C02     4  0  
+00C04-00DFA   504  0  
+00DFC-083FA  6470  23738  
+
+
+

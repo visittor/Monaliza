@@ -1,0 +1,8 @@
+>>> Warning 216 "C:\Users\Nasrun\Documents\Monalisa\Monalisa\$linker.c" Line 4(8,14): Interrupts disabled during call to prevent re-entrancy:  (malloc)
+>>> Warning 216 "C:\Users\Nasrun\Documents\Monalisa\Monalisa\$linker.c" Line 4(8,14): Interrupts disabled during call to prevent re-entrancy:  (MotorMovingX)
+>>> Warning 216 "C:\Users\Nasrun\Documents\Monalisa\Monalisa\$linker.c" Line 4(8,14): Interrupts disabled during call to prevent re-entrancy:  (MotorMovingY)
+>>> Warning 216 "C:\Users\Nasrun\Documents\Monalisa\Monalisa\$linker.c" Line 4(8,14): Interrupts disabled during call to prevent re-entrancy:  (@SFTOI)
+>>> Warning 216 "C:\Users\Nasrun\Documents\Monalisa\Monalisa\$linker.c" Line 4(8,14): Interrupts disabled during call to prevent re-entrancy:  (free)
+      Memory usage:   ROM=21%      RAM=6% - 8%
+      0 Errors,  5 Warnings.
+Build Successful.
