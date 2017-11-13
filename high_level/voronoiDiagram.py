@@ -55,7 +55,7 @@ if __name__ == '__main__':
 	import time
 
 	img = np.zeros( (480,640,3), dtype = np.uint8) + 1	
-	pts = np.array( [ [img.shape[0]*random.random(), img.shape[1]*random.random()] for i in range(600) ], dtype = int )
+	pts = np.array( [ [img.shape[0]*random.random(), img.shape[1]*random.random()] for i in range(400) ], dtype = int )
 
 	color = np.array( [ [256*random.random(),256*random.random(),256*random.random()] for i in range(pts.shape[0])], dtype = np.uint8 )
 

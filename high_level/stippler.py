@@ -11,11 +11,12 @@ def stipper(img, gap, itr = 15, max_size = 12000, cutoff = 220):
 		img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
 	# ratio = 600 / img.shape[0]
+	ratio = 2.0
 	tiles = []
 	for i in range(1):
 		for j in range(1):
 			tile = img[i*img.shape[0]/1 : (i+1)*img.shape[0]/1, j*img.shape[1]/1 : (j+1)*img.shape[1]/1]
-			tile = cv2.resize(tile, None, fx = 1, fy = 1)
+			tile = cv2.resize(tile, None, fx = 2, fy = 2)
 			tiles.append(tile)
 	
 	print "start gen point"
@@ -44,7 +45,7 @@ def stipper(img, gap, itr = 15, max_size = 12000, cutoff = 220):
 
 		for count,centroid in enumerate(centroids):
 			for p in centroid:
-				cv2.circle(mask, (int(1*p[1]) + (count%4)*img.shape[1]/4, int(1*p[0]) + (count/4)*img.shape[0]/4), 3, 0, -1)
+				cv2.circle(mask, (int((1/ratio)*p[1]) + (count%4)*img.shape[1]/4, int((1/ratio)*p[0]) + (count/4)*img.shape[0]/4), 3, 0, -1)
 				cv2.circle(mask2, (int(p[1]) + (count%4)*img.shape[1]/4, int(p[0]) + (count/4)*img.shape[0]/4), 5, 0, -1)
 
 		genPoint_list = centroids
@@ -148,7 +149,7 @@ def generate_point(numPoint, img, cutoff = 220):
 
 
 if __name__ == '__main__':
-	img = cv2.imread("picture/pass_4.jpg", 0)
+	img = cv2.imread("picture/pass_2_2.jpg", 0)
 	# img = cv2.resize(img, None, fx = 2, fy = 2)
 	print "image shape is:", img.shape
 	point = np.array( stipper(img, 2, itr = 75, max_size = 10000, cutoff = 190) )

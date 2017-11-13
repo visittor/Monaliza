@@ -54,3 +54,4 @@ Temporary Items
 *.npz
 high_level/parameter.txt
 *.xlsx
+covert_byte.c

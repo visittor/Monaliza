@@ -17,11 +17,16 @@ class ImageProcessing(threading.Thread):
 		self.__tween = None
 		self.__start_flag = start_flag
 		self.__is_arrayFile = is_arrayFile
+		self.__configure(config)
+
+	def __configure(self, config):
+		self.__config = config
 
 	def clear_image(self):
 		self.__image = np.zeros([480,640])
 
 	def recieve_image(self, img):
+
 		self.__image = img
 
 	def recieve_image_from_filename(self, file_name):
