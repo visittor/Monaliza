@@ -73,7 +73,13 @@ class XY_ui_interface(Ui_MainWindow):
 			self.serial = serial.Serial()
 		if self.serial.is_open:
 			self.serial.close()
-		self.serial = serial.Serial()
+			self.Connect_button.setText(_translate("MainWindow", "Connect", None))
+		else:
+			self.serial.port = str( self.Serial_port_combo.currentText() )
+			self.serial.setDTR(False)
+			self.serial.setRTS(False)
+			self.serial.baudrate = 115200
+			self.Connect_button.setText(_translate("MainWindow", "Disconnect", None))
 	
 	def set_list_serial_port(self):
 		comport_list = self.find_comport()
@@ -112,62 +118,51 @@ class XY_ui_interface(Ui_MainWindow):
 	def WriteData(self,INSTRUCTION_PACKET):
 		if self.serial is None:
 			return
-		self.serial.port = str( self.Serial_port_combo.currentText() )
-		self.serial.setDTR(False)
-		self.serial.setRTS(False)
-		with self.serial as ser:
-			try:
-				ser.baudrate = 115200
-				# ser.port = str( self.Serial_port_combo.currentText() )
-				# ser.port = 
-				if not ser.is_open:
-					ser.open()
-				if ser.is_open:
-					INSTRUCTION_PACKET.insert(3, len(INSTRUCTION_PACKET)-2)
-					CHKSUM = 0
-					for i in range(2, len(INSTRUCTION_PACKET)):
-						CHKSUM += INSTRUCTION_PACKET[i]
-					CHKSUM %= 256
-					INSTRUCTION_PACKET.append(255-CHKSUM)
-					ser.write(INSTRUCTION_PACKET)
-				else :
-					self.Error_lebel.setText(_translate("MainWindow", "Port is not open", None))
-					self.Error_message_lebel.setText(_translate("MainWindow", "", None))
-			except Exception as e:
-				print e
-				self.Error_lebel.setText(_translate("MainWindow", "Internal Error:"+ str( e ), None))
-		print ser.is_open
+		try:
+			# ser.port = str( self.Serial_port_combo.currentText() )
+			# ser.port = 
+			if not self.serial.is_open:
+				self.serial.open()
+			if self.serial.is_open:
+				INSTRUCTION_PACKET.insert(3, len(INSTRUCTION_PACKET)-2)
+				CHKSUM = 0
+				for i in range(2, len(INSTRUCTION_PACKET)):
+					CHKSUM += INSTRUCTION_PACKET[i]
+				CHKSUM %= 256
+				INSTRUCTION_PACKET.append(255-CHKSUM)
+				self.serial.write(INSTRUCTION_PACKET)
+				print "SEND>>",INSTRUCTION_PACKET
+			else :
+				self.Error_lebel.setText(_translate("MainWindow", "Port is not open", None))
+				self.Error_message_lebel.setText(_translate("MainWindow", "", None))
+		except Exception as e:
+			print e
+			self.Error_lebel.setText(_translate("MainWindow", "Internal Error:"+ str( e ), None))
 
 	def ReadData(self):
 		if self.serial is None:
 			return
-		self.serial.port = str( self.Serial_port_combo.currentText() )
-		self.serial.setDTR(False)
-		self.serial.setRTS(False)
-		with self.serial as ser:
-			try:
-				ser.baudrate = 115200
-				# ser.port = str( self.Serial_port_combo.currentText() )
-				if not ser.is_open:
-					ser.open()
-				if ser.is_open:
-					STATUS_PACKET = []
-					start = time.clock()
-					# while time.clock() - start <= self.timeOut:
-					while time.clock() - start <= 5:
-						while ser.inWaiting():
-							STATUS_PACKET.append(ord(ser.read()))
-						self.Error_message_lebel.setText(_translate("MainWindow", str(STATUS_PACKET), None))
-					print self.serial.is_open
-				else:
-					self.Error_lebel.setText(_translate("MainWindow", "Port is not open", None))
-					self.Error_message_lebel.setText(_translate("MainWindow", "", None))
-			except Exception as e:
-				print e
+		try:
+			# ser.port = str( self.Serial_port_combo.currentText() )
+			if not self.serial.is_open:
+				self.serial.open()
+			if self.serial.is_open:
 				STATUS_PACKET = []
-				self.Error_lebel.setText(_translate("MainWindow", "Internal Error:"+ str( e ), None))   
+				start = time.clock()
+				# while time.clock() - start <= self.timeOut:
+				while time.clock() - start <= 5:
+					while self.serial.inWaiting():
+						STATUS_PACKET.append(ord(self.serial.read()))
+					self.Error_message_lebel.setText(_translate("MainWindow", str(STATUS_PACKET), None))
+				print "RECIEVE<<",PACKAGE
+			else:
+				self.Error_lebel.setText(_translate("MainWindow", "Port is not open", None))
+				self.Error_message_lebel.setText(_translate("MainWindow", "", None))
+		except Exception as e:
+			print e
+			STATUS_PACKET = []
+			self.Error_lebel.setText(_translate("MainWindow", "Internal Error:"+ str( e ), None))   
 		return STATUS_PACKET
-		print self.serial.is_open
 
 	def Command_circle(self):
 		x = self.Circle_X.value()
