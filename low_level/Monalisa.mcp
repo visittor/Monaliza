@@ -45,6 +45,9 @@ file_017=.
 file_018=.
 file_019=.
 file_020=.
+file_021=.
+file_022=.
+file_023=.
 [GENERATED_FILES]
 file_000=no
 file_001=no
@@ -67,6 +70,9 @@ file_017=no
 file_018=no
 file_019=no
 file_020=no
+file_021=no
+file_022=no
+file_023=no
 [OTHER_FILES]
 file_000=no
 file_001=no
@@ -89,6 +95,9 @@ file_017=yes
 file_018=yes
 file_019=yes
 file_020=yes
+file_021=yes
+file_022=yes
+file_023=yes
 [FILE_INFO]
 file_000=BITWISE_LIB.C
 file_001=EVENT_DRIVEN_CCS.c
@@ -111,6 +120,9 @@ file_017=C:\Users\Nasrun\Documents\Monalisa\Monalisa\Monalisa.SYM
 file_018=C:\Users\Nasrun\Documents\Monalisa\Monalisa\Monalisa.TRE
 file_019=C:\Users\Nasrun\Documents\Monalisa\Monalisa\Monalisa.STA
 file_020=SerialModule.OSYM
+file_021=C:\Users\Nasrun\Documents\Monalisa\MainMonalisa\Monaliza\low_level\Monalisa.SYM
+file_022=C:\Users\Nasrun\Documents\Monalisa\MainMonalisa\Monaliza\low_level\Monalisa.TRE
+file_023=C:\Users\Nasrun\Documents\Monalisa\MainMonalisa\Monaliza\low_level\Monalisa.STA
 [SUITE_INFO]
 suite_guid={BA86BF99-4C07-4CE2-A9E7-C2A337910996}
 suite_state=

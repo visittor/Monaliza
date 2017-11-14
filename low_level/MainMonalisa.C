@@ -654,9 +654,9 @@ void INT_TMR5()
 		}
 	}
 
-	// printf("%d,%d,%d,%d\n", (int16)MotorX.u,(int16)errorX,(int16)referenceDesireX,(int16)countDistanceX);
+	printf("X:%d,%d,%d,%d\n", (int16)MotorX.u,(int16)errorX,(int16)referenceDesireX,(int16)countDistanceX);
 
-	// printf("%d,%d,%d,%d\n", (int16)MotorY.u,(int16)errorY,(int16)referenceDesireY,(int16)countDistanceY);
+	printf("Y:%d,%d,%d,%d\n", (int16)MotorY.u,(int16)errorY,(int16)referenceDesireY,(int16)countDistanceY);
 
 
 }
@@ -722,6 +722,8 @@ void testIC3()
 		countDistanceY -= 1;
 	}
 	timeOldY = timeNewY;
+
+	// printf("Interrupt IC3\n");
 	// computeInstantlyDistantY();
 
 }
@@ -744,6 +746,8 @@ void testIC4()
 	}
 
 	timeOldY = timeNewY;
+
+	// printf("Interrupt IC4\n");
 	// computeInstantlyDistantY();
 
 }

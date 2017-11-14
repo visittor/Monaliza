@@ -1,30 +1,30 @@
-CCS PCD C Compiler, Version 5.015, 5967               13-Nov-17 10:39
+CCS PCD C Compiler, Version 5.015, 5967               14-Nov-17 19:08
 
-               Filename:   C:\Users\Nasrun\Documents\Monalisa\Monalisa\Monalisa.lst
+               Filename:   C:\Users\Nasrun\Documents\Monalisa\MainMonalisa\Monaliza\low_level\Monalisa.lst
 
-               ROM used:   6978 bytes (21%)
-                           Largest free fragment is 23738
+               ROM used:   7444 bytes (22%)
+                           Largest free fragment is 23272
                RAM used:   511 (6%) at main() level
-                           676 (8%) worst case
+                           678 (8%) worst case
                Stack size: 128
 
 *
-0C00:  GOTO    25AC
+0C00:  GOTO    277E
 *
-0C28:  GOTO    18C0
+0C28:  GOTO    1A92
 *
-0C38:  GOTO    1934
+0C38:  GOTO    1B06
 *
-0C50:  GOTO    1CF6
-0C54:  GOTO    1E9C
+0C50:  GOTO    1EC8
+0C54:  GOTO    206E
 *
-0C74:  GOTO    1F32
+0C74:  GOTO    2104
 *
-0C94:  GOTO    16D2
-0C98:  GOTO    1EE0
+0C94:  GOTO    17C8
+0C98:  GOTO    20B2
 *
-0CB8:  GOTO    19A2
-0CBC:  GOTO    1A16
+0CB8:  GOTO    1B74
+0CBC:  GOTO    1BE8
 .................... #import(file="BITWISE_LIB.o") 
 .................... /* 
 .................... *************************** C SOURCE FILE ************************************ 
@@ -3247,113 +3247,113 @@ CCS PCD C Compiler, Version 5.015, 5967               13-Nov-17 10:39
 ....................  
 .................... node_t * create_node(unsigned int16 size, node_t *ptr) // create node at given location 
 *
-1BEC:  MOV     W5,[W15++]
+1DBE:  MOV     W5,[W15++]
 .................... { 
 ....................    node_t *result; 
 ....................    result =ptr; 
-1BEE:  PUSH    A14
-1BF0:  POP     A16
+1DC0:  PUSH    A1A
+1DC2:  POP     A1C
 ....................    result->size=size; 
-1BF2:  MOV     #0,W0
-1BF4:  ADD     A16,W0
-1BF6:  MOV     W0,W5
-1BF8:  MOV     A12,W4
-1BFA:  MOV     W4,[W5+#0]
+1DC4:  MOV     #0,W0
+1DC6:  ADD     A1C,W0
+1DC8:  MOV     W0,W5
+1DCA:  MOV     A18,W4
+1DCC:  MOV     W4,[W5+#0]
 ....................    result->next = NULL; 
-1BFC:  MOV     #2,W0
-1BFE:  ADD     A16,W0
-1C00:  MOV     W0,W5
-1C02:  CLR.B   [W5]
-1C04:  MOV.B   #0,W0L
-1C06:  MOV.B   W0L,[W5+#1]
+1DCE:  MOV     #2,W0
+1DD0:  ADD     A1C,W0
+1DD2:  MOV     W0,W5
+1DD4:  CLR.B   [W5]
+1DD6:  MOV.B   #0,W0L
+1DD8:  MOV.B   W0L,[W5+#1]
 ....................    return result; 
-1C08:  PUSH    A16
-1C0A:  POP     0
-1C0C:  MOV     [--W15],W5
-1C0E:  RETURN  
+1DDA:  PUSH    A1C
+1DDC:  POP     0
+1DDE:  MOV     [--W15],W5
+1DE0:  RETURN  
 .................... } 
 .................... void update_node(node_t *node, unsigned int16 size) // update the size of given node 
 *
-1AEE:  MOV     W5,[W15++]
+1CC0:  MOV     W5,[W15++]
 .................... { 
 ....................    node->size=size; 
-1AF0:  MOV     #0,W0
-1AF2:  ADD     A1C,W0
-1AF4:  MOV     W0,W5
-1AF6:  MOV     A1E,W4
-1AF8:  MOV     W4,[W5+#0]
-1AFA:  MOV     [--W15],W5
-1AFC:  RETURN  
+1CC2:  MOV     #0,W0
+1CC4:  ADD     A22,W0
+1CC6:  MOV     W0,W5
+1CC8:  MOV     A24,W4
+1CCA:  MOV     W4,[W5+#0]
+1CCC:  MOV     [--W15],W5
+1CCE:  RETURN  
 .................... } 
 ....................  
 .................... /* Insert node immediately after place */ //old,new 
 .................... void insert_node_after(node_t *place, node_t *node)// place the node after another given node 
 *
-1C10:  MOV     W5,[W15++]
+1DE2:  MOV     W5,[W15++]
 .................... { 
 ....................     if (place->next==NULL) 
-1C12:  MOV     #2,W0
-1C14:  ADD     A0A,W0
-1C16:  MOV     [W0],W5
-1C18:  CP0     W5
-1C1A:  BRA     NZ,1C2A
+1DE4:  MOV     #2,W0
+1DE6:  ADD     A0E,W0
+1DE8:  MOV     [W0],W5
+1DEA:  CP0     W5
+1DEC:  BRA     NZ,1DFC
 ....................        node->next= NULL; 
-1C1C:  MOV     #2,W0
-1C1E:  ADD     A0C,W0
-1C20:  MOV     W0,W5
-1C22:  CLR.B   [W5]
-1C24:  MOV.B   #0,W0L
-1C26:  MOV.B   W0L,[W5+#1]
-1C28:  BRA     1C36
+1DEE:  MOV     #2,W0
+1DF0:  ADD     A10,W0
+1DF2:  MOV     W0,W5
+1DF4:  CLR.B   [W5]
+1DF6:  MOV.B   #0,W0L
+1DF8:  MOV.B   W0L,[W5+#1]
+1DFA:  BRA     1E08
 ....................     else 
 ....................        node->next=place->next; 
-1C2A:  MOV     #2,W0
-1C2C:  ADD     A0C,W0
-1C2E:  MOV     W0,W5
-1C30:  MOV     #2,W0
-1C32:  ADD     A0A,W0
-1C34:  MOV     [W0],[W5]
+1DFC:  MOV     #2,W0
+1DFE:  ADD     A10,W0
+1E00:  MOV     W0,W5
+1E02:  MOV     #2,W0
+1E04:  ADD     A0E,W0
+1E06:  MOV     [W0],[W5]
 ....................     place->next=node; 
-1C36:  MOV     #2,W0
-1C38:  ADD     A0A,W0
-1C3A:  MOV     W0,W5
-1C3C:  MOV     A0C,W4
-1C3E:  MOV     W4,[W5+#0]
-1C40:  MOV     [--W15],W5
-1C42:  RETURN  
+1E08:  MOV     #2,W0
+1E0A:  ADD     A0E,W0
+1E0C:  MOV     W0,W5
+1E0E:  MOV     A10,W4
+1E10:  MOV     W4,[W5+#0]
+1E12:  MOV     [--W15],W5
+1E14:  RETURN  
 .................... } 
 ....................  
 .................... ///////////////////////////////////////////////////////////////////////////////////////////////////////////// 
 ....................  
 .................... void remove_node(node_t *node) {// remove the given node from the memlist 
 *
-1AFE:  MOV     W5,[W15++]
+1CD0:  MOV     W5,[W15++]
 ....................    node_t *ptr; 
 ....................    for(ptr=__DYNAMIC_HEAD;ptr->next!=node;ptr=ptr->next); 
-1B00:  PUSH    806
-1B02:  POP     A22
-1B04:  MOV     #2,W0
-1B06:  ADD     A22,W0
-1B08:  MOV     [W0],W5
-1B0A:  MOV     A20,W4
-1B0C:  CP      W4,W5
-1B0E:  BRA     Z,1B1A
-1B10:  MOV     #2,W0
-1B12:  ADD     A22,W0
-1B14:  MOV     [W0],[W15++]
-1B16:  POP     A22
-1B18:  BRA     1B04
+1CD2:  PUSH    806
+1CD4:  POP     A22
+1CD6:  MOV     #2,W0
+1CD8:  ADD     A22,W0
+1CDA:  MOV     [W0],W5
+1CDC:  MOV     A20,W4
+1CDE:  CP      W4,W5
+1CE0:  BRA     Z,1CEC
+1CE2:  MOV     #2,W0
+1CE4:  ADD     A22,W0
+1CE6:  MOV     [W0],[W15++]
+1CE8:  POP     A22
+1CEA:  BRA     1CD6
 ....................    ptr->next=node->next; 
-1B1A:  MOV     #2,W0
-1B1C:  ADD     A22,W0
-1B1E:  MOV     W0,W5
-1B20:  MOV     #2,W0
-1B22:  ADD     A20,W0
-1B24:  MOV     [W0],[W5]
+1CEC:  MOV     #2,W0
+1CEE:  ADD     A22,W0
+1CF0:  MOV     W0,W5
+1CF2:  MOV     #2,W0
+1CF4:  ADD     A20,W0
+1CF6:  MOV     [W0],[W5]
 ....................    node=NULL; 
-1B26:  CLR     A20
-1B28:  MOV     [--W15],W5
-1B2A:  RETURN  
+1CF8:  CLR     A20
+1CFA:  MOV     [--W15],W5
+1CFC:  RETURN  
 .................... } 
 ....................  
 .................... ///////////////////////////////////////////////////////////////////////////////////////////////////////////// 
@@ -3381,17 +3381,17 @@ CCS PCD C Compiler, Version 5.015, 5967               13-Nov-17 10:39
 ....................  
 ....................  
 .................... void traverse() 
-1B2C:  MOV     W5,[W15++]
-1B2E:  MOV     W6,[W15++]
+1CFE:  MOV     W5,[W15++]
+1D00:  MOV     W6,[W15++]
 .................... { 
 ....................    node_t *node,*temp; 
 ....................    unsigned int16 nsize,nextsize; 
 ....................    node=__DYNAMIC_HEAD; 
-1B30:  PUSH    806
-1B32:  POP     A04
+1D02:  PUSH    806
+1D04:  POP     A08
 ....................    while(node!=NULL) 
-1B34:  CP0     A04
-1B36:  BRA     Z,1BA4
+1D06:  CP0     A08
+1D08:  BRA     Z,1D76
 ....................    { 
 ....................      #if defined(__DO_DEBUG_STDLIBM) 
 ....................       if (INVALID_MEMORY_LOCATION(node)) 
@@ -3402,22 +3402,22 @@ CCS PCD C Compiler, Version 5.015, 5967               13-Nov-17 10:39
 ....................       }    
 ....................      #endif 
 ....................      if(!bit_test(node->size,_MEMMGMT_POS))// node free 
-1B38:  MOV     #0,W0
-1B3A:  ADD     A04,W0
-1B3C:  MOV     [W0],W5
-1B3E:  BTSC    W5.F
-1B40:  BRA     1B9A
+1D0A:  MOV     #0,W0
+1D0C:  ADD     A08,W0
+1D0E:  MOV     [W0],W5
+1D10:  BTSC    W5.F
+1D12:  BRA     1D6C
 ....................       { 
 ....................          nsize=node->size; 
-1B42:  MOV     #0,W0
-1B44:  ADD     A04,W0
-1B46:  MOV     [W0],[W15++]
-1B48:  POP     A08
+1D14:  MOV     #0,W0
+1D16:  ADD     A08,W0
+1D18:  MOV     [W0],[W15++]
+1D1A:  POP     A0C
 ....................          temp=(unsigned int16)node->next; 
-1B4A:  MOV     #2,W0
-1B4C:  ADD     A04,W0
-1B4E:  MOV     [W0],[W15++]
-1B50:  POP     A06
+1D1C:  MOV     #2,W0
+1D1E:  ADD     A08,W0
+1D20:  MOV     [W0],[W15++]
+1D22:  POP     A0A
 ....................         #if defined(__DO_DEBUG_STDLIBM) 
 ....................          if (INVALID_MEMORY_LOCATION(temp)) 
 ....................          { 
@@ -3427,81 +3427,81 @@ CCS PCD C Compiler, Version 5.015, 5967               13-Nov-17 10:39
 ....................          } 
 ....................         #endif 
 ....................          if(!bit_test(temp->size,_MEMMGMT_POS)&& (temp==((unsigned int16)node+nsize+sizeof(node_t))))//next node free and consecutive, so combine 
-1B52:  MOV     #0,W0
-1B54:  ADD     A06,W0
-1B56:  MOV     [W0],W5
-1B58:  BTSC    W5.F
-1B5A:  BRA     1B90
-1B5C:  MOV     A04,W0
-1B5E:  ADD     A08,W0
-1B60:  MOV     W0,W6
-1B62:  ADD     W6,#4,W6
-1B64:  MOV     W6,W0
-1B66:  CP      A06
-1B68:  BRA     NZ,1B90
+1D24:  MOV     #0,W0
+1D26:  ADD     A0A,W0
+1D28:  MOV     [W0],W5
+1D2A:  BTSC    W5.F
+1D2C:  BRA     1D62
+1D2E:  MOV     A08,W0
+1D30:  ADD     A0C,W0
+1D32:  MOV     W0,W6
+1D34:  ADD     W6,#4,W6
+1D36:  MOV     W6,W0
+1D38:  CP      A0A
+1D3A:  BRA     NZ,1D62
 ....................          { 
 ....................             nextsize=temp->size; 
-1B6A:  MOV     #0,W0
-1B6C:  ADD     A06,W0
-1B6E:  MOV     [W0],[W15++]
-1B70:  POP     A0A
+1D3C:  MOV     #0,W0
+1D3E:  ADD     A0A,W0
+1D40:  MOV     [W0],[W15++]
+1D42:  POP     A0E
 ....................             nsize+=nextsize+sizeof(node_t); 
-1B72:  MOV     A0A,W4
-1B74:  ADD     W4,#4,W4
-1B76:  MOV     W4,W0
-1B78:  ADD     A08
+1D44:  MOV     A0E,W4
+1D46:  ADD     W4,#4,W4
+1D48:  MOV     W4,W0
+1D4A:  ADD     A0C
 ....................             remove_node(temp); 
-1B7A:  PUSH    A06
-1B7C:  POP     A20
-1B7E:  CALL    1AFE
+1D4C:  PUSH    A0A
+1D4E:  POP     A20
+1D50:  CALL    1CD0
 ....................             update_node(node,nsize); 
-1B82:  PUSH    A04
-1B84:  POP     A1C
-1B86:  PUSH    A08
-1B88:  POP     A1E
-1B8A:  CALL    1AEE
+1D54:  PUSH    A08
+1D56:  POP     A22
+1D58:  PUSH    A0C
+1D5A:  POP     A24
+1D5C:  CALL    1CC0
 ....................          } 
-1B8E:  BRA     1B98
+1D60:  BRA     1D6A
 ....................          else 
 ....................          node=node->next; 
-1B90:  MOV     #2,W0
-1B92:  ADD     A04,W0
-1B94:  MOV     [W0],[W15++]
-1B96:  POP     A04
+1D62:  MOV     #2,W0
+1D64:  ADD     A08,W0
+1D66:  MOV     [W0],[W15++]
+1D68:  POP     A08
 ....................       } 
-1B98:  BRA     1BA2
+1D6A:  BRA     1D74
 ....................       else 
 ....................       node=node->next; 
-1B9A:  MOV     #2,W0
-1B9C:  ADD     A04,W0
-1B9E:  MOV     [W0],[W15++]
-1BA0:  POP     A04
-1BA2:  BRA     1B34
+1D6C:  MOV     #2,W0
+1D6E:  ADD     A08,W0
+1D70:  MOV     [W0],[W15++]
+1D72:  POP     A08
+1D74:  BRA     1D06
 ....................    } 
-1BA4:  MOV     [--W15],W6
-1BA6:  MOV     [--W15],W5
-1BA8:  RETURN  
+1D76:  MOV     [--W15],W6
+1D78:  MOV     [--W15],W5
+1D7A:  RETURN  
 .................... } 
 ....................  
 .................... char *malloc(size_t size) 
 *
-1C44:  MOV     W5,[W15++]
-1C46:  MOV     W6,[W15++]
+1E16:  MOV     W5,[W15++]
+1E18:  MOV     W6,[W15++]
 .................... { 
 ....................    node_t *node,*new; 
 ....................    unsigned int16 nsize; 
 ....................    #if defined(__PCD__) 
 ....................    if (size % 2) 
-1C48:  MOV     9EC,W0
-1C4A:  AND     W0,#1,W0
-1C4C:  CP0     W0
-1C4E:  BRA     Z,1C52
+1E1A:  MOV     9EE,W0
+1E1C:  AND     W0,#1,W0
+1E1E:  CP0     W0
+1E20:  BRA     Z,1E24
 ....................       size++; 
-1C50:  INC     09EC
+1E22:  INC     09EE
 ....................    #endif 
 ....................    node=__DYNAMIC_HEAD; 
-1C52:  PUSH    806
-1C54:  POP     9EE
+1E24:  PUSH    806
+1E26:  POP     9F0
 ....................     
 ....................   #if defined(__DO_DEBUG_STDLIBM) 
 ....................    sprintf(g_DebugStdlibmStr, "malloc() size=%lu\r\n", size); 
@@ -3509,8 +3509,8 @@ CCS PCD C Compiler, Version 5.015, 5967               13-Nov-17 10:39
 ....................   #endif 
 ....................          
 ....................    while(node!=NULL) // chk until end of memlist 
-1C56:  CP0     9EE
-1C58:  BRA     Z,1CDC
+1E28:  CP0     9F0
+1E2A:  BRA     Z,1EAE
 ....................    { 
 ....................      #if defined(__DO_DEBUG_STDLIBM) 
 ....................       if (INVALID_MEMORY_LOCATION(node)) 
@@ -3522,102 +3522,102 @@ CCS PCD C Compiler, Version 5.015, 5967               13-Nov-17 10:39
 ....................       } 
 ....................      #endif 
 ....................       if(!bit_test(node->size,_MEMMGMT_POS) && node->size >=size) // node is free and > = req size 
-1C5A:  MOV     #0,W0
-1C5C:  ADD     9EE,W0
-1C5E:  MOV     [W0],W5
-1C60:  BTSC    W5.F
-1C62:  BRA     1CD2
-1C64:  MOV     #0,W0
-1C66:  ADD     9EE,W0
-1C68:  MOV     [W0],W6
-1C6A:  MOV     9EC,W4
-1C6C:  CP      W4,W6
-1C6E:  BRA     GTU,1CD2
+1E2C:  MOV     #0,W0
+1E2E:  ADD     9F0,W0
+1E30:  MOV     [W0],W5
+1E32:  BTSC    W5.F
+1E34:  BRA     1EA4
+1E36:  MOV     #0,W0
+1E38:  ADD     9F0,W0
+1E3A:  MOV     [W0],W6
+1E3C:  MOV     9EE,W4
+1E3E:  CP      W4,W6
+1E40:  BRA     GTU,1EA4
 ....................       { 
 ....................          nsize=node->size;    //nsize = size of the node that "node" being pointed at 
-1C70:  MOV     #0,W0
-1C72:  ADD     9EE,W0
-1C74:  MOV     [W0],[W15++]
-1C76:  POP     9F2
+1E42:  MOV     #0,W0
+1E44:  ADD     9F0,W0
+1E46:  MOV     [W0],[W15++]
+1E48:  POP     9F4
 ....................          if(nsize>size +sizeof(node_t)) //node > req size, so split and add new node to memlist 
-1C78:  MOV     9EC,W4
-1C7A:  ADD     W4,#4,W4
-1C7C:  MOV     W4,W0
-1C7E:  MOV     9F2,W4
-1C80:  CP      W4,W0
-1C82:  BRA     LEU,1CC0
+1E4A:  MOV     9EE,W4
+1E4C:  ADD     W4,#4,W4
+1E4E:  MOV     W4,W0
+1E50:  MOV     9F4,W4
+1E52:  CP      W4,W0
+1E54:  BRA     LEU,1E92
 ....................          { 
 ....................             new=create_node(nsize-size-sizeof(node_t),(unsigned int16)node+sizeof(node_t)+size); 
-1C84:  MOV     9F2,W4
-1C86:  MOV     9EC,W3
-1C88:  SUB     W4,W3,W5
-1C8A:  SUB     W5,#4,W5
-1C8C:  MOV     9EE,W4
-1C8E:  ADD     W4,#4,W4
-1C90:  MOV     W4,W6
-1C92:  MOV     W6,W0
-1C94:  ADD     9EC,W0
-1C96:  MOV     W0,W6
-1C98:  MOV     W5,A12
-1C9A:  MOV     W6,A14
-1C9C:  CALL    1BEC
-1CA0:  MOV     W0,9F0
+1E56:  MOV     9F4,W4
+1E58:  MOV     9EE,W3
+1E5A:  SUB     W4,W3,W5
+1E5C:  SUB     W5,#4,W5
+1E5E:  MOV     9F0,W4
+1E60:  ADD     W4,#4,W4
+1E62:  MOV     W4,W6
+1E64:  MOV     W6,W0
+1E66:  ADD     9EE,W0
+1E68:  MOV     W0,W6
+1E6A:  MOV     W5,A18
+1E6C:  MOV     W6,A1A
+1E6E:  CALL    1DBE
+1E72:  MOV     W0,9F2
 ....................             insert_node_after(node,new); 
-1CA2:  PUSH    9EE
-1CA4:  POP     A0A
-1CA6:  PUSH    9F0
-1CA8:  POP     A0C
-1CAA:  CALL    1C10
+1E74:  PUSH    9F0
+1E76:  POP     A0E
+1E78:  PUSH    9F2
+1E7A:  POP     A10
+1E7C:  CALL    1DE2
 ....................             update_node(node,size+_MEMMGMT_CSIZE); 
-1CAE:  MOV     #8000,W4
-1CB0:  MOV     9EC,W3
-1CB2:  ADD     W3,W4,W5
-1CB4:  PUSH    9EE
-1CB6:  POP     A1C
-1CB8:  MOV     W5,A1E
-1CBA:  CALL    1AEE
+1E80:  MOV     #8000,W4
+1E82:  MOV     9EE,W3
+1E84:  ADD     W3,W4,W5
+1E86:  PUSH    9F0
+1E88:  POP     A22
+1E8A:  MOV     W5,A24
+1E8C:  CALL    1CC0
 ....................          } 
-1CBE:  BRA     1CD0
+1E90:  BRA     1EA2
 ....................          else//not enough space for new node so use original size 
 ....................          update_node(node,nsize+_MEMMGMT_CSIZE); 
-1CC0:  MOV     #8000,W4
-1CC2:  MOV     9F2,W3
-1CC4:  ADD     W3,W4,W5
-1CC6:  PUSH    9EE
-1CC8:  POP     A1C
-1CCA:  MOV     W5,A1E
-1CCC:  CALL    1AEE
+1E92:  MOV     #8000,W4
+1E94:  MOV     9F4,W3
+1E96:  ADD     W3,W4,W5
+1E98:  PUSH    9F0
+1E9A:  POP     A22
+1E9C:  MOV     W5,A24
+1E9E:  CALL    1CC0
 ....................          //end if 
 ....................          break; 
-1CD0:  BRA     1CDC
+1EA2:  BRA     1EAE
 ....................       }//end if 
 ....................       node=node->next; 
-1CD2:  MOV     #2,W0
-1CD4:  ADD     9EE,W0
-1CD6:  MOV     [W0],[W15++]
-1CD8:  POP     9EE
-1CDA:  BRA     1C56
+1EA4:  MOV     #2,W0
+1EA6:  ADD     9F0,W0
+1EA8:  MOV     [W0],[W15++]
+1EAA:  POP     9F0
+1EAC:  BRA     1E28
 ....................    }//end while 
 ....................    if(node==NULL)// reached end without finding an appropriate node 
-1CDC:  CP0     9EE
-1CDE:  BRA     NZ,1CE6
+1EAE:  CP0     9F0
+1EB0:  BRA     NZ,1EB8
 ....................    { 
 ....................       debug_stdlibm("Not enough memory for mallocation\r\n"); 
 ....................       return NULL; 
-1CE0:  CLR     0
-1CE2:  BRA     1CF0
+1EB2:  CLR     0
+1EB4:  BRA     1EC2
 ....................    } 
-1CE4:  BRA     1CF0
+1EB6:  BRA     1EC2
 ....................    else 
 ....................    return (char *)node+sizeof(node_t); // return pounsigned int8er to allocated space 
-1CE6:  MOV     9EE,W4
-1CE8:  ADD     W4,#4,W4
-1CEA:  MOV     W4,W0
-1CEC:  MOV     W0,0
-1CEE:  BRA     1CF0
-1CF0:  MOV     [--W15],W6
-1CF2:  MOV     [--W15],W5
-1CF4:  RETURN  
+1EB8:  MOV     9F0,W4
+1EBA:  ADD     W4,#4,W4
+1EBC:  MOV     W4,W0
+1EBE:  MOV     W0,0
+1EC0:  BRA     1EC2
+1EC2:  MOV     [--W15],W6
+1EC4:  MOV     [--W15],W5
+1EC6:  RETURN  
 .................... } 
 ....................  
 .................... char *calloc(size_t nmemb,size_t size) 
@@ -3670,7 +3670,7 @@ CCS PCD C Compiler, Version 5.015, 5967               13-Nov-17 10:39
 .................... } 
 .................... void free( void * ptr) 
 *
-1BAA:  MOV     W5,[W15++]
+1D7C:  MOV     W5,[W15++]
 .................... { 
 ....................    node_t *node; 
 ....................    unsigned int16 nsize; 
@@ -3681,54 +3681,54 @@ CCS PCD C Compiler, Version 5.015, 5967               13-Nov-17 10:39
 ....................   #endif 
 ....................  
 ....................    if(ptr==NULL) // not a valid pounsigned int8er 
-1BAC:  CP0     9E6
-1BAE:  BRA     NZ,1BB4
+1D7E:  CP0     9F2
+1D80:  BRA     NZ,1D86
 ....................       return; 
-1BB0:  BRA     1BE8
-1BB2:  BRA     1BE4
+1D82:  BRA     1DBA
+1D84:  BRA     1DB6
 ....................    else 
 ....................    { 
 ....................       node=ptr-sizeof(node_t); 
-1BB4:  MOV     9E6,W4
-1BB6:  SUB     W4,#4,W0
-1BB8:  MOV     W0,9E8
+1D86:  MOV     9F2,W4
+1D88:  SUB     W4,#4,W0
+1D8A:  MOV     W0,9F4
 ....................       if(bit_test(node->size,_MEMMGMT_POS))// node occupied 
-1BBA:  MOV     #0,W0
-1BBC:  ADD     9E8,W0
-1BBE:  MOV     [W0],W5
-1BC0:  BTSS    W5.F
-1BC2:  BRA     1BE0
+1D8C:  MOV     #0,W0
+1D8E:  ADD     9F4,W0
+1D90:  MOV     [W0],W5
+1D92:  BTSS    W5.F
+1D94:  BRA     1DB2
 ....................       { 
 ....................          nsize=node->size-_MEMMGMT_CSIZE; 
-1BC4:  MOV     #0,W0
-1BC6:  ADD     9E8,W0
-1BC8:  MOV     [W0],W5
-1BCA:  MOV     #8000,W4
-1BCC:  SUB     W5,W4,W0
-1BCE:  MOV     W0,9EA
+1D96:  MOV     #0,W0
+1D98:  ADD     9F4,W0
+1D9A:  MOV     [W0],W5
+1D9C:  MOV     #8000,W4
+1D9E:  SUB     W5,W4,W0
+1DA0:  MOV     W0,9F6
 ....................          update_node(node,nsize); 
-1BD0:  PUSH    9E8
-1BD2:  POP     A1C
-1BD4:  PUSH    9EA
-1BD6:  POP     A1E
-1BD8:  CALL    1AEE
+1DA2:  PUSH    9F4
+1DA4:  POP     A22
+1DA6:  PUSH    9F6
+1DA8:  POP     A24
+1DAA:  CALL    1CC0
 ....................          ptr=NULL; 
-1BDC:  CLR     9E6
+1DAE:  CLR     9F2
 ....................  
 ....................       } 
-1BDE:  BRA     1BE4
+1DB0:  BRA     1DB6
 ....................       else // wrong input, return 
 ....................       { 
 ....................          ptr=NULL; 
-1BE0:  CLR     9E6
+1DB2:  CLR     9F2
 ....................          return; 
-1BE2:  BRA     1BE8
+1DB4:  BRA     1DBA
 ....................       } 
 ....................    } 
 ....................    traverse(); 
-1BE4:  CALL    1B2C
-1BE8:  MOV     [--W15],W5
-1BEA:  RETURN  
+1DB6:  CALL    1CFE
+1DBA:  MOV     [--W15],W5
+1DBC:  RETURN  
 .................... } 
 ....................  
 .................... char *realloc(void *ptr,size_t size) 
@@ -8912,189 +8912,189 @@ CCS PCD C Compiler, Version 5.015, 5967               13-Nov-17 10:39
 ....................  
 .................... void QPtrXInit (QPTRX_STRUCT *qStructPtr, PTR_STRUCT *buffPtr, int16u qL) 
 *
-20D0:  MOV     W5,[W15++]
+22A2:  MOV     W5,[W15++]
 .................... { 
 .................... 	qStructPtr->arrayLength = qL; 
-20D2:  MOV     #0,W0
-20D4:  ADD     982,W0
-20D6:  MOV     W0,W5
-20D8:  MOV     986,W4
-20DA:  MOV     W4,[W5+#0]
+22A4:  MOV     #0,W0
+22A6:  ADD     982,W0
+22A8:  MOV     W0,W5
+22AA:  MOV     986,W4
+22AC:  MOV     W4,[W5+#0]
 .................... 	qStructPtr->count = 0; 
-20DC:  MOV     #2,W0
-20DE:  ADD     982,W0
-20E0:  MOV     W0,W5
-20E2:  CLR.B   [W5]
-20E4:  MOV.B   #0,W0L
-20E6:  MOV.B   W0L,[W5+#1]
+22AE:  MOV     #2,W0
+22B0:  ADD     982,W0
+22B2:  MOV     W0,W5
+22B4:  CLR.B   [W5]
+22B6:  MOV.B   #0,W0L
+22B8:  MOV.B   W0L,[W5+#1]
 .................... 	qStructPtr->put = 0; 
-20E8:  MOV     #4,W0
-20EA:  ADD     982,W0
-20EC:  MOV     W0,W5
-20EE:  CLR.B   [W5]
-20F0:  MOV.B   #0,W0L
-20F2:  MOV.B   W0L,[W5+#1]
+22BA:  MOV     #4,W0
+22BC:  ADD     982,W0
+22BE:  MOV     W0,W5
+22C0:  CLR.B   [W5]
+22C2:  MOV.B   #0,W0L
+22C4:  MOV.B   W0L,[W5+#1]
 .................... 	qStructPtr->get = 0; 
-20F4:  MOV     #6,W0
-20F6:  ADD     982,W0
-20F8:  MOV     W0,W5
-20FA:  CLR.B   [W5]
-20FC:  MOV.B   #0,W0L
-20FE:  MOV.B   W0L,[W5+#1]
+22C6:  MOV     #6,W0
+22C8:  ADD     982,W0
+22CA:  MOV     W0,W5
+22CC:  CLR.B   [W5]
+22CE:  MOV.B   #0,W0L
+22D0:  MOV.B   W0L,[W5+#1]
 .................... 	qStructPtr->arrayPtr = buffPtr; 
-2100:  MOV     #8,W0
-2102:  ADD     982,W0
-2104:  MOV     W0,W5
-2106:  MOV     984,W4
-2108:  MOV     W4,[W5+#0]
-210A:  MOV     [--W15],W5
-210C:  RETURN  
+22D2:  MOV     #8,W0
+22D4:  ADD     982,W0
+22D6:  MOV     W0,W5
+22D8:  MOV     984,W4
+22DA:  MOV     W4,[W5+#0]
+22DC:  MOV     [--W15],W5
+22DE:  RETURN  
 .................... } 
 ....................  
 .................... void QPtrXPut (QPTRX_STRUCT *qStructPtr, PTR_STRUCT ptrStruct, int8u *errPtr) 
 *
-1A84:  MOV     W5,[W15++]
-1A86:  MOV     W6,[W15++]
+1C56:  MOV     W5,[W15++]
+1C58:  MOV     W6,[W15++]
 .................... { 
 .................... 	if (qStructPtr->count == qStructPtr->arrayLength) 
-1A88:  MOV     #2,W0
-1A8A:  ADD     9F4,W0
-1A8C:  MOV     [W0],W5
-1A8E:  MOV     #0,W0
-1A90:  ADD     9F4,W0
-1A92:  MOV     W0,W4
-1A94:  MOV     [W4],W0
-1A96:  CP      W5,W0
-1A98:  BRA     NZ,1AA2
+1C5A:  MOV     #2,W0
+1C5C:  ADD     9F8,W0
+1C5E:  MOV     [W0],W5
+1C60:  MOV     #0,W0
+1C62:  ADD     9F8,W0
+1C64:  MOV     W0,W4
+1C66:  MOV     [W4],W0
+1C68:  CP      W5,W0
+1C6A:  BRA     NZ,1C74
 .................... 	{ 
 .................... 		*errPtr = Q_FULL; 
-1A9A:  MOV     9F8,W5
-1A9C:  MOV.B   #1,W0L
-1A9E:  MOV.B   W0L,[W5]
+1C6C:  MOV     9FC,W5
+1C6E:  MOV.B   #1,W0L
+1C70:  MOV.B   W0L,[W5]
 .................... 	} 
-1AA0:  BRA     1AE8
+1C72:  BRA     1CBA
 .................... 	else 
 .................... 	{ 
 .................... 		qStructPtr->count++; 
-1AA2:  MOV     #2,W0
-1AA4:  ADD     9F4,W0
-1AA6:  MOV     W0,W5
-1AA8:  INC     [W5],[W5]
+1C74:  MOV     #2,W0
+1C76:  ADD     9F8,W0
+1C78:  MOV     W0,W5
+1C7A:  INC     [W5],[W5]
 .................... 		qStructPtr->arrayPtr[qStructPtr->put] = ptrStruct; 
-1AAA:  MOV     #8,W0
-1AAC:  ADD     9F4,W0
-1AAE:  MOV     [W0],W5
-1AB0:  MOV     #4,W0
-1AB2:  ADD     9F4,W0
-1AB4:  MOV     [W0],W6
-1AB6:  SL      W6,#1,W0
-1AB8:  ADD     W0,W5,W6
-1ABA:  MOV     9F6,W4
-1ABC:  MOV     W4,[W6+#0]
+1C7C:  MOV     #8,W0
+1C7E:  ADD     9F8,W0
+1C80:  MOV     [W0],W5
+1C82:  MOV     #4,W0
+1C84:  ADD     9F8,W0
+1C86:  MOV     [W0],W6
+1C88:  SL      W6,#1,W0
+1C8A:  ADD     W0,W5,W6
+1C8C:  MOV     9FA,W4
+1C8E:  MOV     W4,[W6+#0]
 .................... 		qStructPtr->put++; 
-1ABE:  MOV     #4,W0
-1AC0:  ADD     9F4,W0
-1AC2:  MOV     W0,W5
-1AC4:  INC     [W5],[W5]
+1C90:  MOV     #4,W0
+1C92:  ADD     9F8,W0
+1C94:  MOV     W0,W5
+1C96:  INC     [W5],[W5]
 .................... 		if (qStructPtr->put == qStructPtr->arrayLength) 
-1AC6:  MOV     #4,W0
-1AC8:  ADD     9F4,W0
-1ACA:  MOV     [W0],W5
-1ACC:  MOV     #0,W0
-1ACE:  ADD     9F4,W0
-1AD0:  MOV     W0,W4
-1AD2:  MOV     [W4],W0
-1AD4:  CP      W5,W0
-1AD6:  BRA     NZ,1AE4
+1C98:  MOV     #4,W0
+1C9A:  ADD     9F8,W0
+1C9C:  MOV     [W0],W5
+1C9E:  MOV     #0,W0
+1CA0:  ADD     9F8,W0
+1CA2:  MOV     W0,W4
+1CA4:  MOV     [W4],W0
+1CA6:  CP      W5,W0
+1CA8:  BRA     NZ,1CB6
 .................... 		{ 
 .................... 			qStructPtr->put = 0; 
-1AD8:  MOV     #4,W0
-1ADA:  ADD     9F4,W0
-1ADC:  MOV     W0,W5
-1ADE:  CLR.B   [W5]
-1AE0:  MOV.B   #0,W0L
-1AE2:  MOV.B   W0L,[W5+#1]
+1CAA:  MOV     #4,W0
+1CAC:  ADD     9F8,W0
+1CAE:  MOV     W0,W5
+1CB0:  CLR.B   [W5]
+1CB2:  MOV.B   #0,W0L
+1CB4:  MOV.B   W0L,[W5+#1]
 .................... 		} 
 .................... 		*errPtr = Q_OK; 
-1AE4:  MOV     9F8,W5
-1AE6:  CLR.B   [W5]
+1CB6:  MOV     9FC,W5
+1CB8:  CLR.B   [W5]
 .................... 	} 
-1AE8:  MOV     [--W15],W6
-1AEA:  MOV     [--W15],W5
-1AEC:  RETURN  
+1CBA:  MOV     [--W15],W6
+1CBC:  MOV     [--W15],W5
+1CBE:  RETURN  
 .................... } 
 ....................  
 .................... void QPtrXGet (QPTRX_STRUCT *qStructPtr, PTR_STRUCT *destPtr, int8u *errPtr) 
 *
-2176:  MOV     W5,[W15++]
-2178:  MOV     W6,[W15++]
-217A:  MOV     W7,[W15++]
+2348:  MOV     W5,[W15++]
+234A:  MOV     W6,[W15++]
+234C:  MOV     W7,[W15++]
 .................... { 
 .................... 	if (qStructPtr->count == 0) 
-217C:  MOV     #2,W0
-217E:  ADD     982,W0
-2180:  MOV     [W0],W5
-2182:  CP0     W5
-2184:  BRA     NZ,218E
+234E:  MOV     #2,W0
+2350:  ADD     982,W0
+2352:  MOV     [W0],W5
+2354:  CP0     W5
+2356:  BRA     NZ,2360
 .................... 	{ 
 .................... 		*errPtr = Q_EMPTY; 
-2186:  MOV     986,W5
-2188:  MOV.B   #2,W0L
-218A:  MOV.B   W0L,[W5]
+2358:  MOV     986,W5
+235A:  MOV.B   #2,W0L
+235C:  MOV.B   W0L,[W5]
 .................... 	} 
-218C:  BRA     21D8
+235E:  BRA     23AA
 .................... 	else 
 .................... 	{ 
 .................... 		qStructPtr->count--; 
-218E:  MOV     #2,W0
-2190:  ADD     982,W0
-2192:  MOV     W0,W5
-2194:  DEC     [W5],[W5]
+2360:  MOV     #2,W0
+2362:  ADD     982,W0
+2364:  MOV     W0,W5
+2366:  DEC     [W5],[W5]
 .................... 		destPtr->blockPtr = qStructPtr->arrayPtr[qStructPtr->get].blockPtr; 
-2196:  MOV     #0,W0
-2198:  ADD     984,W0
-219A:  MOV     W0,W5
-219C:  MOV     #8,W0
-219E:  ADD     982,W0
-21A0:  MOV     [W0],W6
-21A2:  MOV     #6,W0
-21A4:  ADD     982,W0
-21A6:  MOV     [W0],W7
-21A8:  SL      W7,#1,W7
-21AA:  ADD     W6,W7,W0
-21AC:  MOV     [W0],[W5]
+2368:  MOV     #0,W0
+236A:  ADD     984,W0
+236C:  MOV     W0,W5
+236E:  MOV     #8,W0
+2370:  ADD     982,W0
+2372:  MOV     [W0],W6
+2374:  MOV     #6,W0
+2376:  ADD     982,W0
+2378:  MOV     [W0],W7
+237A:  SL      W7,#1,W7
+237C:  ADD     W6,W7,W0
+237E:  MOV     [W0],[W5]
 .................... 		qStructPtr->get++; 
-21AE:  MOV     #6,W0
-21B0:  ADD     982,W0
-21B2:  MOV     W0,W5
-21B4:  INC     [W5],[W5]
+2380:  MOV     #6,W0
+2382:  ADD     982,W0
+2384:  MOV     W0,W5
+2386:  INC     [W5],[W5]
 .................... 		if (qStructPtr->get == qStructPtr->arrayLength) 
-21B6:  MOV     #6,W0
-21B8:  ADD     982,W0
-21BA:  MOV     [W0],W5
-21BC:  MOV     #0,W0
-21BE:  ADD     982,W0
-21C0:  MOV     W0,W4
-21C2:  MOV     [W4],W0
-21C4:  CP      W5,W0
-21C6:  BRA     NZ,21D4
+2388:  MOV     #6,W0
+238A:  ADD     982,W0
+238C:  MOV     [W0],W5
+238E:  MOV     #0,W0
+2390:  ADD     982,W0
+2392:  MOV     W0,W4
+2394:  MOV     [W4],W0
+2396:  CP      W5,W0
+2398:  BRA     NZ,23A6
 .................... 		{ 
 .................... 			qStructPtr->get = 0; 
-21C8:  MOV     #6,W0
-21CA:  ADD     982,W0
-21CC:  MOV     W0,W5
-21CE:  CLR.B   [W5]
-21D0:  MOV.B   #0,W0L
-21D2:  MOV.B   W0L,[W5+#1]
+239A:  MOV     #6,W0
+239C:  ADD     982,W0
+239E:  MOV     W0,W5
+23A0:  CLR.B   [W5]
+23A2:  MOV.B   #0,W0L
+23A4:  MOV.B   W0L,[W5+#1]
 .................... 		} 
 .................... 		*errPtr = Q_OK; 
-21D4:  MOV     986,W5
-21D6:  CLR.B   [W5]
+23A6:  MOV     986,W5
+23A8:  CLR.B   [W5]
 .................... 	} 
-21D8:  MOV     [--W15],W7
-21DA:  MOV     [--W15],W6
-21DC:  MOV     [--W15],W5
-21DE:  RETURN  
+23AA:  MOV     [--W15],W7
+23AC:  MOV     [--W15],W6
+23AE:  MOV     [--W15],W5
+23B0:  RETURN  
 .................... } 
 ....................  
 .................... int16u QPtrXCount (QPTRX_STRUCT *qStructPtr) 
@@ -9108,201 +9108,201 @@ CCS PCD C Compiler, Version 5.015, 5967               13-Nov-17 10:39
 ....................  
 .................... void Q8UXInit (Q8UX_STRUCT *qStructPtr, int8u *buffPtr, int16u qL) 
 *
-210E:  MOV     W5,[W15++]
+22E0:  MOV     W5,[W15++]
 .................... { 
 .................... 	qStructPtr->arrayLength = qL; 
-2110:  MOV     #0,W0
-2112:  ADD     982,W0
-2114:  MOV     W0,W5
-2116:  MOV     986,W4
-2118:  MOV     W4,[W5+#0]
+22E2:  MOV     #0,W0
+22E4:  ADD     982,W0
+22E6:  MOV     W0,W5
+22E8:  MOV     986,W4
+22EA:  MOV     W4,[W5+#0]
 .................... 	qStructPtr->count = 0; 
-211A:  MOV     #2,W0
-211C:  ADD     982,W0
-211E:  MOV     W0,W5
-2120:  CLR.B   [W5]
-2122:  MOV.B   #0,W0L
-2124:  MOV.B   W0L,[W5+#1]
+22EC:  MOV     #2,W0
+22EE:  ADD     982,W0
+22F0:  MOV     W0,W5
+22F2:  CLR.B   [W5]
+22F4:  MOV.B   #0,W0L
+22F6:  MOV.B   W0L,[W5+#1]
 .................... 	qStructPtr->put = 0; 
-2126:  MOV     #4,W0
-2128:  ADD     982,W0
-212A:  MOV     W0,W5
-212C:  CLR.B   [W5]
-212E:  MOV.B   #0,W0L
-2130:  MOV.B   W0L,[W5+#1]
+22F8:  MOV     #4,W0
+22FA:  ADD     982,W0
+22FC:  MOV     W0,W5
+22FE:  CLR.B   [W5]
+2300:  MOV.B   #0,W0L
+2302:  MOV.B   W0L,[W5+#1]
 .................... 	qStructPtr->get = 0; 
-2132:  MOV     #6,W0
-2134:  ADD     982,W0
-2136:  MOV     W0,W5
-2138:  CLR.B   [W5]
-213A:  MOV.B   #0,W0L
-213C:  MOV.B   W0L,[W5+#1]
+2304:  MOV     #6,W0
+2306:  ADD     982,W0
+2308:  MOV     W0,W5
+230A:  CLR.B   [W5]
+230C:  MOV.B   #0,W0L
+230E:  MOV.B   W0L,[W5+#1]
 .................... 	qStructPtr->arrayPtr = buffPtr; 
-213E:  MOV     #8,W0
-2140:  ADD     982,W0
-2142:  MOV     W0,W5
-2144:  MOV     984,W4
-2146:  MOV     W4,[W5+#0]
-2148:  MOV     [--W15],W5
-214A:  RETURN  
+2310:  MOV     #8,W0
+2312:  ADD     982,W0
+2314:  MOV     W0,W5
+2316:  MOV     984,W4
+2318:  MOV     W4,[W5+#0]
+231A:  MOV     [--W15],W5
+231C:  RETURN  
 .................... } 
 ....................  
 .................... void Q8UXPut (Q8UX_STRUCT *qStructPtr, int8u dataSource, int8u *errPtr) 
 *
-2244:  MOV     W5,[W15++]
-2246:  MOV     W6,[W15++]
-2248:  MOV     W7,[W15++]
+2416:  MOV     W5,[W15++]
+2418:  MOV     W6,[W15++]
+241A:  MOV     W7,[W15++]
 .................... { 
 .................... 	if (qStructPtr->count == qStructPtr->arrayLength) 
-224A:  MOV     #2,W0
-224C:  ADD     99C,W0
-224E:  MOV     [W0],W5
-2250:  MOV     #0,W0
-2252:  ADD     99C,W0
-2254:  MOV     W0,W4
-2256:  MOV     [W4],W0
-2258:  CP      W5,W0
-225A:  BRA     NZ,2264
+241C:  MOV     #2,W0
+241E:  ADD     99C,W0
+2420:  MOV     [W0],W5
+2422:  MOV     #0,W0
+2424:  ADD     99C,W0
+2426:  MOV     W0,W4
+2428:  MOV     [W4],W0
+242A:  CP      W5,W0
+242C:  BRA     NZ,2436
 .................... 	{ 
 .................... 		*errPtr = Q_FULL; 
-225C:  MOV     9A0,W5
-225E:  MOV.B   #1,W0L
-2260:  MOV.B   W0L,[W5]
+242E:  MOV     9A0,W5
+2430:  MOV.B   #1,W0L
+2432:  MOV.B   W0L,[W5]
 .................... 	} 
-2262:  BRA     22A8
+2434:  BRA     247A
 .................... 	else 
 .................... 	{ 
 .................... 		qStructPtr->count ++; 
-2264:  MOV     #2,W0
-2266:  ADD     99C,W0
-2268:  MOV     W0,W5
-226A:  INC     [W5],[W5]
+2436:  MOV     #2,W0
+2438:  ADD     99C,W0
+243A:  MOV     W0,W5
+243C:  INC     [W5],[W5]
 .................... 		qStructPtr->arrayPtr[qStructPtr->put] = dataSource; 
-226C:  MOV     #8,W0
-226E:  ADD     99C,W0
-2270:  MOV     [W0],W5
-2272:  MOV     #4,W0
-2274:  ADD     99C,W0
-2276:  MOV     [W0],W6
-2278:  ADD     W5,W6,W7
-227A:  MOV     99E,W0
-227C:  MOV.B   W0L,[W7+#0]
+243E:  MOV     #8,W0
+2440:  ADD     99C,W0
+2442:  MOV     [W0],W5
+2444:  MOV     #4,W0
+2446:  ADD     99C,W0
+2448:  MOV     [W0],W6
+244A:  ADD     W5,W6,W7
+244C:  MOV     99E,W0
+244E:  MOV.B   W0L,[W7+#0]
 .................... 		qStructPtr->put++; 
-227E:  MOV     #4,W0
-2280:  ADD     99C,W0
-2282:  MOV     W0,W5
-2284:  INC     [W5],[W5]
+2450:  MOV     #4,W0
+2452:  ADD     99C,W0
+2454:  MOV     W0,W5
+2456:  INC     [W5],[W5]
 .................... 		if (qStructPtr->put == qStructPtr->arrayLength) 
-2286:  MOV     #4,W0
-2288:  ADD     99C,W0
-228A:  MOV     [W0],W5
-228C:  MOV     #0,W0
-228E:  ADD     99C,W0
-2290:  MOV     W0,W4
-2292:  MOV     [W4],W0
-2294:  CP      W5,W0
-2296:  BRA     NZ,22A4
+2458:  MOV     #4,W0
+245A:  ADD     99C,W0
+245C:  MOV     [W0],W5
+245E:  MOV     #0,W0
+2460:  ADD     99C,W0
+2462:  MOV     W0,W4
+2464:  MOV     [W4],W0
+2466:  CP      W5,W0
+2468:  BRA     NZ,2476
 .................... 		{ 
 .................... 			qStructPtr->put = 0; 
-2298:  MOV     #4,W0
-229A:  ADD     99C,W0
-229C:  MOV     W0,W5
-229E:  CLR.B   [W5]
-22A0:  MOV.B   #0,W0L
-22A2:  MOV.B   W0L,[W5+#1]
+246A:  MOV     #4,W0
+246C:  ADD     99C,W0
+246E:  MOV     W0,W5
+2470:  CLR.B   [W5]
+2472:  MOV.B   #0,W0L
+2474:  MOV.B   W0L,[W5+#1]
 .................... 		} 
 .................... 		*errPtr = Q_OK; 
-22A4:  MOV     9A0,W5
-22A6:  CLR.B   [W5]
+2476:  MOV     9A0,W5
+2478:  CLR.B   [W5]
 .................... 	} 
-22A8:  MOV     [--W15],W7
-22AA:  MOV     [--W15],W6
-22AC:  MOV     [--W15],W5
-22AE:  RETURN  
+247A:  MOV     [--W15],W7
+247C:  MOV     [--W15],W6
+247E:  MOV     [--W15],W5
+2480:  RETURN  
 .................... } 
 ....................  
 .................... void Q8UXGet (Q8UX_STRUCT *qStructPtr, int8u *destPtr, int8u *errPtr) 
 *
-1E38:  MOV     W5,[W15++]
-1E3A:  MOV     W6,[W15++]
-1E3C:  MOV     W7,[W15++]
+200A:  MOV     W5,[W15++]
+200C:  MOV     W6,[W15++]
+200E:  MOV     W7,[W15++]
 .................... { 
 .................... 	if (qStructPtr->count == 0) 
-1E3E:  MOV     #2,W0
-1E40:  ADD     9DC,W0
-1E42:  MOV     [W0],W5
-1E44:  CP0     W5
-1E46:  BRA     NZ,1E50
+2010:  MOV     #2,W0
+2012:  ADD     9E2,W0
+2014:  MOV     [W0],W5
+2016:  CP0     W5
+2018:  BRA     NZ,2022
 .................... 	{ 
 .................... 		*errPtr = Q_EMPTY; 
-1E48:  MOV     9E0,W5
-1E4A:  MOV.B   #2,W0L
-1E4C:  MOV.B   W0L,[W5]
+201A:  MOV     9E6,W5
+201C:  MOV.B   #2,W0L
+201E:  MOV.B   W0L,[W5]
 .................... 	} 
-1E4E:  BRA     1E94
+2020:  BRA     2066
 .................... 	else 
 .................... 	{ 
 .................... 		qStructPtr->count--; 
-1E50:  MOV     #2,W0
-1E52:  ADD     9DC,W0
-1E54:  MOV     W0,W5
-1E56:  DEC     [W5],[W5]
+2022:  MOV     #2,W0
+2024:  ADD     9E2,W0
+2026:  MOV     W0,W5
+2028:  DEC     [W5],[W5]
 .................... 		*destPtr = qStructPtr->arrayPtr[qStructPtr->get]; 
-1E58:  MOV     9DE,W5
-1E5A:  MOV     #8,W0
-1E5C:  ADD     9DC,W0
-1E5E:  MOV     [W0],W6
-1E60:  MOV     #6,W0
-1E62:  ADD     9DC,W0
-1E64:  MOV     [W0],W7
-1E66:  ADD     W6,W7,W0
-1E68:  MOV.B   [W0],[W5]
+202A:  MOV     9E4,W5
+202C:  MOV     #8,W0
+202E:  ADD     9E2,W0
+2030:  MOV     [W0],W6
+2032:  MOV     #6,W0
+2034:  ADD     9E2,W0
+2036:  MOV     [W0],W7
+2038:  ADD     W6,W7,W0
+203A:  MOV.B   [W0],[W5]
 .................... 		qStructPtr->get++; 
-1E6A:  MOV     #6,W0
-1E6C:  ADD     9DC,W0
-1E6E:  MOV     W0,W5
-1E70:  INC     [W5],[W5]
+203C:  MOV     #6,W0
+203E:  ADD     9E2,W0
+2040:  MOV     W0,W5
+2042:  INC     [W5],[W5]
 .................... 		if(qStructPtr->get == qStructPtr->arrayLength) 
-1E72:  MOV     #6,W0
-1E74:  ADD     9DC,W0
-1E76:  MOV     [W0],W5
-1E78:  MOV     #0,W0
-1E7A:  ADD     9DC,W0
-1E7C:  MOV     W0,W4
-1E7E:  MOV     [W4],W0
-1E80:  CP      W5,W0
-1E82:  BRA     NZ,1E90
+2044:  MOV     #6,W0
+2046:  ADD     9E2,W0
+2048:  MOV     [W0],W5
+204A:  MOV     #0,W0
+204C:  ADD     9E2,W0
+204E:  MOV     W0,W4
+2050:  MOV     [W4],W0
+2052:  CP      W5,W0
+2054:  BRA     NZ,2062
 .................... 		{ 
 .................... 			qStructPtr->get = 0; 
-1E84:  MOV     #6,W0
-1E86:  ADD     9DC,W0
-1E88:  MOV     W0,W5
-1E8A:  CLR.B   [W5]
-1E8C:  MOV.B   #0,W0L
-1E8E:  MOV.B   W0L,[W5+#1]
+2056:  MOV     #6,W0
+2058:  ADD     9E2,W0
+205A:  MOV     W0,W5
+205C:  CLR.B   [W5]
+205E:  MOV.B   #0,W0L
+2060:  MOV.B   W0L,[W5+#1]
 .................... 		} 
 .................... 		*errPtr = 0; 
-1E90:  MOV     9E0,W5
-1E92:  CLR.B   [W5]
+2062:  MOV     9E6,W5
+2064:  CLR.B   [W5]
 .................... 	} 
-1E94:  MOV     [--W15],W7
-1E96:  MOV     [--W15],W6
-1E98:  MOV     [--W15],W5
-1E9A:  RETURN  
+2066:  MOV     [--W15],W7
+2068:  MOV     [--W15],W6
+206A:  MOV     [--W15],W5
+206C:  RETURN  
 .................... } 
 ....................  
 .................... int16u Q8UXCount (Q8UX_STRUCT *qStructPtr) 
 *
-2234:  MOV     W5,[W15++]
+2406:  MOV     W5,[W15++]
 .................... { 
 .................... 	return qStructPtr->count; 
-2236:  MOV     #2,W0
-2238:  ADD     99A,W0
-223A:  MOV     W0,W5
-223C:  MOV     [W5],[W15++]
-223E:  POP     0
-2240:  MOV     [--W15],W5
-2242:  RETURN  
+2408:  MOV     #2,W0
+240A:  ADD     99A,W0
+240C:  MOV     W0,W5
+240E:  MOV     [W5],[W15++]
+2410:  POP     0
+2412:  MOV     [--W15],W5
+2414:  RETURN  
 .................... } 
 ....................  
 .................... /***************************************************************************/ 
@@ -9404,21 +9404,21 @@ CCS PCD C Compiler, Version 5.015, 5967               13-Nov-17 10:39
 .................... { 
 .................... 	disable_interrupts (INTR_GLOBAL); 
 *
-2016:  BCLR.B  81.7
-2018:  MOV     #E0,W4
-201A:  MOV     W4,42
-201C:  BSET.B  81.7
-201E:  RETURN  
+21E8:  BCLR.B  81.7
+21EA:  MOV     #E0,W4
+21EC:  MOV     W4,42
+21EE:  BSET.B  81.7
+21F0:  RETURN  
 .................... } 
 ....................  
 .................... void EnableIntr(void) 
 .................... { 
 .................... 	enable_interrupts (INTR_GLOBAL); 
 *
-216E:  BCLR.B  81.7
-2170:  CLR     42
-2172:  BSET.B  81.7
-2174:  RETURN  
+2340:  BCLR.B  81.7
+2342:  CLR     42
+2344:  BSET.B  81.7
+2346:  RETURN  
 .................... } 
 ....................  
 .................... void CpuIdle (void) 
@@ -9720,36 +9720,155 @@ CCS PCD C Compiler, Version 5.015, 5967               13-Nov-17 10:39
 16CC:  NEG     W0,W0
 16CE:  BRA     16D0
 16D0:  RETURN  
+16D2:  MOV     W5,[W15++]
+16D4:  MOV     #C,W5
+16D6:  REPEAT  #3
+16D8:  MOV     [W5++],[W15++]
+16DA:  BTSS    W0.F
+16DC:  BRA     16F6
+16DE:  NEG     W0,W0
+16E0:  BSET    W4.8
+16E2:  BTSS    W4.F
+16E4:  BRA     16F6
+16E6:  MOV     W0,[W15++]
+16E8:  MOV     #2D,W0
+16EA:  BTSC.B  223.1
+16EC:  BRA     16EA
+16EE:  MOV     W0,224
+16F0:  MOV     [--W15],W0
+16F2:  BCLR    W4.8
+16F4:  DEC.B   0008
+16F6:  CLR     W5
+16F8:  MOV     W0,W7
+16FA:  MOV     W4,W9
+16FC:  BCLR    W4.F
+16FE:  CP0.B   W4L
+1700:  BRA     NZ,170E
+1702:  BTSC    W9.F
+1704:  BRA     170A
+1706:  MOV     #0,W5
+1708:  BRA     1728
+170A:  MOV     #0,W5
+170C:  BRA     1728
+170E:  SUB.B   W4L,#6,W5L
+1710:  BRA     NC,1726
+1712:  MOV     #30,W0
+1714:  BTSS    W9.F
+1716:  MOV     #20,W0
+1718:  BTSC.B  223.1
+171A:  BRA     1718
+171C:  MOV     W0,224
+171E:  DEC     W5,W5
+1720:  BRA     NN,1718
+1722:  MOV     #5,W5
+1724:  BRA     1728
+1726:  MOV     W4,W5
+1728:  MOV     #6,W4
+172A:  BTSC    W5.8
+172C:  INC     W4,W4
+172E:  BSET    W5.E
+1730:  BTSC    W9.F
+1732:  BSET    W5.F
+1734:  MOV     #2710,W8
+1736:  REPEAT  #11
+1738:  DIV.U   W7,W8
+173A:  CALL    177E
+173E:  MOV     W1,W7
+1740:  MOV     #3E8,W8
+1742:  REPEAT  #11
+1744:  DIV.U   W7,W8
+1746:  CALL    177E
+174A:  MOV     W1,W7
+174C:  MOV     #64,W8
+174E:  REPEAT  #11
+1750:  DIV.U   W7,W8
+1752:  CALL    177E
+1756:  MOV     W1,W7
+1758:  MOV     #A,W8
+175A:  REPEAT  #11
+175C:  DIV.U   W7,W8
+175E:  CALL    177E
+1762:  BTSS    W9.8
+1764:  BRA     1770
+1766:  MOV     #2D,W0
+1768:  BTSC.B  223.1
+176A:  BRA     1768
+176C:  MOV     W0,224
+176E:  BCLR    W9.8
+1770:  MOV     #30,W0
+1772:  ADD.B   W1L,W0L,W0L
+1774:  MOV     W0,2A
+1776:  BTSC.B  223.1
+1778:  BRA     1776
+177A:  MOV     W0,224
+177C:  BRA     17BE
+177E:  MOV     #30,W6
+1780:  CP0     W0
+1782:  BRA     NZ,17A0
+1784:  BTSS    W5.E
+1786:  BRA     17B4
+1788:  DEC     W4,W4
+178A:  CP.B    W4L,W5L
+178C:  BRA     Z,1792
+178E:  BTSC.B  42.0
+1790:  RETURN  
+1792:  CP0     W0
+1794:  BRA     NZ,17A0
+1796:  BTSS    W5.E
+1798:  BRA     17B4
+179A:  BTSS    W5.F
+179C:  MOV     #20,W6
+179E:  BRA     17B4
+17A0:  BCLR    W5.E
+17A2:  BTSS    W9.8
+17A4:  BRA     17B4
+17A6:  MOV     W0,W10
+17A8:  MOV     #2D,W0
+17AA:  BTSC.B  223.1
+17AC:  BRA     17AA
+17AE:  MOV     W0,224
+17B0:  BCLR    W9.8
+17B2:  MOV     W10,W0
+17B4:  ADD.B   W6L,W0L,W0L
+17B6:  BTSC.B  223.1
+17B8:  BRA     17B6
+17BA:  MOV     W0,224
+17BC:  RETURN  
+17BE:  MOV     #12,W5
+17C0:  REPEAT  #3
+17C2:  MOV     [--W15],[W5--]
+17C4:  MOV     [--W15],W5
+17C6:  RETURN  
 *
-21FA:  MOV     W5,[W15++]
-21FC:  MOV     W6,[W15++]
-21FE:  MOV     #8E,W1
-2200:  CP0     W0
-2202:  BRA     Z,2228
-2204:  BTSC    W0.F
-2206:  BRA     2210
-2208:  BCLR.B  42.0
-220A:  RLC     W0,W0
-220C:  DEC     W1,W1
-220E:  BRA     2204
-2210:  SWAP    W1
-2212:  BCLR.B  42.0
-2214:  RRC     W1,W1
-2216:  BCLR    W0.F
-2218:  SWAP    W0
-221A:  XOR.B   W0L,W1L,W1L
-221C:  AND.B   #0,W0L
-221E:  BRA     222E
-2220:  MOV.B   W1L,W0L
-2222:  BSET    W1.7
-2224:  AND.B   #0,W1L
-2226:  BRA     222E
-2228:  CLR     W0
-222A:  CLR     W1
-222C:  BRA     222E
-222E:  MOV     [--W15],W6
-2230:  MOV     [--W15],W5
-2232:  RETURN  
+23CC:  MOV     W5,[W15++]
+23CE:  MOV     W6,[W15++]
+23D0:  MOV     #8E,W1
+23D2:  CP0     W0
+23D4:  BRA     Z,23FA
+23D6:  BTSC    W0.F
+23D8:  BRA     23E2
+23DA:  BCLR.B  42.0
+23DC:  RLC     W0,W0
+23DE:  DEC     W1,W1
+23E0:  BRA     23D6
+23E2:  SWAP    W1
+23E4:  BCLR.B  42.0
+23E6:  RRC     W1,W1
+23E8:  BCLR    W0.F
+23EA:  SWAP    W0
+23EC:  XOR.B   W0L,W1L,W1L
+23EE:  AND.B   #0,W0L
+23F0:  BRA     2400
+23F2:  MOV.B   W1L,W0L
+23F4:  BSET    W1.7
+23F6:  AND.B   #0,W1L
+23F8:  BRA     2400
+23FA:  CLR     W0
+23FC:  CLR     W1
+23FE:  BRA     2400
+2400:  MOV     [--W15],W6
+2402:  MOV     [--W15],W5
+2404:  RETURN  
 ....................  
 .................... #list 
 ....................  
@@ -14294,134 +14413,134 @@ CCS PCD C Compiler, Version 5.015, 5967               13-Nov-17 10:39
 .................... /****************************************************************************/ 
 .................... void main () 
 *
-25AC:  MOV     #2780,W15
-25AE:  MOV     #27FF,W0
-25B0:  MOV     W0,20
-25B2:  NOP     
-25B4:  MOV     #4444,W0
-25B6:  MOV     W0,A8
-25B8:  BSET.B  81.7
-25BA:  MOV     #46,W0
-25BC:  MOV.B   W0L,742
-25BE:  MOV     #57,W0
-25C0:  MOV.B   W0L,742
-25C2:  BCLR.B  742.6
-25C4:  MOV     #13F,W0
-25C6:  MOV     W0,680
-25C8:  MOV     #3F03,W0
-25CA:  MOV     W0,682
-25CC:  MOV     #504,W0
-25CE:  MOV     W0,68E
-25D0:  MOV     #706,W0
-25D2:  MOV     W0,690
-25D4:  MOV     #3F0C,W0
-25D6:  MOV     W0,6A4
-25D8:  MOV     #13,W0
-25DA:  MOV     W0,6C0
-25DC:  MOV     #12,W0
-25DE:  MOV     W0,6C2
-25E0:  MOV     #300,W0
-25E2:  MOV     W0,6CC
-25E4:  MOV     #46,W0
-25E6:  MOV.B   W0L,742
-25E8:  MOV     #57,W0
-25EA:  MOV.B   W0L,742
-25EC:  BSET.B  742.6
-25EE:  CLR     744
-25F0:  MOV     #8000,W4
-25F2:  MOV     W4,220
-25F4:  MOV     #400,W4
-25F6:  MOV     W4,222
-25F8:  BSET.B  220.3
-25FA:  MOV     #22,W4
-25FC:  MOV     W4,228
-25FE:  BRA     264E
-2600:  DATA    80,02,03
-2602:  DATA    2C,FF,FF
-2604:  DATA    80,02,07
-2606:  DATA    44,00,00
-2608:  DATA    80,02,07
-260A:  DATA    44,00,00
-260C:  DATA    80,02,07
-260E:  DATA    44,00,00
-2610:  DATA    80,02,08
-2612:  DATA    00,00,00
-2614:  DATA    80,02,08
-2616:  DATA    00,00,00
-2618:  DATA    80,02,08
-261A:  DATA    00,00,00
-261C:  DATA    80,02,08
-261E:  DATA    00,00,00
-2620:  DATA    C0,E4,08
-2622:  DATA    08,00,00
-2624:  DATA    02,FF,FF
-2626:  DATA    40,0A,00
-2628:  DATA    00,06,FF
-262A:  DATA    FF,00,00
-262C:  DATA    00,00,C0
-262E:  DATA    31,09,4E
-2630:  DATA    00,00,00
-2632:  INC     W2,W2
-2634:  CP      W2,#1
-2636:  BRA     NZ,2640
-2638:  TBLRDL  [W1],W3
-263A:  TBLRDH  [W1++],W4
-263C:  MOV.B   6,W0L
-263E:  RETURN  
-2640:  CP      W2,#2
-2642:  BRA     NZ,2648
-2644:  MOV.B   7,W0L
-2646:  RETURN  
-2648:  MOV.B   8,W0L
-264A:  CLR     W2
-264C:  RETURN  
-264E:  MOV     #0,W6
-2650:  MOV     #0,W0
-2652:  MOV     W0,32
-2654:  MOV     #2600,W0
-2656:  MOV     W0,W1
-2658:  CLR     W2
-265A:  CALL    2632
-265E:  MOV.B   W0L,B
-2660:  CALL    2632
-2664:  MOV.B   W0L,A
-2666:  CP0     W5
-2668:  BRA     Z,269C
-266A:  BTSS    W5.F
-266C:  BRA     267C
-266E:  CALL    2632
-2672:  MOV.B   W0L,D
-2674:  CALL    2632
-2678:  MOV.B   W0L,C
-267A:  BCLR    W5.F
-267C:  BTSS    W5.E
-267E:  BRA     2690
-2680:  BCLR    W5.E
-2682:  DEC     W5,W5
-2684:  CALL    2632
-2688:  MOV.B   W0L,W7L
-268A:  REPEAT  W5
-268C:  MOV.B   W7L,[W6++]
-268E:  BRA     265A
-2690:  CALL    2632
-2694:  MOV.B   W0L,[W6++]
-2696:  DEC     W5,W5
-2698:  BRA     NZ,2690
-269A:  BRA     265A
-269C:  MOV     #A24,W4
-269E:  MOV     W4,806
-26A0:  MOV     #1D58,W4
-26A2:  MOV     W4,A24
-26A4:  CLR     A26
+277E:  MOV     #2780,W15
+2780:  MOV     #27FF,W0
+2782:  MOV     W0,20
+2784:  NOP     
+2786:  MOV     #4444,W0
+2788:  MOV     W0,A8
+278A:  BSET.B  81.7
+278C:  MOV     #46,W0
+278E:  MOV.B   W0L,742
+2790:  MOV     #57,W0
+2792:  MOV.B   W0L,742
+2794:  BCLR.B  742.6
+2796:  MOV     #13F,W0
+2798:  MOV     W0,680
+279A:  MOV     #3F03,W0
+279C:  MOV     W0,682
+279E:  MOV     #504,W0
+27A0:  MOV     W0,68E
+27A2:  MOV     #706,W0
+27A4:  MOV     W0,690
+27A6:  MOV     #3F0C,W0
+27A8:  MOV     W0,6A4
+27AA:  MOV     #13,W0
+27AC:  MOV     W0,6C0
+27AE:  MOV     #12,W0
+27B0:  MOV     W0,6C2
+27B2:  MOV     #300,W0
+27B4:  MOV     W0,6CC
+27B6:  MOV     #46,W0
+27B8:  MOV.B   W0L,742
+27BA:  MOV     #57,W0
+27BC:  MOV.B   W0L,742
+27BE:  BSET.B  742.6
+27C0:  CLR     744
+27C2:  MOV     #8000,W4
+27C4:  MOV     W4,220
+27C6:  MOV     #400,W4
+27C8:  MOV     W4,222
+27CA:  BSET.B  220.3
+27CC:  MOV     #22,W4
+27CE:  MOV     W4,228
+27D0:  BRA     2820
+27D2:  DATA    80,02,03
+27D4:  DATA    2C,FF,FF
+27D6:  DATA    80,02,07
+27D8:  DATA    44,00,00
+27DA:  DATA    80,02,07
+27DC:  DATA    44,00,00
+27DE:  DATA    80,02,07
+27E0:  DATA    44,00,00
+27E2:  DATA    80,02,08
+27E4:  DATA    00,00,00
+27E6:  DATA    80,02,08
+27E8:  DATA    00,00,00
+27EA:  DATA    80,02,08
+27EC:  DATA    00,00,00
+27EE:  DATA    80,02,08
+27F0:  DATA    00,00,00
+27F2:  DATA    C0,E4,08
+27F4:  DATA    08,00,00
+27F6:  DATA    02,FF,FF
+27F8:  DATA    40,0A,00
+27FA:  DATA    00,06,FF
+27FC:  DATA    FF,00,00
+27FE:  DATA    00,00,C0
+2800:  DATA    31,09,4E
+2802:  DATA    00,00,00
+2804:  INC     W2,W2
+2806:  CP      W2,#1
+2808:  BRA     NZ,2812
+280A:  TBLRDL  [W1],W3
+280C:  TBLRDH  [W1++],W4
+280E:  MOV.B   6,W0L
+2810:  RETURN  
+2812:  CP      W2,#2
+2814:  BRA     NZ,281A
+2816:  MOV.B   7,W0L
+2818:  RETURN  
+281A:  MOV.B   8,W0L
+281C:  CLR     W2
+281E:  RETURN  
+2820:  MOV     #0,W6
+2822:  MOV     #0,W0
+2824:  MOV     W0,32
+2826:  MOV     #27D2,W0
+2828:  MOV     W0,W1
+282A:  CLR     W2
+282C:  CALL    2804
+2830:  MOV.B   W0L,B
+2832:  CALL    2804
+2836:  MOV.B   W0L,A
+2838:  CP0     W5
+283A:  BRA     Z,286E
+283C:  BTSS    W5.F
+283E:  BRA     284E
+2840:  CALL    2804
+2844:  MOV.B   W0L,D
+2846:  CALL    2804
+284A:  MOV.B   W0L,C
+284C:  BCLR    W5.F
+284E:  BTSS    W5.E
+2850:  BRA     2862
+2852:  BCLR    W5.E
+2854:  DEC     W5,W5
+2856:  CALL    2804
+285A:  MOV.B   W0L,W7L
+285C:  REPEAT  W5
+285E:  MOV.B   W7L,[W6++]
+2860:  BRA     282C
+2862:  CALL    2804
+2866:  MOV.B   W0L,[W6++]
+2868:  DEC     W5,W5
+286A:  BRA     NZ,2862
+286C:  BRA     282C
+286E:  MOV     #A26,W4
+2870:  MOV     W4,806
+2872:  MOV     #1D56,W4
+2874:  MOV     W4,A26
+2876:  CLR     A28
 .................... {	 
 .................... 	InitialPID(&MotorX); 
-26A6:  MOV     #8FE,W4
-26A8:  MOV     W4,982
-26AA:  CALL    1F84
+2878:  MOV     #8FE,W4
+287A:  MOV     W4,982
+287C:  CALL    2156
 .................... 	InitialPID(&MotorY); 
-26AE:  MOV     #926,W4
-26B0:  MOV     W4,982
-26B2:  CALL    1F84
+2880:  MOV     #926,W4
+2882:  MOV     W4,982
+2884:  CALL    2156
 ....................  
 .................... 	// MotorX.Kp = 200; 
 .................... 	// MotorX.Ki = 0; 
@@ -14431,214 +14550,214 @@ CCS PCD C Compiler, Version 5.015, 5967               13-Nov-17 10:39
 .................... 	// MotorX.Kd = 60 ; 
 ....................  
 .................... 	MotorX.Kp = 10; 
-26B6:  CLR     8FE
-26B8:  MOV     #4120,W4
-26BA:  MOV     W4,900
+2888:  CLR     8FE
+288A:  MOV     #4120,W4
+288C:  MOV     W4,900
 .................... 	MotorX.Ki = 0; 
-26BC:  CLR     902
-26BE:  CLR     904
+288E:  CLR     902
+2890:  CLR     904
 .................... 	MotorX.Kd = 0 ; 
-26C0:  CLR     906
-26C2:  CLR     908
+2892:  CLR     906
+2894:  CLR     908
 .................... 	 
 .................... 	MotorY.Kp = 10; 
-26C4:  CLR     926
-26C6:  MOV     #4120,W4
-26C8:  MOV     W4,928
+2896:  CLR     926
+2898:  MOV     #4120,W4
+289A:  MOV     W4,928
 .................... 	MotorY.Ki = 0; 
-26CA:  CLR     92A
-26CC:  CLR     92C
+289C:  CLR     92A
+289E:  CLR     92C
 .................... 	MotorY.Kd = 0;	 
-26CE:  CLR     92E
-26D0:  CLR     930
+28A0:  CLR     92E
+28A2:  CLR     930
 ....................  
 .................... 	int8u errCode, SendTx1Count; 
 .................... 	DisableIntr(); 
-26D2:  CALL    2016
+28A4:  CALL    21E8
 .................... 	clear_interrupt(INT_EXT1); 
-26D6:  BCLR.B  86.4
+28A8:  BCLR.B  86.4
 .................... 	enable_interrupts(INT_EXT1); 
-26D8:  BSET.B  96.4
+28AA:  BSET.B  96.4
 ....................     clear_interrupt(INT_EXT2); 
-26DA:  BCLR.B  87.5
+28AC:  BCLR.B  87.5
 ....................     enable_interrupts(INT_EXT2); 
-26DC:  BSET.B  97.5
+28AE:  BSET.B  97.5
 .................... 	ext_int_edge(1,H_TO_L); 
-26DE:  BSET.B  82.1
+28B0:  BSET.B  82.1
 .................... 	ext_int_edge(2,H_TO_L); 
-26E0:  BSET.B  82.2
+28B2:  BSET.B  82.2
 .................... 	HardwareInit(); 
-26E2:  CALL    2020
+28B4:  CALL    21F2
 .................... 	GlobalVarInit(); 
-26E6:  CALL    208E
+28B8:  CALL    2260
 .................... 	DynamicMemInit(); 
-26EA:  CALL    20A4
+28BC:  CALL    2276
 .................... 	UARTQueueInit(); 
-26EE:  CALL    214C
+28C0:  CALL    231E
 .................... 	EnableIntr(); 
-26F2:  CALL    216E
+28C4:  CALL    2340
 .................... 	for (;;) 
 .................... 	{ 
 .................... 		/* code */ 
 .................... 		DisableIntr(); 
-26F6:  CALL    2016
+28C8:  CALL    21E8
 .................... 		QPtrXGet(&Rx1QCB,&DestPtrStruct,&errCode); 
-26FA:  MOV     #8A8,W4
-26FC:  MOV     W4,982
-26FE:  MOV     #8C2,W4
-2700:  MOV     W4,984
-2702:  MOV     #980,W4
-2704:  MOV     W4,986
-2706:  CALL    2176
+28CC:  MOV     #8A8,W4
+28CE:  MOV     W4,982
+28D0:  MOV     #8C2,W4
+28D2:  MOV     W4,984
+28D4:  MOV     #980,W4
+28D6:  MOV     W4,986
+28D8:  CALL    2348
 .................... 		if(errCode == Q_OK) 
-270A:  CP0.B   980
-270C:  BRA     NZ,273A
+28DC:  CP0.B   980
+28DE:  BRA     NZ,290C
 .................... 		{ 
 .................... 			// SendTx1Count = SendTx1((int8u *)DestPtrStruct.blockPtr); 
 .................... 			CheckProtocal((int8u *)DestPtrStruct.blockPtr); 
-270E:  PUSH    8C2
-2710:  POP     982
-2712:  CALL    2318
-2716:  PUSH    42
-2718:  BCLR.B  81.7
-271A:  SETM.B  42
-271C:  BSET.B  81.7
+28E0:  PUSH    8C2
+28E2:  POP     982
+28E4:  CALL    24EA
+28E8:  PUSH    42
+28EA:  BCLR.B  81.7
+28EC:  SETM.B  42
+28EE:  BSET.B  81.7
 .................... 			free ((void *)DestPtrStruct.blockPtr); 
-271E:  PUSH    8C2
-2720:  POP     9E6
-2722:  CALL    1BAA
-2726:  BCLR.B  81.7
-2728:  POP     42
-272A:  BSET.B  81.7
+28F0:  PUSH    8C2
+28F2:  POP     9F2
+28F4:  CALL    1D7C
+28F8:  BCLR.B  81.7
+28FA:  POP     42
+28FC:  BSET.B  81.7
 .................... 			MemCount--; 
-272C:  DEC     08DA
+28FE:  DEC     08DA
 .................... 			EnableIntr(); 
-272E:  CALL    216E
+2900:  CALL    2340
 .................... 			if (SendTx1Count == 0) 
-2732:  CP0.B   981
-2734:  BRA     NZ,2738
+2904:  CP0.B   981
+2906:  BRA     NZ,290A
 .................... 			{ 
 .................... 				/* code */ 
 .................... 				output_low(LED3); 
-2736:  BCLR.B  2CC.3
+2908:  BCLR.B  2CC.3
 .................... 			} 
 .................... 		} 
-2738:  BRA     273E
+290A:  BRA     2910
 .................... 		else 
 .................... 		{ 
 .................... 			EnableIntr(); 
-273A:  CALL    216E
+290C:  CALL    2340
 .................... 		} 
-273E:  BRA     26F6
+2910:  BRA     28C8
 .................... 	} 
 .................... } 
 ....................  
-2740:  PWRSAV  #0
+2912:  PWRSAV  #0
 .................... /****************************************************************************/ 
 .................... static void HardwareInit() 
 *
-2020:  MOV     W5,[W15++]
+21F2:  MOV     W5,[W15++]
 .................... { 
 .................... 	setup_adc_ports(NO_ANALOGS); 
-2022:  SETM    32C
+21F4:  SETM    32C
 .................... 									 //  	1 2 3 4 	5 6 7 8		9 10 11 12   13 14 15 16  
 .................... 	set_tris_a(get_tris_a() & 0xffe0); //   1 1 1 1     1 1 1 1     1  1  1  0    0	 0  0  0   
-2024:  MOV     2C0,W5
-2026:  MOV     #FFE0,W0
-2028:  AND     W0,W5,W5
-202A:  MOV     W5,2C0
+21F6:  MOV     2C0,W5
+21F8:  MOV     #FFE0,W0
+21FA:  AND     W0,W5,W5
+21FC:  MOV     W5,2C0
 .................... 	set_tris_b(0xfffa); 				//	1 1 1 1     1 1 1 1     1  1  1  1    1	 0  1  0 
-202C:  MOV     #FFFA,W4
-202E:  MOV     W4,2C8
+21FE:  MOV     #FFFA,W4
+2200:  MOV     W4,2C8
 ....................  
 .................... 	output_high(LED0); 
-2030:  BSET.B  2C4.2
+2202:  BSET.B  2C4.2
 .................... 	output_high(LED1); 
-2032:  BSET.B  2C4.4
+2204:  BSET.B  2C4.4
 .................... 	output_high(LED2); 
-2034:  BSET.B  2CC.2
+2206:  BSET.B  2CC.2
 .................... 	output_high(LED3); 
-2036:  BSET.B  2CC.3
+2208:  BSET.B  2CC.3
 ....................  
 .................... 	set_compare_time(1,0); 
-2038:  CLR     182
+220A:  CLR     182
 .................... 	setup_compare(1,COMPARE_PWM | COMPARE_TIMER3); 
-203A:  MOV     #E,W4
-203C:  MOV     W4,184
+220C:  MOV     #E,W4
+220E:  MOV     W4,184
 ....................  
 .................... 	set_compare_time(2,0); 
-203E:  CLR     188
+2210:  CLR     188
 .................... 	setup_compare(2,COMPARE_PWM | COMPARE_TIMER3); 
-2040:  MOV     #E,W4
-2042:  MOV     W4,18A
+2212:  MOV     #E,W4
+2214:  MOV     W4,18A
 ....................  
 .................... 	set_timer3(0); 
-2044:  CLR     10A
+2216:  CLR     10A
 .................... 	setup_timer3(TMR_INTERNAL | TMR_DIV_BY_1 , 999); 
-2046:  CLR     112
-2048:  MOV     #3E7,W4
-204A:  MOV     W4,10E
-204C:  MOV     #8000,W4
-204E:  MOV     W4,112
+2218:  CLR     112
+221A:  MOV     #3E7,W4
+221C:  MOV     W4,10E
+221E:  MOV     #8000,W4
+2220:  MOV     W4,112
 .................... 	/* FreqPWM = 16 MHz  / 10000 = 1.6 KHz | Now 16 KHz*/  
 ....................  
 .................... 	setup_capture(1, CAPTURE_EE | INTERRUPT_EVERY_CAPTURE | CAPTURE_TIMER2); 
-2050:  MOV     #81,W4
-2052:  MOV     W4,142
+2222:  MOV     #81,W4
+2224:  MOV     W4,142
 .................... 	clear_interrupt(INT_IC1); 
-2054:  BCLR.B  84.1
+2226:  BCLR.B  84.1
 .................... 	enable_interrupts(INT_IC1); 
-2056:  BSET.B  94.1
+2228:  BSET.B  94.1
 ....................  
 .................... 	setup_capture(2, CAPTURE_EE | INTERRUPT_EVERY_CAPTURE | CAPTURE_TIMER2); 
-2058:  MOV     #81,W4
-205A:  MOV     W4,146
+222A:  MOV     #81,W4
+222C:  MOV     W4,146
 .................... 	clear_interrupt(INT_IC2); 
-205C:  BCLR.B  84.5
+222E:  BCLR.B  84.5
 .................... 	enable_interrupts(INT_IC2); 
-205E:  BSET.B  94.5
+2230:  BSET.B  94.5
 ....................  
 .................... 	setup_capture(3, CAPTURE_EE | INTERRUPT_EVERY_CAPTURE | CAPTURE_TIMER2); 
-2060:  MOV     #81,W4
-2062:  MOV     W4,14A
+2232:  MOV     #81,W4
+2234:  MOV     W4,14A
 .................... 	clear_interrupt(INT_IC3); 
-2064:  BCLR.B  88.5
+2236:  BCLR.B  88.5
 .................... 	enable_interrupts(INT_IC3); 
-2066:  BSET.B  98.5
+2238:  BSET.B  98.5
 ....................  
 .................... 	setup_capture(4, CAPTURE_EE | INTERRUPT_EVERY_CAPTURE | CAPTURE_TIMER2); 
-2068:  MOV     #81,W4
-206A:  MOV     W4,14E
+223A:  MOV     #81,W4
+223C:  MOV     W4,14E
 .................... 	clear_interrupt(INT_IC4); 
-206C:  BCLR.B  88.6
+223E:  BCLR.B  88.6
 .................... 	enable_interrupts(INT_IC4); 
-206E:  BSET.B  98.6
+2240:  BSET.B  98.6
 .................... 	/* INPUT CAPTURE PULSE OF ENCODER */ 
 .................... 	/* Try to read encoder and on/off led represent CHA CHB */ 
 ....................  
 .................... 	set_timer2(0); 
-2070:  CLR     106
+2242:  CLR     106
 .................... 	setup_timer2(TMR_INTERNAL | TMR_DIV_BY_1 , 65535); 
-2072:  CLR     110
-2074:  SETM    10C
-2076:  MOV     #8000,W4
-2078:  MOV     W4,110
+2244:  CLR     110
+2246:  SETM    10C
+2248:  MOV     #8000,W4
+224A:  MOV     W4,110
 .................... 	 
 ....................  
 .................... 	clear_interrupt(INT_TIMER5); 
-207A:  BCLR.B  87.4
+224C:  BCLR.B  87.4
 .................... 	set_timer5(0); 
-207C:  CLR     118
+224E:  CLR     118
 .................... 	setup_timer5(TMR_INTERNAL | TMR_DIV_BY_256,6249); 
-207E:  CLR     120
-2080:  MOV     #1869,W4
-2082:  MOV     W4,11C
-2084:  MOV     #8030,W4
-2086:  MOV     W4,120
+2250:  CLR     120
+2252:  MOV     #1869,W4
+2254:  MOV     W4,11C
+2256:  MOV     #8030,W4
+2258:  MOV     W4,120
 .................... 	enable_interrupts(INT_TIMER5); 
-2088:  BSET.B  97.4
-208A:  MOV     [--W15],W5
-208C:  RETURN  
+225A:  BSET.B  97.4
+225C:  MOV     [--W15],W5
+225E:  RETURN  
 .................... 	// disable_interrupts(INT_TIMER5); 
 .................... 	// enable_interrupts(INT_TIMER5); 
 ....................  
@@ -14647,91 +14766,91 @@ CCS PCD C Compiler, Version 5.015, 5967               13-Nov-17 10:39
 .................... static void GlobalVarInit() 
 .................... { 
 .................... 	Tx1Flag = TX1_READY; 
-208E:  BSET.B  898.0
+2260:  BSET.B  898.0
 .................... 	Tx1BuffIdx = 0; 
-2090:  CLR     896
+2262:  CLR     896
 .................... 	Tx1FrameIn = 0; 
-2092:  CLR     89A
+2264:  CLR     89A
 .................... 	Tx1FrameOut = 0; 
-2094:  CLR     89C
+2266:  CLR     89C
 .................... 	Tx1QFullCount = 0; 
-2096:  CLR     8A2
+2268:  CLR     8A2
 .................... 	Rx1FrameCount = 0; 
-2098:  CLR     89E
+226A:  CLR     89E
 .................... 	RxCount = 0; 
-209A:  CLR     8A0
+226C:  CLR     8A0
 .................... 	Rx1QFullCount = 0; 
-209C:  CLR     8A4
+226E:  CLR     8A4
 .................... 	MemFail = 0; 
-209E:  CLR     8D8
+2270:  CLR     8D8
 .................... 	MemCount = 0; 
-20A0:  CLR     8DA
+2272:  CLR     8DA
 .................... 	return; 
-20A2:  RETURN  
+2274:  RETURN  
 .................... } 
 ....................  
 .................... static void DynamicMemInit() 
-20A4:  PUSH    42
-20A6:  BCLR.B  81.7
-20A8:  SETM.B  42
-20AA:  BSET.B  81.7
+2276:  PUSH    42
+2278:  BCLR.B  81.7
+227A:  SETM.B  42
+227C:  BSET.B  81.7
 .................... { 
 .................... 	RxBuffPtr = (int8u *)malloc ((sizeof (int8u)) * RX_CMND_FRM_LN); 
-20AC:  MOV     #10,W4
-20AE:  MOV     W4,9EC
-20B0:  CALL    1C44
-20B4:  BCLR.B  81.7
-20B6:  POP     42
-20B8:  BSET.B  81.7
-20BA:  MOV     W0,8A6
+227E:  MOV     #10,W4
+2280:  MOV     W4,9EE
+2282:  CALL    1E16
+2286:  BCLR.B  81.7
+2288:  POP     42
+228A:  BSET.B  81.7
+228C:  MOV     W0,8A6
 .................... 	if (RxBuffPtr != (int8u *)NULL) 
-20BC:  CP0     8A6
-20BE:  BRA     Z,20CC
+228E:  CP0     8A6
+2290:  BRA     Z,229E
 .................... 	{ 
 .................... 		MemCount++; 
-20C0:  INC     08DA
+2292:  INC     08DA
 .................... 		clear_interrupt(INT_RDA); 
-20C2:  REPEAT  #3
-20C4:  MOV     226,W0
-20C6:  BCLR.B  85.3
+2294:  REPEAT  #3
+2296:  MOV     226,W0
+2298:  BCLR.B  85.3
 .................... 		enable_interrupts(INT_RDA); 
-20C8:  BSET.B  95.3
+229A:  BSET.B  95.3
 .................... 	} 
-20CA:  BRA     20CE
+229C:  BRA     22A0
 .................... 	else 
 .................... 	{ 
 .................... 		MemFail++; 
-20CC:  INC     08D8
+229E:  INC     08D8
 .................... 	} 
 .................... 	return; 
-20CE:  RETURN  
+22A0:  RETURN  
 .................... } 
 ....................  
 .................... static void UARTQueueInit() 
 .................... { 
 .................... 	QPtrXInit (&Rx1QCB, Rx1BuffPtrArray, RX1Q_LN); 
 *
-214C:  MOV     #8A8,W4
-214E:  MOV     W4,982
-2150:  MOV     #8B2,W4
-2152:  MOV     W4,984
-2154:  MOV     #8,W4
-2156:  MOV     W4,986
-2158:  CALL    20D0
+231E:  MOV     #8A8,W4
+2320:  MOV     W4,982
+2322:  MOV     #8B2,W4
+2324:  MOV     W4,984
+2326:  MOV     #8,W4
+2328:  MOV     W4,986
+232A:  CALL    22A2
 .................... 	Q8UXInit(&Tx1QCB,Tx1QArray,TX1Q_LN); 
-215C:  MOV     #80A,W4
-215E:  MOV     W4,982
-2160:  MOV     #814,W4
-2162:  MOV     W4,984
-2164:  MOV     #80,W4
-2166:  MOV     W4,986
-2168:  CALL    210E
+232E:  MOV     #80A,W4
+2330:  MOV     W4,982
+2332:  MOV     #814,W4
+2334:  MOV     W4,984
+2336:  MOV     #80,W4
+2338:  MOV     W4,986
+233A:  CALL    22E0
 .................... 	return; 
-216C:  RETURN  
+233E:  RETURN  
 .................... } 
 .................... static int8u SendTx1 (int8u *strPtr) 
 *
-22B0:  MOV     W5,[W15++]
+2482:  MOV     W5,[W15++]
 .................... { 
 .................... 	int8u strLn; 
 .................... 	int8u strIdx; 
@@ -14739,99 +14858,99 @@ CCS PCD C Compiler, Version 5.015, 5967               13-Nov-17 10:39
 .................... 	int8u errCode; 
 .................... 	int8u count; 
 .................... 	count = 0; 
-22B2:  CLR.B   997
+2484:  CLR.B   997
 .................... 	strLn = strPtr[3]+4; 
-22B4:  MOV     #3,W0
-22B6:  ADD     990,W0
-22B8:  MOV.B   [W0],W4L
-22BA:  ADD.B   W4L,#4,W4L
-22BC:  MOV.B   W4L,W0L
-22BE:  MOV.B   W0L,992
+2486:  MOV     #3,W0
+2488:  ADD     990,W0
+248A:  MOV.B   [W0],W4L
+248C:  ADD.B   W4L,#4,W4L
+248E:  MOV.B   W4L,W0L
+2490:  MOV.B   W0L,992
 .................... 	if (strLn != 0) 
-22C0:  CP0.B   992
-22C2:  BRA     Z,2312
+2492:  CP0.B   992
+2494:  BRA     Z,24E4
 .................... 	{ 
 .................... 		/* code */ 
 .................... 		qSpace = TX1Q_LN - Q8UXCount(&Tx1QCB); 
-22C4:  MOV     #80A,W4
-22C6:  MOV     W4,99A
-22C8:  CALL    2234
-22CC:  MOV     #80,W4
-22CE:  SUB     W4,W0,W0
-22D0:  MOV     W0,994
+2496:  MOV     #80A,W4
+2498:  MOV     W4,99A
+249A:  CALL    2406
+249E:  MOV     #80,W4
+24A0:  SUB     W4,W0,W0
+24A2:  MOV     W0,994
 .................... 		if (qSpace >= (int16u)strLn) 
-22D2:  MOV.B   992,W0L
-22D4:  CLR.B   1
-22D6:  MOV     994,W4
-22D8:  CP      W4,W0
-22DA:  BRA     NC,2312
+24A4:  MOV.B   992,W0L
+24A6:  CLR.B   1
+24A8:  MOV     994,W4
+24AA:  CP      W4,W0
+24AC:  BRA     NC,24E4
 .................... 		{ 
 .................... 			/* code */ 
 .................... 			for(strIdx = 0; strIdx < strLn; strIdx++) 
-22DC:  CLR.B   993
-22DE:  MOV.B   993,W0L
-22E0:  MOV     992,W4
-22E2:  CP.B    W4L,W0L
-22E4:  BRA     LEU,2308
+24AE:  CLR.B   993
+24B0:  MOV.B   993,W0L
+24B2:  MOV     992,W4
+24B4:  CP.B    W4L,W0L
+24B6:  BRA     LEU,24DA
 .................... 			{ 
 .................... 				Q8UXPut(&Tx1QCB,strPtr[strIdx],&errCode); 
-22E6:  MOV     992,W4
-22E8:  LSR     W4,#8,W4
-22EA:  MOV     W4,W0
-22EC:  ADD     990,W0
-22EE:  MOV.B   [W0],W5L
-22F0:  PUSH    99E
-22F2:  MOV.B   W5L,[W15-#2]
-22F4:  POP     99E
-22F6:  MOV     #80A,W4
-22F8:  MOV     W4,99C
-22FA:  MOV     #996,W4
-22FC:  MOV     W4,9A0
-22FE:  CALL    2244
+24B8:  MOV     992,W4
+24BA:  LSR     W4,#8,W4
+24BC:  MOV     W4,W0
+24BE:  ADD     990,W0
+24C0:  MOV.B   [W0],W5L
+24C2:  PUSH    99E
+24C4:  MOV.B   W5L,[W15-#2]
+24C6:  POP     99E
+24C8:  MOV     #80A,W4
+24CA:  MOV     W4,99C
+24CC:  MOV     #996,W4
+24CE:  MOV     W4,9A0
+24D0:  CALL    2416
 .................... 				count++; 
-2302:  INC.B   0997
-2304:  INC.B   0993
-2306:  BRA     22DE
+24D4:  INC.B   0997
+24D6:  INC.B   0993
+24D8:  BRA     24B0
 .................... 			} 
 .................... 			if(Tx1Flag == TX1_READY) 
-2308:  BTSS.B  898.0
-230A:  BRA     2312
+24DA:  BTSS.B  898.0
+24DC:  BRA     24E4
 .................... 			{ 
 .................... 				Tx1Flag = TX1_BUSY; 
-230C:  BCLR.B  898.0
+24DE:  BCLR.B  898.0
 .................... 				TX1IF = 1; 
-230E:  BSET.B  85.4
+24E0:  BSET.B  85.4
 .................... 				enable_interrupts(INT_TBE); 
-2310:  BSET.B  95.4
+24E2:  BSET.B  95.4
 .................... 			} 
 .................... 		} 
 .................... 	} 
 .................... 	return count; 
-2312:  MOV.B   997,W0L
-2314:  MOV     [--W15],W5
-2316:  RETURN  
+24E4:  MOV.B   997,W0L
+24E6:  MOV     [--W15],W5
+24E8:  RETURN  
 .................... } 
 ....................  
 .................... void MotorMovingX(int speed , int direction) 
 .................... { 
 .................... 	if(speed >= 750) 
 *
-1210:  MOV     9EE,W4
+1210:  MOV     9E8,W4
 1212:  MOV     #2EE,W3
 1214:  CP      W3,W4
 1216:  BRA     GT,121C
 .................... 	{ 
 .................... 		speed = 750; 
 1218:  MOV     #2EE,W4
-121A:  MOV     W4,9EE
+121A:  MOV     W4,9E8
 .................... 	} 
 ....................  
 .................... 	if (direction == CCW) 
-121C:  CP0     9F0
+121C:  CP0     9EA
 121E:  BRA     NZ,122A
 .................... 	{ 
 .................... 		set_pwm_duty(1,speed); 
-1220:  PUSH    9EE
+1220:  PUSH    9E8
 1222:  POP     180
 .................... 		output_high(MOTORINX1); 
 1224:  BSET.B  2C4.2
@@ -14840,12 +14959,12 @@ CCS PCD C Compiler, Version 5.015, 5967               13-Nov-17 10:39
 .................... 	} 
 1228:  BRA     1246
 .................... 	else if (direction == CW) 
-122A:  MOV     9F0,W4
+122A:  MOV     9EA,W4
 122C:  CP      W4,#1
 122E:  BRA     NZ,123A
 .................... 	{ 
 .................... 		set_pwm_duty(1,speed); 
-1230:  PUSH    9EE
+1230:  PUSH    9E8
 1232:  POP     180
 .................... 		output_high(MOTORINX2); 
 1234:  BSET.B  2C4.4
@@ -14854,7 +14973,7 @@ CCS PCD C Compiler, Version 5.015, 5967               13-Nov-17 10:39
 .................... 	} 
 1238:  BRA     1246
 .................... 	else if (direction == BREAK) 
-123A:  MOV     9F0,W4
+123A:  MOV     9EA,W4
 123C:  CP      W4,#2
 123E:  BRA     NZ,1246
 .................... 	{ 
@@ -14872,23 +14991,23 @@ CCS PCD C Compiler, Version 5.015, 5967               13-Nov-17 10:39
 .................... void MotorMovingY(int speed , int direction) 
 .................... { 
 .................... 	if(speed >= 750) 
-1248:  MOV     9E6,W4
+1248:  MOV     9F2,W4
 124A:  MOV     #2EE,W3
 124C:  CP      W3,W4
 124E:  BRA     GT,1254
 .................... 	{ 
 .................... 		speed = 750; 
 1250:  MOV     #2EE,W4
-1252:  MOV     W4,9E6
+1252:  MOV     W4,9F2
 .................... 	} 
 ....................  
 .................... 	if (direction == CW) 
-1254:  MOV     9E8,W4
+1254:  MOV     9F4,W4
 1256:  CP      W4,#1
 1258:  BRA     NZ,1264
 .................... 	{ 
 .................... 		set_pwm_duty(2,speed); 
-125A:  PUSH    9E6
+125A:  PUSH    9F2
 125C:  POP     186
 .................... 		output_high(MOTORINY1); 
 125E:  BSET.B  2C4.0
@@ -14897,11 +15016,11 @@ CCS PCD C Compiler, Version 5.015, 5967               13-Nov-17 10:39
 .................... 	} 
 1262:  BRA     127E
 .................... 	else if (direction == CCW) 
-1264:  CP0     9E8
+1264:  CP0     9F4
 1266:  BRA     NZ,1272
 .................... 	{ 
 .................... 		set_pwm_duty(2,speed); 
-1268:  PUSH    9E6
+1268:  PUSH    9F2
 126A:  POP     186
 .................... 		output_high(MOTORINY2); 
 126C:  BSET.B  2C4.1
@@ -14910,7 +15029,7 @@ CCS PCD C Compiler, Version 5.015, 5967               13-Nov-17 10:39
 .................... 	} 
 1270:  BRA     127E
 .................... 	else if (direction == BREAK) 
-1272:  MOV     9E8,W4
+1272:  MOV     9F4,W4
 1274:  CP      W4,#2
 1276:  BRA     NZ,127E
 .................... 	{ 
@@ -15096,1064 +15215,1164 @@ CCS PCD C Compiler, Version 5.015, 5967               13-Nov-17 10:39
 ....................  
 .................... void CheckProtocal(int8u *arrayPtr) 
 *
-2318:  MOV     W5,[W15++]
-231A:  MOV     W6,[W15++]
+24EA:  MOV     W5,[W15++]
+24EC:  MOV     W6,[W15++]
 .................... { 
 .................... 	StateResetX = 0; 
-231C:  CLR.B   97A
+24EE:  CLR.B   97A
 .................... 	StateResetY = 0; 
-231E:  CLR.B   97B
+24F0:  CLR.B   97B
 .................... 	StateBreakX = 0; 
-2320:  CLR.B   978
+24F2:  CLR.B   978
 .................... 	StateBreakY = 0; 
-2322:  CLR.B   979
+24F4:  CLR.B   979
 .................... 	StateMotorX = 0; 
-2324:  CLR.B   96B
+24F6:  CLR.B   96B
 .................... 	StateMotorY = 0; 
-2326:  CLR.B   974
+24F8:  CLR.B   974
 .................... 	StatePID = 0; 
-2328:  CLR     96E
+24FA:  CLR     96E
 .................... 	if(arrayPtr[0] == 0xff) 
-232A:  MOV     #0,W0
-232C:  ADD     982,W0
-232E:  MOV.B   [W0],W4L
-2330:  XOR.B   #FF,W4L
-2332:  BRA     NZ,25A6
+24FC:  MOV     #0,W0
+24FE:  ADD     982,W0
+2500:  MOV.B   [W0],W4L
+2502:  XOR.B   #FF,W4L
+2504:  BRA     NZ,2778
 .................... 	{ 
 .................... 		if(arrayPtr[1] == 0xff) 
-2334:  MOV     #1,W0
-2336:  ADD     982,W0
-2338:  MOV.B   [W0],W4L
-233A:  XOR.B   #FF,W4L
-233C:  BRA     NZ,25A6
+2506:  MOV     #1,W0
+2508:  ADD     982,W0
+250A:  MOV.B   [W0],W4L
+250C:  XOR.B   #FF,W4L
+250E:  BRA     NZ,2778
 .................... 		{ 
 .................... 			if(arrayPtr[2] == 0x01) 
-233E:  MOV     #2,W0
-2340:  ADD     982,W0
-2342:  MOV.B   [W0],W4L
-2344:  CP.B    W4L,#1
-2346:  BRA     NZ,25A6
+2510:  MOV     #2,W0
+2512:  ADD     982,W0
+2514:  MOV.B   [W0],W4L
+2516:  CP.B    W4L,#1
+2518:  BRA     NZ,2778
 .................... 			{ 
 .................... 				if(arrayPtr[4] == 0) 
-2348:  MOV     #4,W0
-234A:  ADD     982,W0
-234C:  CP0.B   [W0]
-234E:  BRA     NZ,236C
+251A:  MOV     #4,W0
+251C:  ADD     982,W0
+251E:  CP0.B   [W0]
+2520:  BRA     NZ,253E
 .................... 				{ 
 .................... 					// printf("Monalisa Activate\n"); 
 .................... 					// printf("Reset!\n"); 
 .................... 					// StateResetX = 1; 
 .................... 					// StateResetY = 1; 
 .................... 					StateMotorX = 1; 
-2350:  MOV.B   #1,W0L
-2352:  MOV.B   W0L,96B
+2522:  MOV.B   #1,W0L
+2524:  MOV.B   W0L,96B
 .................... 					StateBreakX = 0; 
-2354:  CLR.B   978
+2526:  CLR.B   978
 .................... 					StateDirectionX = 1; 
-2356:  MOV.B   #1,W0L
-2358:  MOV.B   W0L,975
+2528:  MOV.B   #1,W0L
+252A:  MOV.B   W0L,975
 .................... 					speedX = 300; 
-235A:  MOV     #12C,W4
-235C:  MOV     W4,970
+252C:  MOV     #12C,W4
+252E:  MOV     W4,970
 .................... 					StateMotorY = 1; 
-235E:  MOV.B   #1,W0L
-2360:  MOV.B   W0L,974
+2530:  MOV.B   #1,W0L
+2532:  MOV.B   W0L,974
 .................... 					StateBreakY = 0; 
-2362:  CLR.B   979
+2534:  CLR.B   979
 .................... 					StateDirectionY = 1; 
-2364:  MOV.B   #1,W0L
-2366:  MOV.B   W0L,976
+2536:  MOV.B   #1,W0L
+2538:  MOV.B   W0L,976
 .................... 					speedY = 500; 
-2368:  MOV     #1F4,W4
-236A:  MOV     W4,972
+253A:  MOV     #1F4,W4
+253C:  MOV     W4,972
 .................... 				} 
 ....................  
 .................... 				if(arrayPtr[4] == 9) 
-236C:  MOV     #4,W0
-236E:  ADD     982,W0
-2370:  MOV.B   [W0],W4L
-2372:  CP.B    W4L,#9
-2374:  BRA     NZ,23B6
+253E:  MOV     #4,W0
+2540:  ADD     982,W0
+2542:  MOV.B   [W0],W4L
+2544:  CP.B    W4L,#9
+2546:  BRA     NZ,2588
 .................... 				{ 
 .................... 					speedX = convert_8to16bit(arrayPtr[5],arrayPtr[6]); 
-2376:  MOV     #5,W0
-2378:  ADD     982,W0
-237A:  MOV.B   [W0],W5L
-237C:  MOV     #6,W0
-237E:  ADD     982,W0
-2380:  MOV.B   [W0],W6L
-2382:  PUSH    994
-2384:  MOV.B   W5L,[W15-#2]
-2386:  POP     994
-2388:  PUSH    994
-238A:  MOV.B   W6L,[W15-#1]
-238C:  POP     994
-238E:  CALL    21E0
-2392:  MOV     W0,970
+2548:  MOV     #5,W0
+254A:  ADD     982,W0
+254C:  MOV.B   [W0],W5L
+254E:  MOV     #6,W0
+2550:  ADD     982,W0
+2552:  MOV.B   [W0],W6L
+2554:  PUSH    994
+2556:  MOV.B   W5L,[W15-#2]
+2558:  POP     994
+255A:  PUSH    994
+255C:  MOV.B   W6L,[W15-#1]
+255E:  POP     994
+2560:  CALL    23B2
+2564:  MOV     W0,970
 .................... 					StateMotorX = 1; 
-2394:  MOV.B   #1,W0L
-2396:  MOV.B   W0L,96B
+2566:  MOV.B   #1,W0L
+2568:  MOV.B   W0L,96B
 .................... 					StateBreakX = 0; 
-2398:  CLR.B   978
+256A:  CLR.B   978
 .................... 					if(arrayPtr[7] == 0) 
-239A:  MOV     #7,W0
-239C:  ADD     982,W0
-239E:  CP0.B   [W0]
-23A0:  BRA     NZ,23A6
+256C:  MOV     #7,W0
+256E:  ADD     982,W0
+2570:  CP0.B   [W0]
+2572:  BRA     NZ,2578
 .................... 					{ 
 .................... 						StateDirectionX = 0; 
-23A2:  CLR.B   975
+2574:  CLR.B   975
 .................... 					} 
-23A4:  BRA     23B4
+2576:  BRA     2586
 .................... 					else if(arrayPtr[7] == 1) 
-23A6:  MOV     #7,W0
-23A8:  ADD     982,W0
-23AA:  MOV.B   [W0],W4L
-23AC:  CP.B    W4L,#1
-23AE:  BRA     NZ,23B4
+2578:  MOV     #7,W0
+257A:  ADD     982,W0
+257C:  MOV.B   [W0],W4L
+257E:  CP.B    W4L,#1
+2580:  BRA     NZ,2586
 .................... 					{ 
 .................... 						StateDirectionX = 1; 
-23B0:  MOV.B   #1,W0L
-23B2:  MOV.B   W0L,975
+2582:  MOV.B   #1,W0L
+2584:  MOV.B   W0L,975
 .................... 					} 
 .................... 				} 
-23B4:  BRA     23FE
+2586:  BRA     25D0
 .................... 				else if(arrayPtr[4] == 10) 
-23B6:  MOV     #4,W0
-23B8:  ADD     982,W0
-23BA:  MOV.B   [W0],W4L
-23BC:  CP.B    W4L,#A
-23BE:  BRA     NZ,23FE
+2588:  MOV     #4,W0
+258A:  ADD     982,W0
+258C:  MOV.B   [W0],W4L
+258E:  CP.B    W4L,#A
+2590:  BRA     NZ,25D0
 .................... 				{ 
 .................... 					speedY = convert_8to16bit(arrayPtr[5],arrayPtr[6]); 
-23C0:  MOV     #5,W0
-23C2:  ADD     982,W0
-23C4:  MOV.B   [W0],W5L
-23C6:  MOV     #6,W0
-23C8:  ADD     982,W0
-23CA:  MOV.B   [W0],W6L
-23CC:  PUSH    994
-23CE:  MOV.B   W5L,[W15-#2]
-23D0:  POP     994
-23D2:  PUSH    994
-23D4:  MOV.B   W6L,[W15-#1]
-23D6:  POP     994
-23D8:  CALL    21E0
-23DC:  MOV     W0,972
+2592:  MOV     #5,W0
+2594:  ADD     982,W0
+2596:  MOV.B   [W0],W5L
+2598:  MOV     #6,W0
+259A:  ADD     982,W0
+259C:  MOV.B   [W0],W6L
+259E:  PUSH    994
+25A0:  MOV.B   W5L,[W15-#2]
+25A2:  POP     994
+25A4:  PUSH    994
+25A6:  MOV.B   W6L,[W15-#1]
+25A8:  POP     994
+25AA:  CALL    23B2
+25AE:  MOV     W0,972
 .................... 					StateMotorY = 1; 
-23DE:  MOV.B   #1,W0L
-23E0:  MOV.B   W0L,974
+25B0:  MOV.B   #1,W0L
+25B2:  MOV.B   W0L,974
 .................... 					StateBreakY = 0; 
-23E2:  CLR.B   979
+25B4:  CLR.B   979
 .................... 					if(arrayPtr[7] == 0) 
-23E4:  MOV     #7,W0
-23E6:  ADD     982,W0
-23E8:  CP0.B   [W0]
-23EA:  BRA     NZ,23F0
+25B6:  MOV     #7,W0
+25B8:  ADD     982,W0
+25BA:  CP0.B   [W0]
+25BC:  BRA     NZ,25C2
 .................... 					{ 
 .................... 						StateDirectionY = 0; 
-23EC:  CLR.B   976
+25BE:  CLR.B   976
 .................... 					} 
-23EE:  BRA     23FE
+25C0:  BRA     25D0
 .................... 					else if(arrayPtr[7] == 1) 
-23F0:  MOV     #7,W0
-23F2:  ADD     982,W0
-23F4:  MOV.B   [W0],W4L
-23F6:  CP.B    W4L,#1
-23F8:  BRA     NZ,23FE
+25C2:  MOV     #7,W0
+25C4:  ADD     982,W0
+25C6:  MOV.B   [W0],W4L
+25C8:  CP.B    W4L,#1
+25CA:  BRA     NZ,25D0
 .................... 					{ 
 .................... 						StateDirectionY = 1; 
-23FA:  MOV.B   #1,W0L
-23FC:  MOV.B   W0L,976
+25CC:  MOV.B   #1,W0L
+25CE:  MOV.B   W0L,976
 .................... 					} 
 .................... 				} 
 ....................  
 .................... 				if(arrayPtr[4] == 12) 
-23FE:  MOV     #4,W0
-2400:  ADD     982,W0
-2402:  MOV.B   [W0],W4L
-2404:  CP.B    W4L,#C
-2406:  BRA     NZ,245E
+25D0:  MOV     #4,W0
+25D2:  ADD     982,W0
+25D4:  MOV.B   [W0],W4L
+25D6:  CP.B    W4L,#C
+25D8:  BRA     NZ,2630
 .................... 				{ 
 .................... 					// StateDirectionX = 2; 
 .................... 					// StateMotor = 2; 
 .................... 					if(arrayPtr[5] == 9) 
-2408:  MOV     #5,W0
-240A:  ADD     982,W0
-240C:  MOV.B   [W0],W4L
-240E:  CP.B    W4L,#9
-2410:  BRA     NZ,2434
+25DA:  MOV     #5,W0
+25DC:  ADD     982,W0
+25DE:  MOV.B   [W0],W4L
+25E0:  CP.B    W4L,#9
+25E2:  BRA     NZ,2606
 .................... 					{ 
 .................... 						StateBreakX = 1; 
-2412:  MOV.B   #1,W0L
-2414:  MOV.B   W0L,978
+25E4:  MOV.B   #1,W0L
+25E6:  MOV.B   W0L,978
 .................... 						StateMotorX = 0; 
-2416:  CLR.B   96B
+25E8:  CLR.B   96B
 .................... 						speedX = 0; 
-2418:  CLR     970
-241A:  PUSH    42
-241C:  BCLR.B  81.7
-241E:  SETM.B  42
-2420:  BSET.B  81.7
+25EA:  CLR     970
+25EC:  PUSH    42
+25EE:  BCLR.B  81.7
+25F0:  SETM.B  42
+25F2:  BSET.B  81.7
 .................... 						MotorMovingX(0,BREAK); 
-2422:  CLR     9EE
-2424:  MOV     #2,W4
-2426:  MOV     W4,9F0
-2428:  CALL    1210
-242C:  BCLR.B  81.7
-242E:  POP     42
-2430:  BSET.B  81.7
+25F4:  CLR     9E8
+25F6:  MOV     #2,W4
+25F8:  MOV     W4,9EA
+25FA:  CALL    1210
+25FE:  BCLR.B  81.7
+2600:  POP     42
+2602:  BSET.B  81.7
 .................... 					} 
-2432:  BRA     245E
+2604:  BRA     2630
 .................... 					else if(arrayPtr[5] == 10) 
-2434:  MOV     #5,W0
-2436:  ADD     982,W0
-2438:  MOV.B   [W0],W4L
-243A:  CP.B    W4L,#A
-243C:  BRA     NZ,245E
+2606:  MOV     #5,W0
+2608:  ADD     982,W0
+260A:  MOV.B   [W0],W4L
+260C:  CP.B    W4L,#A
+260E:  BRA     NZ,2630
 .................... 					{ 
 .................... 						StateBreakY = 1; 
-243E:  MOV.B   #1,W0L
-2440:  MOV.B   W0L,979
+2610:  MOV.B   #1,W0L
+2612:  MOV.B   W0L,979
 .................... 						StateMotorY = 0; 
-2442:  CLR.B   974
+2614:  CLR.B   974
 .................... 						speedY = 0; 
-2444:  CLR     972
-2446:  PUSH    42
-2448:  BCLR.B  81.7
-244A:  SETM.B  42
-244C:  BSET.B  81.7
+2616:  CLR     972
+2618:  PUSH    42
+261A:  BCLR.B  81.7
+261C:  SETM.B  42
+261E:  BSET.B  81.7
 .................... 						MotorMovingY(0,BREAK); 
-244E:  CLR     9E6
-2450:  MOV     #2,W4
-2452:  MOV     W4,9E8
-2454:  CALL    1248
-2458:  BCLR.B  81.7
-245A:  POP     42
-245C:  BSET.B  81.7
+2620:  CLR     9F2
+2622:  MOV     #2,W4
+2624:  MOV     W4,9F4
+2626:  CALL    1248
+262A:  BCLR.B  81.7
+262C:  POP     42
+262E:  BSET.B  81.7
 .................... 					} 
 .................... 				} 
 .................... 				if(arrayPtr[4] == 7) 
-245E:  MOV     #4,W0
-2460:  ADD     982,W0
-2462:  MOV.B   [W0],W4L
-2464:  CP.B    W4L,#7
-2466:  BRA     NZ,24E4
+2630:  MOV     #4,W0
+2632:  ADD     982,W0
+2634:  MOV.B   [W0],W4L
+2636:  CP.B    W4L,#7
+2638:  BRA     NZ,26B6
 .................... 				{ 
 .................... 					referenceDesireX = convert_8to16bit(arrayPtr[5], arrayPtr[6]); 
-2468:  MOV     #5,W0
-246A:  ADD     982,W0
-246C:  MOV.B   [W0],W5L
-246E:  MOV     #6,W0
-2470:  ADD     982,W0
-2472:  MOV.B   [W0],W6L
-2474:  PUSH    994
-2476:  MOV.B   W5L,[W15-#2]
-2478:  POP     994
-247A:  PUSH    994
-247C:  MOV.B   W6L,[W15-#1]
-247E:  POP     994
-2480:  CALL    21E0
-2484:  CALL    21FA
-2488:  MOV     W0,94E
-248A:  MOV     W1,950
+263A:  MOV     #5,W0
+263C:  ADD     982,W0
+263E:  MOV.B   [W0],W5L
+2640:  MOV     #6,W0
+2642:  ADD     982,W0
+2644:  MOV.B   [W0],W6L
+2646:  PUSH    994
+2648:  MOV.B   W5L,[W15-#2]
+264A:  POP     994
+264C:  PUSH    994
+264E:  MOV.B   W6L,[W15-#1]
+2650:  POP     994
+2652:  CALL    23B2
+2656:  CALL    23CC
+265A:  MOV     W0,94E
+265C:  MOV     W1,950
 .................... 					referenceDesireY = convert_8to16bit(arrayPtr[7], arrayPtr[8]); 
-248C:  MOV     #7,W0
-248E:  ADD     982,W0
-2490:  MOV.B   [W0],W5L
-2492:  MOV     #8,W0
-2494:  ADD     982,W0
-2496:  MOV.B   [W0],W6L
-2498:  PUSH    994
-249A:  MOV.B   W5L,[W15-#2]
-249C:  POP     994
-249E:  PUSH    994
-24A0:  MOV.B   W6L,[W15-#1]
-24A2:  POP     994
-24A4:  CALL    21E0
-24A8:  CALL    21FA
-24AC:  MOV     W0,956
-24AE:  MOV     W1,958
+265E:  MOV     #7,W0
+2660:  ADD     982,W0
+2662:  MOV.B   [W0],W5L
+2664:  MOV     #8,W0
+2666:  ADD     982,W0
+2668:  MOV.B   [W0],W6L
+266A:  PUSH    994
+266C:  MOV.B   W5L,[W15-#2]
+266E:  POP     994
+2670:  PUSH    994
+2672:  MOV.B   W6L,[W15-#1]
+2674:  POP     994
+2676:  CALL    23B2
+267A:  CALL    23CC
+267E:  MOV     W0,956
+2680:  MOV     W1,958
 .................... 					StatePID = 1; 
-24B0:  MOV     #1,W4
-24B2:  MOV     W4,96E
-24B4:  PUSH    42
-24B6:  BCLR.B  81.7
-24B8:  SETM.B  42
-24BA:  BSET.B  81.7
+2682:  MOV     #1,W4
+2684:  MOV     W4,96E
+2686:  PUSH    42
+2688:  BCLR.B  81.7
+268A:  SETM.B  42
+268C:  BSET.B  81.7
 .................... 					MotorMovingX(0, BREAK); 
-24BC:  CLR     9EE
-24BE:  MOV     #2,W4
-24C0:  MOV     W4,9F0
-24C2:  CALL    1210
-24C6:  BCLR.B  81.7
-24C8:  POP     42
-24CA:  BSET.B  81.7
-24CC:  PUSH    42
-24CE:  BCLR.B  81.7
-24D0:  SETM.B  42
-24D2:  BSET.B  81.7
+268E:  CLR     9E8
+2690:  MOV     #2,W4
+2692:  MOV     W4,9EA
+2694:  CALL    1210
+2698:  BCLR.B  81.7
+269A:  POP     42
+269C:  BSET.B  81.7
+269E:  PUSH    42
+26A0:  BCLR.B  81.7
+26A2:  SETM.B  42
+26A4:  BSET.B  81.7
 .................... 					MotorMovingY(0, BREAK); 
-24D4:  CLR     9E6
-24D6:  MOV     #2,W4
-24D8:  MOV     W4,9E8
-24DA:  CALL    1248
-24DE:  BCLR.B  81.7
-24E0:  POP     42
-24E2:  BSET.B  81.7
+26A6:  CLR     9F2
+26A8:  MOV     #2,W4
+26AA:  MOV     W4,9F4
+26AC:  CALL    1248
+26B0:  BCLR.B  81.7
+26B2:  POP     42
+26B4:  BSET.B  81.7
 .................... 				} 
 .................... 				if(arrayPtr[4] == 8) 
-24E4:  MOV     #4,W0
-24E6:  ADD     982,W0
-24E8:  MOV.B   [W0],W4L
-24EA:  CP.B    W4L,#8
-24EC:  BRA     NZ,25A6
+26B6:  MOV     #4,W0
+26B8:  ADD     982,W0
+26BA:  MOV.B   [W0],W4L
+26BC:  CP.B    W4L,#8
+26BE:  BRA     NZ,2778
 .................... 				{ 
 .................... 					int16u high_byteX,low_byteX,high_byteY,low_byteY; 
 .................... 					high_byteX = ((int16u)currentDistanceX & 0xff00)>>8; 
-24EE:  PUSH    42
-24F0:  BCLR.B  81.7
-24F2:  SETM.B  42
-24F4:  BSET.B  81.7
-24F6:  MOV     952,W0
-24F8:  MOV     954,W1
-24FA:  CALL    16A6
-24FE:  BCLR.B  81.7
-2500:  POP     42
-2502:  BSET.B  81.7
-2504:  MOV     W0,W5
-2506:  MOV     #FF00,W0
-2508:  AND     W0,W5,W5
-250A:  MOV.B   B,W0L
-250C:  MOV.B   W0L,984
-250E:  CLR.B   985
+26C0:  PUSH    42
+26C2:  BCLR.B  81.7
+26C4:  SETM.B  42
+26C6:  BSET.B  81.7
+26C8:  MOV     952,W0
+26CA:  MOV     954,W1
+26CC:  CALL    16A6
+26D0:  BCLR.B  81.7
+26D2:  POP     42
+26D4:  BSET.B  81.7
+26D6:  MOV     W0,W5
+26D8:  MOV     #FF00,W0
+26DA:  AND     W0,W5,W5
+26DC:  MOV.B   B,W0L
+26DE:  MOV.B   W0L,984
+26E0:  CLR.B   985
 .................... 					low_byteX = ((int16u)currentDistanceX & 0x00ff); 
-2510:  PUSH    42
-2512:  BCLR.B  81.7
-2514:  SETM.B  42
-2516:  BSET.B  81.7
-2518:  MOV     952,W0
-251A:  MOV     954,W1
-251C:  CALL    16A6
-2520:  BCLR.B  81.7
-2522:  POP     42
-2524:  BSET.B  81.7
-2526:  MOV     W0,W5
-2528:  MOV     W5,W4
-252A:  AND     #FF,W4
-252C:  MOV     W4,986
+26E2:  PUSH    42
+26E4:  BCLR.B  81.7
+26E6:  SETM.B  42
+26E8:  BSET.B  81.7
+26EA:  MOV     952,W0
+26EC:  MOV     954,W1
+26EE:  CALL    16A6
+26F2:  BCLR.B  81.7
+26F4:  POP     42
+26F6:  BSET.B  81.7
+26F8:  MOV     W0,W5
+26FA:  MOV     W5,W4
+26FC:  AND     #FF,W4
+26FE:  MOV     W4,986
 .................... 					high_byteY = ((int16u)currentDistanceY & 0xff00)>>8; 
-252E:  PUSH    42
-2530:  BCLR.B  81.7
-2532:  SETM.B  42
-2534:  BSET.B  81.7
-2536:  MOV     95A,W0
-2538:  MOV     95C,W1
-253A:  CALL    16A6
-253E:  BCLR.B  81.7
-2540:  POP     42
-2542:  BSET.B  81.7
-2544:  MOV     W0,W5
-2546:  MOV     #FF00,W0
-2548:  AND     W0,W5,W5
-254A:  MOV.B   B,W0L
-254C:  MOV.B   W0L,988
-254E:  CLR.B   989
+2700:  PUSH    42
+2702:  BCLR.B  81.7
+2704:  SETM.B  42
+2706:  BSET.B  81.7
+2708:  MOV     95A,W0
+270A:  MOV     95C,W1
+270C:  CALL    16A6
+2710:  BCLR.B  81.7
+2712:  POP     42
+2714:  BSET.B  81.7
+2716:  MOV     W0,W5
+2718:  MOV     #FF00,W0
+271A:  AND     W0,W5,W5
+271C:  MOV.B   B,W0L
+271E:  MOV.B   W0L,988
+2720:  CLR.B   989
 .................... 					low_byteY = ((int16u)currentDistanceY & 0x00ff); 
-2550:  PUSH    42
-2552:  BCLR.B  81.7
-2554:  SETM.B  42
-2556:  BSET.B  81.7
-2558:  MOV     95A,W0
-255A:  MOV     95C,W1
-255C:  CALL    16A6
-2560:  BCLR.B  81.7
-2562:  POP     42
-2564:  BSET.B  81.7
-2566:  MOV     W0,W5
-2568:  MOV     W5,W4
-256A:  AND     #FF,W4
-256C:  MOV     W4,98A
+2722:  PUSH    42
+2724:  BCLR.B  81.7
+2726:  SETM.B  42
+2728:  BSET.B  81.7
+272A:  MOV     95A,W0
+272C:  MOV     95C,W1
+272E:  CALL    16A6
+2732:  BCLR.B  81.7
+2734:  POP     42
+2736:  BSET.B  81.7
+2738:  MOV     W0,W5
+273A:  MOV     W5,W4
+273C:  AND     #FF,W4
+273E:  MOV     W4,98A
 .................... 					Send_Buffer[0] = 255; 
-256E:  SETM.B  8C4
+2740:  SETM.B  8C4
 .................... 					Send_Buffer[1] = 255; 
-2570:  MOV.B   #FF,W0L
-2572:  MOV.B   W0L,8C5
+2742:  MOV.B   #FF,W0L
+2744:  MOV.B   W0L,8C5
 .................... 					Send_Buffer[2] = 1; 
-2574:  MOV.B   #1,W0L
-2576:  MOV.B   W0L,8C6
+2746:  MOV.B   #1,W0L
+2748:  MOV.B   W0L,8C6
 .................... 					Send_Buffer[3] = 7; 
-2578:  MOV.B   #7,W0L
-257A:  MOV.B   W0L,8C7
+274A:  MOV.B   #7,W0L
+274C:  MOV.B   W0L,8C7
 .................... 					Send_Buffer[4] = 8; 
-257C:  MOV.B   #8,W0L
-257E:  MOV.B   W0L,8C8
+274E:  MOV.B   #8,W0L
+2750:  MOV.B   W0L,8C8
 .................... 					Send_Buffer[5] = (int8u)high_byteX; 
-2580:  MOV.B   984,W0L
-2582:  MOV.B   W0L,8C9
+2752:  MOV.B   984,W0L
+2754:  MOV.B   W0L,8C9
 .................... 					Send_Buffer[6] = (int8u)low_byteX; 
-2584:  MOV.B   986,W0L
-2586:  MOV.B   W0L,8CA
+2756:  MOV.B   986,W0L
+2758:  MOV.B   W0L,8CA
 .................... 					Send_Buffer[7] = (int8u)high_byteY; 
-2588:  MOV.B   988,W0L
-258A:  MOV.B   W0L,8CB
+275A:  MOV.B   988,W0L
+275C:  MOV.B   W0L,8CB
 .................... 					Send_Buffer[8] = (int8u)low_byteY; 
-258C:  MOV.B   98A,W0L
-258E:  MOV.B   W0L,8CC
+275E:  MOV.B   98A,W0L
+2760:  MOV.B   W0L,8CC
 .................... 					Send_Buffer[9] = (input_b () & 0xff00)>>8; 
-2590:  MOV     2CA,W5
-2592:  MOV     #FF00,W0
-2594:  AND     W0,W5,W5
-2596:  MOV.B   B,W0L
-2598:  MOV.B   W0L,8CD
+2762:  MOV     2CA,W5
+2764:  MOV     #FF00,W0
+2766:  AND     W0,W5,W5
+2768:  MOV.B   B,W0L
+276A:  MOV.B   W0L,8CD
 .................... 					Send_Buffer[10] = 0x0f; 
-259A:  MOV.B   #F,W0L
-259C:  MOV.B   W0L,8CE
+276C:  MOV.B   #F,W0L
+276E:  MOV.B   W0L,8CE
 .................... 					SendTx1(Send_Buffer); 
-259E:  MOV     #8C4,W4
-25A0:  MOV     W4,990
-25A2:  CALL    22B0
+2770:  MOV     #8C4,W4
+2772:  MOV     W4,990
+2774:  CALL    2482
 .................... 				} 
 .................... 			} 
 .................... 		} 
 .................... 	} 
-25A6:  MOV     [--W15],W6
-25A8:  MOV     [--W15],W5
-25AA:  RETURN  
+2778:  MOV     [--W15],W6
+277A:  MOV     [--W15],W5
+277C:  RETURN  
 .................... } 
 ....................  
 .................... int16u convert_8to16bit(int8u baseHightbyte, int8u baseLowbyte) 
 *
-21E0:  MOV     W5,[W15++]
+23B2:  MOV     W5,[W15++]
 .................... {	 
 .................... 	return ((int16u)baseHightbyte<<8) | ((int16u)baseLowbyte); 
-21E2:  MOV.B   994,W0L
-21E4:  MOV.B   W0L,A
-21E6:  CLR.B   B
-21E8:  MOV.B   W5L,W0L
-21EA:  MOV.B   W0L,B
-21EC:  CLR.B   W5
-21EE:  MOV.B   995,W0L
-21F0:  CLR.B   1
-21F2:  IOR      W5,  W0,W0
-21F4:  MOV     W0,0
-21F6:  MOV     [--W15],W5
-21F8:  RETURN  
+23B4:  MOV.B   994,W0L
+23B6:  MOV.B   W0L,A
+23B8:  CLR.B   B
+23BA:  MOV.B   W5L,W0L
+23BC:  MOV.B   W0L,B
+23BE:  CLR.B   W5
+23C0:  MOV.B   995,W0L
+23C2:  CLR.B   1
+23C4:  IOR      W5,  W0,W0
+23C6:  MOV     W0,0
+23C8:  MOV     [--W15],W5
+23CA:  RETURN  
 .................... } 
 ....................  
 .................... #INT_TIMER5 
 .................... void INT_TMR5() 
 *
-16D2:  PUSH    42
-16D4:  PUSH    36
-16D6:  PUSH    32
-16D8:  MOV     W0,[W15++]
-16DA:  MOV     #2,W0
-16DC:  REPEAT  #C
-16DE:  MOV     [W0++],[W15++]
+17C8:  PUSH    42
+17CA:  PUSH    36
+17CC:  PUSH    32
+17CE:  MOV     W0,[W15++]
+17D0:  MOV     #2,W0
+17D2:  REPEAT  #C
+17D4:  MOV     [W0++],[W15++]
 .................... { 
 .................... 	computeInstantlyDistantX(); 
-16E0:  CALL    10BC
+17D6:  CALL    10BC
 .................... 	computeInstantlyDistantY(); 
-16E4:  CALL    1166
+17DA:  CALL    1166
 .................... 	if(StateResetX == 1) 
-16E8:  MOV     97A,W4
-16EA:  CP.B    W4L,#1
-16EC:  BRA     NZ,16FA
+17DE:  MOV     97A,W4
+17E0:  CP.B    W4L,#1
+17E2:  BRA     NZ,17F0
 .................... 	{ 
 .................... 		MotorMovingX(300,CW); 
-16EE:  MOV     #12C,W4
-16F0:  MOV     W4,9EE
-16F2:  MOV     #1,W4
-16F4:  MOV     W4,9F0
-16F6:  CALL    1210
+17E4:  MOV     #12C,W4
+17E6:  MOV     W4,9E8
+17E8:  MOV     #1,W4
+17EA:  MOV     W4,9EA
+17EC:  CALL    1210
 .................... 	} 
 .................... 	if(StateResetY == 1) 
-16FA:  MOV     97A,W4
-16FC:  LSR     W4,#8,W4
-16FE:  CP.B    W4L,#1
-1700:  BRA     NZ,170E
+17F0:  MOV     97A,W4
+17F2:  LSR     W4,#8,W4
+17F4:  CP.B    W4L,#1
+17F6:  BRA     NZ,1804
 .................... 	{ 
 .................... 		MotorMovingY(500,CW); 
-1702:  MOV     #1F4,W4
-1704:  MOV     W4,9E6
-1706:  MOV     #1,W4
-1708:  MOV     W4,9E8
-170A:  CALL    1248
+17F8:  MOV     #1F4,W4
+17FA:  MOV     W4,9F2
+17FC:  MOV     #1,W4
+17FE:  MOV     W4,9F4
+1800:  CALL    1248
 .................... 	} 
 ....................  
 .................... 	if(StateMotorX == 1) 
-170E:  MOV     96A,W4
-1710:  LSR     W4,#8,W4
-1712:  CP.B    W4L,#1
-1714:  BRA     NZ,173A
+1804:  MOV     96A,W4
+1806:  LSR     W4,#8,W4
+1808:  CP.B    W4L,#1
+180A:  BRA     NZ,1830
 .................... 	{ 
 .................... 		if(StateDirectionX == 0) 
-1716:  CP0.B   975
-1718:  BRA     NZ,1726
+180C:  CP0.B   975
+180E:  BRA     NZ,181C
 .................... 		{ 
 .................... 			MotorMovingX(speedX,CCW); 
-171A:  PUSH    970
-171C:  POP     9EE
-171E:  CLR     9F0
-1720:  CALL    1210
+1810:  PUSH    970
+1812:  POP     9E8
+1814:  CLR     9EA
+1816:  CALL    1210
 .................... 		} 
-1724:  BRA     173A
+181A:  BRA     1830
 .................... 		else if(StateDirectionX == 1) 
-1726:  MOV     974,W4
-1728:  LSR     W4,#8,W4
-172A:  CP.B    W4L,#1
-172C:  BRA     NZ,173A
+181C:  MOV     974,W4
+181E:  LSR     W4,#8,W4
+1820:  CP.B    W4L,#1
+1822:  BRA     NZ,1830
 .................... 		{ 
 .................... 			MotorMovingX(speedX,CW); 
-172E:  PUSH    970
-1730:  POP     9EE
-1732:  MOV     #1,W4
-1734:  MOV     W4,9F0
-1736:  CALL    1210
+1824:  PUSH    970
+1826:  POP     9E8
+1828:  MOV     #1,W4
+182A:  MOV     W4,9EA
+182C:  CALL    1210
 .................... 		} 
 .................... 	} 
 .................... 	 
 .................... 	if(StateMotorY == 1) 
-173A:  MOV     974,W4
-173C:  CP.B    W4L,#1
-173E:  BRA     NZ,1762
+1830:  MOV     974,W4
+1832:  CP.B    W4L,#1
+1834:  BRA     NZ,1858
 .................... 	{ 
 .................... 		if(StateDirectionY == 0) 
-1740:  CP0.B   976
-1742:  BRA     NZ,1750
+1836:  CP0.B   976
+1838:  BRA     NZ,1846
 .................... 		{ 
 .................... 			MotorMovingY(speedY,CCW); 
-1744:  PUSH    972
-1746:  POP     9E6
-1748:  CLR     9E8
-174A:  CALL    1248
+183A:  PUSH    972
+183C:  POP     9F2
+183E:  CLR     9F4
+1840:  CALL    1248
 .................... 		} 
-174E:  BRA     1762
+1844:  BRA     1858
 .................... 		else if(StateDirectionY == 1) 
-1750:  MOV     976,W4
-1752:  CP.B    W4L,#1
-1754:  BRA     NZ,1762
+1846:  MOV     976,W4
+1848:  CP.B    W4L,#1
+184A:  BRA     NZ,1858
 .................... 		{ 
 .................... 			MotorMovingY(speedY,CW); 
-1756:  PUSH    972
-1758:  POP     9E6
-175A:  MOV     #1,W4
-175C:  MOV     W4,9E8
-175E:  CALL    1248
+184C:  PUSH    972
+184E:  POP     9F2
+1850:  MOV     #1,W4
+1852:  MOV     W4,9F4
+1854:  CALL    1248
 .................... 		} 
 .................... 	} 
 ....................  
 .................... 	if(StateBreakX == 1) 
-1762:  MOV     978,W4
-1764:  CP.B    W4L,#1
-1766:  BRA     NZ,1772
+1858:  MOV     978,W4
+185A:  CP.B    W4L,#1
+185C:  BRA     NZ,1868
 .................... 	{ 
 .................... 		MotorMovingX(0,BREAK); 
-1768:  CLR     9EE
-176A:  MOV     #2,W4
-176C:  MOV     W4,9F0
-176E:  CALL    1210
+185E:  CLR     9E8
+1860:  MOV     #2,W4
+1862:  MOV     W4,9EA
+1864:  CALL    1210
 .................... 	} 
 .................... 	if(StateBreakY == 1) 
-1772:  MOV     978,W4
-1774:  LSR     W4,#8,W4
-1776:  CP.B    W4L,#1
-1778:  BRA     NZ,1784
+1868:  MOV     978,W4
+186A:  LSR     W4,#8,W4
+186C:  CP.B    W4L,#1
+186E:  BRA     NZ,187A
 .................... 	{ 
 .................... 		MotorMovingY(0,BREAK); 
-177A:  CLR     9E6
-177C:  MOV     #2,W4
-177E:  MOV     W4,9E8
-1780:  CALL    1248
+1870:  CLR     9F2
+1872:  MOV     #2,W4
+1874:  MOV     W4,9F4
+1876:  CALL    1248
 .................... 	} 
 ....................  
 .................... 	if(StatePID == 1) 
-1784:  MOV     96E,W4
-1786:  CP      W4,#1
-1788:  BRA     NZ,18AE
+187A:  MOV     96E,W4
+187C:  CP      W4,#1
+187E:  BRA     NZ,19A4
 .................... 	{ 
 ....................  
 .................... 		errorX = referenceDesireX - currentDistanceX; 
-178A:  BSET.B  43.0
-178C:  MOV     94E,W0
-178E:  MOV     950,W1
-1790:  MOV     952,W2
-1792:  MOV     954,W3
-1794:  CALL    1280
-1798:  MOV     W0,962
-179A:  MOV     W1,964
+1880:  BSET.B  43.0
+1882:  MOV     94E,W0
+1884:  MOV     950,W1
+1886:  MOV     952,W2
+1888:  MOV     954,W3
+188A:  CALL    1280
+188E:  MOV     W0,962
+1890:  MOV     W1,964
 .................... 		errorY = referenceDesireY - currentDistanceY; 
-179C:  BSET.B  43.0
-179E:  MOV     956,W0
-17A0:  MOV     958,W1
-17A2:  MOV     95A,W2
-17A4:  MOV     95C,W3
-17A6:  CALL    1280
-17AA:  MOV     W0,966
-17AC:  MOV     W1,968
+1892:  BSET.B  43.0
+1894:  MOV     956,W0
+1896:  MOV     958,W1
+1898:  MOV     95A,W2
+189A:  MOV     95C,W3
+189C:  CALL    1280
+18A0:  MOV     W0,966
+18A2:  MOV     W1,968
 ....................  
 .................... 		if( abs(errorX) > 1) 
-17AE:  MOV     962,W0
-17B0:  MOV     964,W1
-17B2:  BCLR    W1.F
-17B4:  MOV     W0,W5
-17B6:  MOV     W1,W6
-17B8:  MOV     #0,W0
-17BA:  MOV     #3F80,W1
-17BC:  MOV     W5,W2
-17BE:  MOV     W6,W3
-17C0:  CALL    142A
-17C4:  BRA     NC,1822
+18A4:  MOV     962,W0
+18A6:  MOV     964,W1
+18A8:  BCLR    W1.F
+18AA:  MOV     W0,W5
+18AC:  MOV     W1,W6
+18AE:  MOV     #0,W0
+18B0:  MOV     #3F80,W1
+18B2:  MOV     W5,W2
+18B4:  MOV     W6,W3
+18B6:  CALL    142A
+18BA:  BRA     NC,1918
 .................... 		{ 
 .................... 			PIDVelocityForm(errorX,&MotorX); 
-17C6:  PUSH    962
-17C8:  POP     9D4
-17CA:  PUSH    964
-17CC:  POP     9D6
-17CE:  MOV     #8FE,W4
-17D0:  MOV     W4,9D8
-17D2:  CALL    1556
+18BC:  PUSH    962
+18BE:  POP     9D8
+18C0:  PUSH    964
+18C2:  POP     9DA
+18C4:  MOV     #8FE,W4
+18C6:  MOV     W4,9DC
+18C8:  CALL    1556
 .................... 			if(MotorX.u >= 0) 
-17D6:  MOV     #0,W0
-17D8:  MOV     #0,W1
-17DA:  MOV     912,W2
-17DC:  MOV     914,W3
-17DE:  CALL    142A
-17E2:  BRA     C,17E6
-17E4:  BRA     NZ,17FA
+18CC:  MOV     #0,W0
+18CE:  MOV     #0,W1
+18D0:  MOV     912,W2
+18D2:  MOV     914,W3
+18D4:  CALL    142A
+18D8:  BRA     C,18DC
+18DA:  BRA     NZ,18F0
 .................... 			{ 
 .................... 				MotorMovingX((int16)MotorX.u,CCW); 
-17E6:  MOV     912,W0
-17E8:  MOV     914,W1
-17EA:  CALL    16A6
-17EE:  MOV     W0,W5
-17F0:  MOV     W5,9EE
-17F2:  CLR     9F0
-17F4:  CALL    1210
+18DC:  MOV     912,W0
+18DE:  MOV     914,W1
+18E0:  CALL    16A6
+18E4:  MOV     W0,W5
+18E6:  MOV     W5,9E8
+18E8:  CLR     9EA
+18EA:  CALL    1210
 .................... 			} 
-17F8:  BRA     1820
+18EE:  BRA     1916
 .................... 			else if(MotorX.u < 0) 
-17FA:  MOV     912,W0
-17FC:  MOV     914,W1
-17FE:  MOV     #0,W2
-1800:  MOV     #0,W3
-1802:  CALL    142A
-1806:  BRA     NC,1820
+18F0:  MOV     912,W0
+18F2:  MOV     914,W1
+18F4:  MOV     #0,W2
+18F6:  MOV     #0,W3
+18F8:  CALL    142A
+18FC:  BRA     NC,1916
 .................... 			{ 
 .................... 				MotorMovingX(-1*(int16)MotorX.u,CW); 
-1808:  MOV     912,W0
-180A:  MOV     914,W1
-180C:  CALL    16A6
-1810:  MOV     #FFFF,W4
-1812:  MUL.SS  W4,W0,W0
-1814:  MOV     W0,W5
-1816:  MOV     W5,9EE
-1818:  MOV     #1,W3
-181A:  MOV     W3,9F0
-181C:  CALL    1210
+18FE:  MOV     912,W0
+1900:  MOV     914,W1
+1902:  CALL    16A6
+1906:  MOV     #FFFF,W4
+1908:  MUL.SS  W4,W0,W0
+190A:  MOV     W0,W5
+190C:  MOV     W5,9E8
+190E:  MOV     #1,W3
+1910:  MOV     W3,9EA
+1912:  CALL    1210
 .................... 			} 
 .................... 		} 
-1820:  BRA     182C
+1916:  BRA     1922
 .................... 		else 
 .................... 		{ 
 .................... 			MotorMovingX(0,BREAK); 
-1822:  CLR     9EE
-1824:  MOV     #2,W4
-1826:  MOV     W4,9F0
-1828:  CALL    1210
+1918:  CLR     9E8
+191A:  MOV     #2,W4
+191C:  MOV     W4,9EA
+191E:  CALL    1210
 ....................  
 .................... 		} 
 ....................  
 .................... 		if( abs(errorY) > 1) 
-182C:  MOV     966,W0
-182E:  MOV     968,W1
-1830:  BCLR    W1.F
-1832:  MOV     W0,W5
-1834:  MOV     W1,W6
-1836:  MOV     #0,W0
-1838:  MOV     #3F80,W1
-183A:  MOV     W5,W2
-183C:  MOV     W6,W3
-183E:  CALL    142A
-1842:  BRA     NC,18A4
+1922:  MOV     966,W0
+1924:  MOV     968,W1
+1926:  BCLR    W1.F
+1928:  MOV     W0,W5
+192A:  MOV     W1,W6
+192C:  MOV     #0,W0
+192E:  MOV     #3F80,W1
+1930:  MOV     W5,W2
+1932:  MOV     W6,W3
+1934:  CALL    142A
+1938:  BRA     NC,199A
 .................... 		{ 
 .................... 			PIDVelocityForm(errorY,&MotorY); 
-1844:  PUSH    966
-1846:  POP     9D4
-1848:  PUSH    968
-184A:  POP     9D6
-184C:  MOV     #926,W4
-184E:  MOV     W4,9D8
-1850:  CALL    1556
+193A:  PUSH    966
+193C:  POP     9D8
+193E:  PUSH    968
+1940:  POP     9DA
+1942:  MOV     #926,W4
+1944:  MOV     W4,9DC
+1946:  CALL    1556
 .................... 			if(MotorY.u >= 0) 
-1854:  MOV     #0,W0
-1856:  MOV     #0,W1
-1858:  MOV     93A,W2
-185A:  MOV     93C,W3
-185C:  CALL    142A
-1860:  BRA     C,1864
-1862:  BRA     NZ,187A
+194A:  MOV     #0,W0
+194C:  MOV     #0,W1
+194E:  MOV     93A,W2
+1950:  MOV     93C,W3
+1952:  CALL    142A
+1956:  BRA     C,195A
+1958:  BRA     NZ,1970
 .................... 			{ 
 .................... 				MotorMovingY((int16)MotorY.u,CW); 
-1864:  MOV     93A,W0
-1866:  MOV     93C,W1
-1868:  CALL    16A6
-186C:  MOV     W0,W5
-186E:  MOV     W5,9E6
-1870:  MOV     #1,W4
-1872:  MOV     W4,9E8
-1874:  CALL    1248
+195A:  MOV     93A,W0
+195C:  MOV     93C,W1
+195E:  CALL    16A6
+1962:  MOV     W0,W5
+1964:  MOV     W5,9F2
+1966:  MOV     #1,W4
+1968:  MOV     W4,9F4
+196A:  CALL    1248
 .................... 			} 
-1878:  BRA     18A2
+196E:  BRA     1998
 .................... 			else if(MotorY.u < 0) 
-187A:  MOV     93A,W0
-187C:  MOV     93C,W1
-187E:  MOV     #0,W2
-1880:  MOV     #0,W3
-1882:  CALL    142A
-1886:  BRA     NC,18A2
+1970:  MOV     93A,W0
+1972:  MOV     93C,W1
+1974:  MOV     #0,W2
+1976:  MOV     #0,W3
+1978:  CALL    142A
+197C:  BRA     NC,1998
 .................... 			{ 
 .................... 				MotorMovingY((int16)(-1*MotorY.u),CCW); 
-1888:  MOV     #0,W0
-188A:  MOV     #BF80,W1
-188C:  MOV     93A,W2
-188E:  MOV     93C,W3
-1890:  CALL    1492
-1894:  CALL    16A6
-1898:  MOV     W0,W5
-189A:  MOV     W5,9E6
-189C:  CLR     9E8
-189E:  CALL    1248
+197E:  MOV     #0,W0
+1980:  MOV     #BF80,W1
+1982:  MOV     93A,W2
+1984:  MOV     93C,W3
+1986:  CALL    1492
+198A:  CALL    16A6
+198E:  MOV     W0,W5
+1990:  MOV     W5,9F2
+1992:  CLR     9F4
+1994:  CALL    1248
 .................... 			} 
 .................... 		} 
-18A2:  BRA     18AE
+1998:  BRA     19A4
 .................... 		else 
 .................... 		{ 
 .................... 			MotorMovingY(0,BREAK); 
-18A4:  CLR     9E6
-18A6:  MOV     #2,W4
-18A8:  MOV     W4,9E8
-18AA:  CALL    1248
+199A:  CLR     9F2
+199C:  MOV     #2,W4
+199E:  MOV     W4,9F4
+19A0:  CALL    1248
 .................... 		} 
 .................... 	} 
 ....................  
-.................... 	// printf("%d,%d,%d,%d\n", (int16)MotorX.u,(int16)errorX,(int16)referenceDesireX,(int16)countDistanceX); 
+.................... 	printf("X:%d,%d,%d,%d\n", (int16)MotorX.u,(int16)errorX,(int16)referenceDesireX,(int16)countDistanceX); 
+19A4:  MOV     912,W0
+19A6:  MOV     914,W1
+19A8:  CALL    16A6
+19AC:  MOV     W0,W5
+19AE:  MOV     962,W0
+19B0:  MOV     964,W1
+19B2:  CALL    16A6
+19B6:  MOV     W0,W6
+19B8:  MOV     94E,W0
+19BA:  MOV     950,W1
+19BC:  CALL    16A6
+19C0:  MOV     W0,W7
+19C2:  BTSC.B  223.1
+19C4:  BRA     19C2
+19C6:  MOV     #58,W4
+19C8:  MOV     W4,224
+19CA:  BTSC.B  223.1
+19CC:  BRA     19CA
+19CE:  MOV     #3A,W4
+19D0:  MOV     W4,224
+19D2:  MOV     W5,W0
+19D4:  MOV     #0,W4
+19D6:  CALL    16D2
+19DA:  BTSC.B  223.1
+19DC:  BRA     19DA
+19DE:  MOV     #2C,W4
+19E0:  MOV     W4,224
+19E2:  MOV     W6,W0
+19E4:  MOV     #0,W4
+19E6:  CALL    16D2
+19EA:  BTSC.B  223.1
+19EC:  BRA     19EA
+19EE:  MOV     #2C,W4
+19F0:  MOV     W4,224
+19F2:  MOV     W7,W0
+19F4:  MOV     #0,W4
+19F6:  CALL    16D2
+19FA:  BTSC.B  223.1
+19FC:  BRA     19FA
+19FE:  MOV     #2C,W4
+1A00:  MOV     W4,224
+1A02:  MOV     95E,W0
+1A04:  MOV     #0,W4
+1A06:  CALL    16D2
+1A0A:  BTSC.B  223.1
+1A0C:  BRA     1A0A
+1A0E:  MOV     #A,W4
+1A10:  MOV     W4,224
 ....................  
-.................... 	// printf("%d,%d,%d,%d\n", (int16)MotorY.u,(int16)errorY,(int16)referenceDesireY,(int16)countDistanceY); 
+.................... 	printf("Y:%d,%d,%d,%d\n", (int16)MotorY.u,(int16)errorY,(int16)referenceDesireY,(int16)countDistanceY); 
+1A12:  MOV     93A,W0
+1A14:  MOV     93C,W1
+1A16:  CALL    16A6
+1A1A:  MOV     W0,W5
+1A1C:  MOV     966,W0
+1A1E:  MOV     968,W1
+1A20:  CALL    16A6
+1A24:  MOV     W0,W6
+1A26:  MOV     956,W0
+1A28:  MOV     958,W1
+1A2A:  CALL    16A6
+1A2E:  MOV     W0,W7
+1A30:  BTSC.B  223.1
+1A32:  BRA     1A30
+1A34:  MOV     #59,W4
+1A36:  MOV     W4,224
+1A38:  BTSC.B  223.1
+1A3A:  BRA     1A38
+1A3C:  MOV     #3A,W4
+1A3E:  MOV     W4,224
+1A40:  MOV     W5,W0
+1A42:  MOV     #0,W4
+1A44:  CALL    16D2
+1A48:  BTSC.B  223.1
+1A4A:  BRA     1A48
+1A4C:  MOV     #2C,W4
+1A4E:  MOV     W4,224
+1A50:  MOV     W6,W0
+1A52:  MOV     #0,W4
+1A54:  CALL    16D2
+1A58:  BTSC.B  223.1
+1A5A:  BRA     1A58
+1A5C:  MOV     #2C,W4
+1A5E:  MOV     W4,224
+1A60:  MOV     W7,W0
+1A62:  MOV     #0,W4
+1A64:  CALL    16D2
+1A68:  BTSC.B  223.1
+1A6A:  BRA     1A68
+1A6C:  MOV     #2C,W4
+1A6E:  MOV     W4,224
+1A70:  MOV     960,W0
+1A72:  MOV     #0,W4
+1A74:  CALL    16D2
+1A78:  BTSC.B  223.1
+1A7A:  BRA     1A78
+1A7C:  MOV     #A,W4
+1A7E:  MOV     W4,224
 ....................  
 ....................  
 .................... } 
 ....................  
 ....................  
-18AE:  BCLR.B  87.4
-18B0:  MOV     #1A,W0
-18B2:  REPEAT  #C
-18B4:  MOV     [--W15],[W0--]
-18B6:  MOV     [--W15],W0
-18B8:  POP     32
-18BA:  POP     36
-18BC:  POP     42
-18BE:  RETFIE  
+1A80:  BCLR.B  87.4
+1A82:  MOV     #1A,W0
+1A84:  REPEAT  #C
+1A86:  MOV     [--W15],[W0--]
+1A88:  MOV     [--W15],W0
+1A8A:  POP     32
+1A8C:  POP     36
+1A8E:  POP     42
+1A90:  RETFIE  
 .................... #INT_IC1 
 .................... void testIC1() 
-18C0:  PUSH    42
-18C2:  PUSH    36
-18C4:  PUSH    32
-18C6:  MOV     W0,[W15++]
-18C8:  MOV     #2,W0
-18CA:  REPEAT  #C
-18CC:  MOV     [W0++],[W15++]
-18CE:  MOV     2CA,W5
-18D0:  MOV     W5,W4
-18D2:  AND     #30,W4
-18D4:  MOV     W4,9D4
+1A92:  PUSH    42
+1A94:  PUSH    36
+1A96:  PUSH    32
+1A98:  MOV     W0,[W15++]
+1A9A:  MOV     #2,W0
+1A9C:  REPEAT  #C
+1A9E:  MOV     [W0++],[W15++]
+1AA0:  MOV     2CA,W5
+1AA2:  MOV     W5,W4
+1AA4:  AND     #30,W4
+1AA6:  MOV     W4,9D6
 .................... {	 
 .................... 	int16u ipX = (input_b () & 0x0030); 
 ....................  
 .................... 	timeNewX = get_capture (1); 
-18D6:  PUSH    140
-18D8:  POP     8E8
+1AA8:  PUSH    140
+1AAA:  POP     8E8
 .................... 	intervalX = timeNewX - timeOldX; 
-18DA:  MOV     8E8,W4
-18DC:  MOV     8E6,W3
-18DE:  SUB     W4,W3,W0
-18E0:  MOV     W0,8EC
+1AAC:  MOV     8E8,W4
+1AAE:  MOV     8E6,W3
+1AB0:  SUB     W4,W3,W0
+1AB2:  MOV     W0,8EC
 .................... 	stateCHAX = ~(((ipX & 0x10)>>4) ^ ((ipX & 0x20)>>5)) & 0x01; 
-18E2:  MOV     9D4,W0
-18E4:  AND     W0,#10,W5
-18E6:  LSR     W5,#4,W5
-18E8:  MOV     9D4,W6
-18EA:  AND     #20,W6
-18EC:  LSR     W6,#5,W0
-18EE:  XOR     W5,W0,W0
-18F0:  COM     W0,W0
-18F2:  MOV     W0,W5
-18F4:  AND     W5,#1,W0
-18F6:  MOV     W0,8DE
+1AB4:  MOV     9D6,W0
+1AB6:  AND     W0,#10,W5
+1AB8:  LSR     W5,#4,W5
+1ABA:  MOV     9D6,W6
+1ABC:  AND     #20,W6
+1ABE:  LSR     W6,#5,W0
+1AC0:  XOR     W5,W0,W0
+1AC2:  COM     W0,W0
+1AC4:  MOV     W0,W5
+1AC6:  AND     W5,#1,W0
+1AC8:  MOV     W0,8DE
 .................... 	if ( (ipX & 0x10)>>4 == (ipX & 0x20)>>5 ) { 
-18F8:  MOV     9D4,W0
-18FA:  AND     W0,#10,W5
-18FC:  LSR     W5,#4,W5
-18FE:  MOV     9D4,W6
-1900:  AND     #20,W6
-1902:  LSR     W6,#5,W0
-1904:  CP      W5,W0
-1906:  BRA     NZ,1914
+1ACA:  MOV     9D6,W0
+1ACC:  AND     W0,#10,W5
+1ACE:  LSR     W5,#4,W5
+1AD0:  MOV     9D6,W6
+1AD2:  AND     #20,W6
+1AD4:  LSR     W6,#5,W0
+1AD6:  CP      W5,W0
+1AD8:  BRA     NZ,1AE6
 .................... 		directionReadX = 1; 
-1908:  MOV     #1,W4
-190A:  MOV     W4,8EA
+1ADA:  MOV     #1,W4
+1ADC:  MOV     W4,8EA
 .................... 		countDistanceX += 1; 
-190C:  MOV     95E,W4
-190E:  ADD     W4,#1,W4
-1910:  MOV     W4,95E
+1ADE:  MOV     95E,W4
+1AE0:  ADD     W4,#1,W4
+1AE2:  MOV     W4,95E
 .................... 	} 
-1912:  BRA     191E
+1AE4:  BRA     1AF0
 .................... 	else{ 
 .................... 		directionReadX = 2; 
-1914:  MOV     #2,W4
-1916:  MOV     W4,8EA
+1AE6:  MOV     #2,W4
+1AE8:  MOV     W4,8EA
 .................... 		countDistanceX -= 1; 
-1918:  MOV     95E,W4
-191A:  SUB     W4,#1,W0
-191C:  MOV     W0,95E
+1AEA:  MOV     95E,W4
+1AEC:  SUB     W4,#1,W0
+1AEE:  MOV     W0,95E
 .................... 	} 
 .................... 	timeOldX = timeNewX; 
-191E:  PUSH    8E8
-1920:  POP     8E6
+1AF0:  PUSH    8E8
+1AF2:  POP     8E6
 .................... 	// computeInstantlyDistantX(); 
 ....................  
 .................... } 
 ....................  
-1922:  BCLR.B  84.1
-1924:  MOV     #1A,W0
-1926:  REPEAT  #C
-1928:  MOV     [--W15],[W0--]
-192A:  MOV     [--W15],W0
-192C:  POP     32
-192E:  POP     36
-1930:  POP     42
-1932:  RETFIE  
+1AF4:  BCLR.B  84.1
+1AF6:  MOV     #1A,W0
+1AF8:  REPEAT  #C
+1AFA:  MOV     [--W15],[W0--]
+1AFC:  MOV     [--W15],W0
+1AFE:  POP     32
+1B00:  POP     36
+1B02:  POP     42
+1B04:  RETFIE  
 .................... #INT_IC2 
 .................... void testIC2() 
-1934:  PUSH    42
-1936:  PUSH    36
-1938:  PUSH    32
-193A:  MOV     W0,[W15++]
-193C:  MOV     #2,W0
-193E:  REPEAT  #C
-1940:  MOV     [W0++],[W15++]
-1942:  MOV     2CA,W5
-1944:  MOV     W5,W4
-1946:  AND     #30,W4
-1948:  MOV     W4,9D4
+1B06:  PUSH    42
+1B08:  PUSH    36
+1B0A:  PUSH    32
+1B0C:  MOV     W0,[W15++]
+1B0E:  MOV     #2,W0
+1B10:  REPEAT  #C
+1B12:  MOV     [W0++],[W15++]
+1B14:  MOV     2CA,W5
+1B16:  MOV     W5,W4
+1B18:  AND     #30,W4
+1B1A:  MOV     W4,9D6
 .................... { 
 .................... 	int16u ipX = (input_b () & 0x0030); 
 .................... 	timeNewX = get_capture(2); 
-194A:  PUSH    144
-194C:  POP     8E8
+1B1C:  PUSH    144
+1B1E:  POP     8E8
 ....................  
 .................... 	intervalX = timeNewX - timeOldX; 
-194E:  MOV     8E8,W4
-1950:  MOV     8E6,W3
-1952:  SUB     W4,W3,W0
-1954:  MOV     W0,8EC
+1B20:  MOV     8E8,W4
+1B22:  MOV     8E6,W3
+1B24:  SUB     W4,W3,W0
+1B26:  MOV     W0,8EC
 .................... 	stateCHBX = ((ipX & 0x10)>>4) ^ ((ipX & 0x20)>>5); 
-1956:  MOV     9D4,W0
-1958:  AND     W0,#10,W5
-195A:  LSR     W5,#4,W5
-195C:  MOV     9D4,W6
-195E:  AND     #20,W6
-1960:  LSR     W6,#5,W0
-1962:  XOR     W5,W0,W0
-1964:  MOV     W0,8E0
+1B28:  MOV     9D6,W0
+1B2A:  AND     W0,#10,W5
+1B2C:  LSR     W5,#4,W5
+1B2E:  MOV     9D6,W6
+1B30:  AND     #20,W6
+1B32:  LSR     W6,#5,W0
+1B34:  XOR     W5,W0,W0
+1B36:  MOV     W0,8E0
 .................... 	if ( (ipX & 0x10)>>4 != (ipX & 0x20)>>5 ){ 
-1966:  MOV     9D4,W0
-1968:  AND     W0,#10,W5
-196A:  LSR     W5,#4,W5
-196C:  MOV     9D4,W6
-196E:  AND     #20,W6
-1970:  LSR     W6,#5,W0
-1972:  CP      W5,W0
-1974:  BRA     Z,1982
+1B38:  MOV     9D6,W0
+1B3A:  AND     W0,#10,W5
+1B3C:  LSR     W5,#4,W5
+1B3E:  MOV     9D6,W6
+1B40:  AND     #20,W6
+1B42:  LSR     W6,#5,W0
+1B44:  CP      W5,W0
+1B46:  BRA     Z,1B54
 .................... 		directionReadX = 1; 
-1976:  MOV     #1,W4
-1978:  MOV     W4,8EA
+1B48:  MOV     #1,W4
+1B4A:  MOV     W4,8EA
 .................... 		countDistanceX += 1; 
-197A:  MOV     95E,W4
-197C:  ADD     W4,#1,W4
-197E:  MOV     W4,95E
+1B4C:  MOV     95E,W4
+1B4E:  ADD     W4,#1,W4
+1B50:  MOV     W4,95E
 .................... 	} 
-1980:  BRA     198C
+1B52:  BRA     1B5E
 .................... 	else{ 
 .................... 		directionReadX = 2; 
-1982:  MOV     #2,W4
-1984:  MOV     W4,8EA
+1B54:  MOV     #2,W4
+1B56:  MOV     W4,8EA
 .................... 		countDistanceX -= 1; 
-1986:  MOV     95E,W4
-1988:  SUB     W4,#1,W0
-198A:  MOV     W0,95E
+1B58:  MOV     95E,W4
+1B5A:  SUB     W4,#1,W0
+1B5C:  MOV     W0,95E
 .................... 	} 
 ....................  
 .................... 	timeOldX = timeNewX; 
-198C:  PUSH    8E8
-198E:  POP     8E6
+1B5E:  PUSH    8E8
+1B60:  POP     8E6
 .................... 	// computeInstantlyDistantX(); 
 ....................  
 .................... } 
 ....................  
-1990:  BCLR.B  84.5
-1992:  MOV     #1A,W0
-1994:  REPEAT  #C
-1996:  MOV     [--W15],[W0--]
-1998:  MOV     [--W15],W0
-199A:  POP     32
-199C:  POP     36
-199E:  POP     42
-19A0:  RETFIE  
+1B62:  BCLR.B  84.5
+1B64:  MOV     #1A,W0
+1B66:  REPEAT  #C
+1B68:  MOV     [--W15],[W0--]
+1B6A:  MOV     [--W15],W0
+1B6C:  POP     32
+1B6E:  POP     36
+1B70:  POP     42
+1B72:  RETFIE  
 .................... #INT_IC3 
 .................... void testIC3() 
-19A2:  PUSH    42
-19A4:  PUSH    36
-19A6:  PUSH    32
-19A8:  MOV     W0,[W15++]
-19AA:  MOV     #2,W0
-19AC:  REPEAT  #C
-19AE:  MOV     [W0++],[W15++]
-19B0:  MOV     2CA,W5
-19B2:  MOV     W5,W4
-19B4:  AND     #C0,W4
-19B6:  MOV     W4,9D4
+1B74:  PUSH    42
+1B76:  PUSH    36
+1B78:  PUSH    32
+1B7A:  MOV     W0,[W15++]
+1B7C:  MOV     #2,W0
+1B7E:  REPEAT  #C
+1B80:  MOV     [W0++],[W15++]
+1B82:  MOV     2CA,W5
+1B84:  MOV     W5,W4
+1B86:  AND     #C0,W4
+1B88:  MOV     W4,9D6
 .................... {	 
 .................... 	int16u ipY = (input_b () & 0x00c0); 
 ....................  
 .................... 	timeNewY = get_capture (3); 
-19B8:  PUSH    148
-19BA:  POP     8F4
+1B8A:  PUSH    148
+1B8C:  POP     8F4
 .................... 	intervalY = timeNewY - timeOldY; 
-19BC:  MOV     8F4,W4
-19BE:  MOV     8F2,W3
-19C0:  SUB     W4,W3,W0
-19C2:  MOV     W0,8F8
+1B8E:  MOV     8F4,W4
+1B90:  MOV     8F2,W3
+1B92:  SUB     W4,W3,W0
+1B94:  MOV     W0,8F8
 .................... 	stateCHAY = ~(((ipY & 0x80)>>4) ^ ((ipY & 0x40)>>5)) & 0x01; 
-19C4:  MOV     9D4,W5
-19C6:  AND     #80,W5
-19C8:  LSR     W5,#4,W5
-19CA:  MOV     9D4,W6
-19CC:  AND     #40,W6
-19CE:  LSR     W6,#5,W0
-19D0:  XOR     W5,W0,W0
-19D2:  COM     W0,W0
-19D4:  MOV     W0,W5
-19D6:  AND     W5,#1,W0
-19D8:  MOV     W0,8E2
+1B96:  MOV     9D6,W5
+1B98:  AND     #80,W5
+1B9A:  LSR     W5,#4,W5
+1B9C:  MOV     9D6,W6
+1B9E:  AND     #40,W6
+1BA0:  LSR     W6,#5,W0
+1BA2:  XOR     W5,W0,W0
+1BA4:  COM     W0,W0
+1BA6:  MOV     W0,W5
+1BA8:  AND     W5,#1,W0
+1BAA:  MOV     W0,8E2
 .................... 	if ( (ipY & 0x80)>>7 == (ipY & 0x40)>>6 ) { 
-19DA:  MOV     9D4,W5
-19DC:  AND     #80,W5
-19DE:  LSR     W5,#7,W5
-19E0:  MOV     9D4,W6
-19E2:  AND     #40,W6
-19E4:  LSR     W6,#6,W0
-19E6:  CP      W5,W0
-19E8:  BRA     NZ,19F6
+1BAC:  MOV     9D6,W5
+1BAE:  AND     #80,W5
+1BB0:  LSR     W5,#7,W5
+1BB2:  MOV     9D6,W6
+1BB4:  AND     #40,W6
+1BB6:  LSR     W6,#6,W0
+1BB8:  CP      W5,W0
+1BBA:  BRA     NZ,1BC8
 .................... 		directionReadY = 1; 
-19EA:  MOV     #1,W4
-19EC:  MOV     W4,8F6
+1BBC:  MOV     #1,W4
+1BBE:  MOV     W4,8F6
 .................... 		countDistanceY += 1; 
-19EE:  MOV     960,W4
-19F0:  ADD     W4,#1,W4
-19F2:  MOV     W4,960
+1BC0:  MOV     960,W4
+1BC2:  ADD     W4,#1,W4
+1BC4:  MOV     W4,960
 .................... 	} 
-19F4:  BRA     1A00
+1BC6:  BRA     1BD2
 .................... 	else{ 
 .................... 		directionReadY = 2; 
-19F6:  MOV     #2,W4
-19F8:  MOV     W4,8F6
+1BC8:  MOV     #2,W4
+1BCA:  MOV     W4,8F6
 .................... 		countDistanceY -= 1; 
-19FA:  MOV     960,W4
-19FC:  SUB     W4,#1,W0
-19FE:  MOV     W0,960
+1BCC:  MOV     960,W4
+1BCE:  SUB     W4,#1,W0
+1BD0:  MOV     W0,960
 .................... 	} 
 .................... 	timeOldY = timeNewY; 
-1A00:  PUSH    8F4
-1A02:  POP     8F2
+1BD2:  PUSH    8F4
+1BD4:  POP     8F2
+....................  
+.................... 	// printf("Interrupt IC3\n"); 
 .................... 	// computeInstantlyDistantY(); 
 ....................  
 .................... } 
 ....................  
-1A04:  BCLR.B  88.5
-1A06:  MOV     #1A,W0
-1A08:  REPEAT  #C
-1A0A:  MOV     [--W15],[W0--]
-1A0C:  MOV     [--W15],W0
-1A0E:  POP     32
-1A10:  POP     36
-1A12:  POP     42
-1A14:  RETFIE  
+1BD6:  BCLR.B  88.5
+1BD8:  MOV     #1A,W0
+1BDA:  REPEAT  #C
+1BDC:  MOV     [--W15],[W0--]
+1BDE:  MOV     [--W15],W0
+1BE0:  POP     32
+1BE2:  POP     36
+1BE4:  POP     42
+1BE6:  RETFIE  
 .................... #INT_IC4 
 .................... void testIC4() 
-1A16:  PUSH    42
-1A18:  PUSH    36
-1A1A:  PUSH    32
-1A1C:  MOV     W0,[W15++]
-1A1E:  MOV     #2,W0
-1A20:  REPEAT  #C
-1A22:  MOV     [W0++],[W15++]
-1A24:  MOV     2CA,W5
-1A26:  MOV     W5,W4
-1A28:  AND     #C0,W4
-1A2A:  MOV     W4,9D4
+1BE8:  PUSH    42
+1BEA:  PUSH    36
+1BEC:  PUSH    32
+1BEE:  MOV     W0,[W15++]
+1BF0:  MOV     #2,W0
+1BF2:  REPEAT  #C
+1BF4:  MOV     [W0++],[W15++]
+1BF6:  MOV     2CA,W5
+1BF8:  MOV     W5,W4
+1BFA:  AND     #C0,W4
+1BFC:  MOV     W4,9D6
 .................... { 
 .................... 	int16u ipY = (input_b () & 0x00c0); 
 .................... 	timeNewY = get_capture(4); 
-1A2C:  PUSH    14C
-1A2E:  POP     8F4
+1BFE:  PUSH    14C
+1C00:  POP     8F4
 ....................  
 .................... 	intervalY = timeNewY - timeOldY; 
-1A30:  MOV     8F4,W4
-1A32:  MOV     8F2,W3
-1A34:  SUB     W4,W3,W0
-1A36:  MOV     W0,8F8
+1C02:  MOV     8F4,W4
+1C04:  MOV     8F2,W3
+1C06:  SUB     W4,W3,W0
+1C08:  MOV     W0,8F8
 .................... 	stateCHBY = ((ipY & 0x80)>>4) ^ ((ipY & 0x40)>>5); 
-1A38:  MOV     9D4,W5
-1A3A:  AND     #80,W5
-1A3C:  LSR     W5,#4,W5
-1A3E:  MOV     9D4,W6
-1A40:  AND     #40,W6
-1A42:  LSR     W6,#5,W0
-1A44:  XOR     W5,W0,W0
-1A46:  MOV     W0,8E4
+1C0A:  MOV     9D6,W5
+1C0C:  AND     #80,W5
+1C0E:  LSR     W5,#4,W5
+1C10:  MOV     9D6,W6
+1C12:  AND     #40,W6
+1C14:  LSR     W6,#5,W0
+1C16:  XOR     W5,W0,W0
+1C18:  MOV     W0,8E4
 .................... 	if ( (ipY & 0x80)>>7 != (ipY & 0x40)>>6 ){ 
-1A48:  MOV     9D4,W5
-1A4A:  AND     #80,W5
-1A4C:  LSR     W5,#7,W5
-1A4E:  MOV     9D4,W6
-1A50:  AND     #40,W6
-1A52:  LSR     W6,#6,W0
-1A54:  CP      W5,W0
-1A56:  BRA     Z,1A64
+1C1A:  MOV     9D6,W5
+1C1C:  AND     #80,W5
+1C1E:  LSR     W5,#7,W5
+1C20:  MOV     9D6,W6
+1C22:  AND     #40,W6
+1C24:  LSR     W6,#6,W0
+1C26:  CP      W5,W0
+1C28:  BRA     Z,1C36
 .................... 		directionReadY = 1; 
-1A58:  MOV     #1,W4
-1A5A:  MOV     W4,8F6
+1C2A:  MOV     #1,W4
+1C2C:  MOV     W4,8F6
 .................... 		countDistanceY += 1; 
-1A5C:  MOV     960,W4
-1A5E:  ADD     W4,#1,W4
-1A60:  MOV     W4,960
+1C2E:  MOV     960,W4
+1C30:  ADD     W4,#1,W4
+1C32:  MOV     W4,960
 .................... 	} 
-1A62:  BRA     1A6E
+1C34:  BRA     1C40
 .................... 	else{ 
 .................... 		directionReadY = 2; 
-1A64:  MOV     #2,W4
-1A66:  MOV     W4,8F6
+1C36:  MOV     #2,W4
+1C38:  MOV     W4,8F6
 .................... 		countDistanceY -= 1; 
-1A68:  MOV     960,W4
-1A6A:  SUB     W4,#1,W0
-1A6C:  MOV     W0,960
+1C3A:  MOV     960,W4
+1C3C:  SUB     W4,#1,W0
+1C3E:  MOV     W0,960
 .................... 	} 
 ....................  
 .................... 	timeOldY = timeNewY; 
-1A6E:  PUSH    8F4
-1A70:  POP     8F2
+1C40:  PUSH    8F4
+1C42:  POP     8F2
+....................  
+.................... 	// printf("Interrupt IC4\n"); 
 .................... 	// computeInstantlyDistantY(); 
 ....................  
 .................... } 
@@ -16165,25 +16384,25 @@ CCS PCD C Compiler, Version 5.015, 5967               13-Nov-17 10:39
 .................... /**                                                                        **/ 
 .................... /****************************************************************************/ 
 ....................  
-1A72:  BCLR.B  88.6
-1A74:  MOV     #1A,W0
-1A76:  REPEAT  #C
-1A78:  MOV     [--W15],[W0--]
-1A7A:  MOV     [--W15],W0
-1A7C:  POP     32
-1A7E:  POP     36
-1A80:  POP     42
-1A82:  RETFIE  
+1C44:  BCLR.B  88.6
+1C46:  MOV     #1A,W0
+1C48:  REPEAT  #C
+1C4A:  MOV     [--W15],[W0--]
+1C4C:  MOV     [--W15],W0
+1C4E:  POP     32
+1C50:  POP     36
+1C52:  POP     42
+1C54:  RETFIE  
 .................... #INT_RDA 
 .................... void RDA1() 
 *
-1CF6:  PUSH    42
-1CF8:  PUSH    36
-1CFA:  PUSH    32
-1CFC:  MOV     W0,[W15++]
-1CFE:  MOV     #2,W0
-1D00:  REPEAT  #C
-1D02:  MOV     [W0++],[W15++]
+1EC8:  PUSH    42
+1ECA:  PUSH    36
+1ECC:  PUSH    32
+1ECE:  MOV     W0,[W15++]
+1ED0:  MOV     #2,W0
+1ED2:  REPEAT  #C
+1ED4:  MOV     [W0++],[W15++]
 .................... { 
 .................... 	static FRAME_STATE FrameState = FRAME_WAIT; 
 .................... 	static int8u FrmIdx = 0; 
@@ -16191,432 +16410,432 @@ CCS PCD C Compiler, Version 5.015, 5967               13-Nov-17 10:39
 .................... 	int8u Chr; 
 .................... 	int8u *errCode; 
 .................... 	Chr = getc(); 
-1D04:  BTSS.B  222.0
-1D06:  BRA     1D04
-1D08:  MOV     226,W0
-1D0A:  MOV.B   W0L,9D4
+1ED6:  BTSS.B  222.0
+1ED8:  BRA     1ED6
+1EDA:  MOV     226,W0
+1EDC:  MOV.B   W0L,9D8
 .................... 	RxCount++; 
-1D0C:  INC     08A0
+1EDE:  INC     08A0
 .................... 	switch(FrameState) 
-1D0E:  MOV.B   97C,W0L
-1D10:  CLR.B   1
-1D12:  XOR     #0,W0
-1D14:  BRA     Z,1D20
-1D16:  XOR     #1,W0
-1D18:  BRA     Z,1D3C
-1D1A:  XOR     #3,W0
-1D1C:  BRA     Z,1D5E
-1D1E:  BRA     1E24
+1EE0:  MOV.B   97C,W0L
+1EE2:  CLR.B   1
+1EE4:  XOR     #0,W0
+1EE6:  BRA     Z,1EF2
+1EE8:  XOR     #1,W0
+1EEA:  BRA     Z,1F0E
+1EEC:  XOR     #3,W0
+1EEE:  BRA     Z,1F30
+1EF0:  BRA     1FF6
 .................... 	{ 
 .................... 		case FRAME_WAIT: 
 .................... 			if(Chr == START_CHR) 
-1D20:  MOV     9D4,W4
-1D22:  XOR.B   #FF,W4L
-1D24:  BRA     NZ,1D3A
+1EF2:  MOV     9D8,W4
+1EF4:  XOR.B   #FF,W4L
+1EF6:  BRA     NZ,1F0C
 .................... 			{ 
 .................... 				RxBuffPtr[FrmIdx] = Chr; 
-1D26:  MOV     97C,W4
-1D28:  LSR     W4,#8,W4
-1D2A:  MOV     W4,W0
-1D2C:  ADD     8A6,W0
-1D2E:  MOV     W0,W5
-1D30:  MOV     9D4,W0
-1D32:  MOV.B   W0L,[W5+#0]
+1EF8:  MOV     97C,W4
+1EFA:  LSR     W4,#8,W4
+1EFC:  MOV     W4,W0
+1EFE:  ADD     8A6,W0
+1F00:  MOV     W0,W5
+1F02:  MOV     9D8,W0
+1F04:  MOV.B   W0L,[W5+#0]
 .................... 				FrmIdx++; 
-1D34:  INC.B   097D
+1F06:  INC.B   097D
 .................... 				FrameState = FRAME_PROGRESS; 
-1D36:  MOV.B   #1,W0L
-1D38:  MOV.B   W0L,97C
+1F08:  MOV.B   #1,W0L
+1F0A:  MOV.B   W0L,97C
 .................... 			} 
 .................... 			break; 
-1D3A:  BRA     1E26
+1F0C:  BRA     1FF8
 .................... 		case  FRAME_PROGRESS: 
 .................... 			if(Chr == START_CHR) 
-1D3C:  MOV     9D4,W4
-1D3E:  XOR.B   #FF,W4L
-1D40:  BRA     NZ,1D58
+1F0E:  MOV     9D8,W4
+1F10:  XOR.B   #FF,W4L
+1F12:  BRA     NZ,1F2A
 .................... 			{ 
 .................... 				RxBuffPtr[FrmIdx] = Chr; 
-1D42:  MOV     97C,W4
-1D44:  LSR     W4,#8,W4
-1D46:  MOV     W4,W0
-1D48:  ADD     8A6,W0
-1D4A:  MOV     W0,W5
-1D4C:  MOV     9D4,W0
-1D4E:  MOV.B   W0L,[W5+#0]
+1F14:  MOV     97C,W4
+1F16:  LSR     W4,#8,W4
+1F18:  MOV     W4,W0
+1F1A:  ADD     8A6,W0
+1F1C:  MOV     W0,W5
+1F1E:  MOV     9D8,W0
+1F20:  MOV.B   W0L,[W5+#0]
 .................... 				FrmIdx++; 
-1D50:  INC.B   097D
+1F22:  INC.B   097D
 .................... 				FrameState = FRAME_PROGRESS2; 
-1D52:  MOV.B   #2,W0L
-1D54:  MOV.B   W0L,97C
+1F24:  MOV.B   #2,W0L
+1F26:  MOV.B   W0L,97C
 .................... 			} 
-1D56:  BRA     1D5C
+1F28:  BRA     1F2E
 .................... 			else 
 .................... 			{ 
 .................... 				FrmIdx = 0; 
-1D58:  CLR.B   97D
+1F2A:  CLR.B   97D
 .................... 				FrameState = FRAME_WAIT; 
-1D5A:  CLR.B   97C
+1F2C:  CLR.B   97C
 .................... 			} 
 .................... 			break; 
-1D5C:  BRA     1E26
+1F2E:  BRA     1FF8
 .................... 		case FRAME_PROGRESS2: 
 .................... 			if(FrmIdx == 2) 
-1D5E:  MOV     97C,W4
-1D60:  LSR     W4,#8,W4
-1D62:  CP.B    W4L,#2
-1D64:  BRA     NZ,1D84
+1F30:  MOV     97C,W4
+1F32:  LSR     W4,#8,W4
+1F34:  CP.B    W4L,#2
+1F36:  BRA     NZ,1F56
 .................... 			{ 
 .................... 				if(Chr == 0x01) 
-1D66:  MOV     9D4,W4
-1D68:  CP.B    W4L,#1
-1D6A:  BRA     NZ,1D7E
+1F38:  MOV     9D8,W4
+1F3A:  CP.B    W4L,#1
+1F3C:  BRA     NZ,1F50
 .................... 				// if(1) 
 .................... 				{ 
 .................... 					RxBuffPtr[FrmIdx] = Chr; 
-1D6C:  MOV     97C,W4
-1D6E:  LSR     W4,#8,W4
-1D70:  MOV     W4,W0
-1D72:  ADD     8A6,W0
-1D74:  MOV     W0,W5
-1D76:  MOV     9D4,W0
-1D78:  MOV.B   W0L,[W5+#0]
+1F3E:  MOV     97C,W4
+1F40:  LSR     W4,#8,W4
+1F42:  MOV     W4,W0
+1F44:  ADD     8A6,W0
+1F46:  MOV     W0,W5
+1F48:  MOV     9D8,W0
+1F4A:  MOV.B   W0L,[W5+#0]
 .................... 					FrmIdx++; 
-1D7A:  INC.B   097D
+1F4C:  INC.B   097D
 .................... 				} 
-1D7C:  BRA     1D82
+1F4E:  BRA     1F54
 .................... 				else 
 .................... 				{ 
 .................... 					FrmIdx = 0; 
-1D7E:  CLR.B   97D
+1F50:  CLR.B   97D
 .................... 					FrameState = FRAME_WAIT; 
-1D80:  CLR.B   97C
+1F52:  CLR.B   97C
 .................... 				}	 
 .................... 			} 
-1D82:  BRA     1E22
+1F54:  BRA     1FF4
 .................... 			else if(FrmIdx == 3) 
-1D84:  MOV     97C,W4
-1D86:  LSR     W4,#8,W4
-1D88:  CP.B    W4L,#3
-1D8A:  BRA     NZ,1DA2
+1F56:  MOV     97C,W4
+1F58:  LSR     W4,#8,W4
+1F5A:  CP.B    W4L,#3
+1F5C:  BRA     NZ,1F74
 .................... 			{ 
 .................... 				RxBuffPtr[FrmIdx] = Chr; 
-1D8C:  MOV     97C,W4
-1D8E:  LSR     W4,#8,W4
-1D90:  MOV     W4,W0
-1D92:  ADD     8A6,W0
-1D94:  MOV     W0,W5
-1D96:  MOV     9D4,W0
-1D98:  MOV.B   W0L,[W5+#0]
+1F5E:  MOV     97C,W4
+1F60:  LSR     W4,#8,W4
+1F62:  MOV     W4,W0
+1F64:  ADD     8A6,W0
+1F66:  MOV     W0,W5
+1F68:  MOV     9D8,W0
+1F6A:  MOV.B   W0L,[W5+#0]
 .................... 				Lenght = Chr; 
-1D9A:  MOV.B   9D4,W0L
-1D9C:  MOV.B   W0L,97E
+1F6C:  MOV.B   9D8,W0L
+1F6E:  MOV.B   W0L,97E
 .................... 				FrmIdx++; 
-1D9E:  INC.B   097D
+1F70:  INC.B   097D
 .................... 			} 
-1DA0:  BRA     1E22
+1F72:  BRA     1FF4
 .................... 			else if(FrmIdx < 3+Lenght) 
-1DA2:  MOV     97E,W4
-1DA4:  CLR.B   9
-1DA6:  MOV     #3,W3
-1DA8:  ADD     W3,W4,W0
-1DAA:  MOV     97C,W4
-1DAC:  LSR     W4,#8,W4
-1DAE:  CP      W4,W0
-1DB0:  BRA     C,1DC4
+1F74:  MOV     97E,W4
+1F76:  CLR.B   9
+1F78:  MOV     #3,W3
+1F7A:  ADD     W3,W4,W0
+1F7C:  MOV     97C,W4
+1F7E:  LSR     W4,#8,W4
+1F80:  CP      W4,W0
+1F82:  BRA     C,1F96
 .................... 			{ 
 .................... 				RxBuffPtr[FrmIdx] = Chr; 
-1DB2:  MOV     97C,W4
-1DB4:  LSR     W4,#8,W4
-1DB6:  MOV     W4,W0
-1DB8:  ADD     8A6,W0
-1DBA:  MOV     W0,W5
-1DBC:  MOV     9D4,W0
-1DBE:  MOV.B   W0L,[W5+#0]
+1F84:  MOV     97C,W4
+1F86:  LSR     W4,#8,W4
+1F88:  MOV     W4,W0
+1F8A:  ADD     8A6,W0
+1F8C:  MOV     W0,W5
+1F8E:  MOV     9D8,W0
+1F90:  MOV.B   W0L,[W5+#0]
 .................... 				FrmIdx++; 
-1DC0:  INC.B   097D
+1F92:  INC.B   097D
 .................... 			} 
-1DC2:  BRA     1E22
+1F94:  BRA     1FF4
 .................... 			else if(FrmIdx == 3+Lenght) 
-1DC4:  MOV     97E,W4
-1DC6:  CLR.B   9
-1DC8:  MOV     #3,W3
-1DCA:  ADD     W3,W4,W0
-1DCC:  MOV     97C,W4
-1DCE:  LSR     W4,#8,W4
-1DD0:  CP      W0,W4
-1DD2:  BRA     NZ,1E22
+1F96:  MOV     97E,W4
+1F98:  CLR.B   9
+1F9A:  MOV     #3,W3
+1F9C:  ADD     W3,W4,W0
+1F9E:  MOV     97C,W4
+1FA0:  LSR     W4,#8,W4
+1FA2:  CP      W0,W4
+1FA4:  BRA     NZ,1FF4
 .................... 			{ 
 .................... 				RxBuffPtr[FrmIdx] = Chr; 
-1DD4:  MOV     97C,W4
-1DD6:  LSR     W4,#8,W4
-1DD8:  MOV     W4,W0
-1DDA:  ADD     8A6,W0
-1DDC:  MOV     W0,W5
-1DDE:  MOV     9D4,W0
-1DE0:  MOV.B   W0L,[W5+#0]
+1FA6:  MOV     97C,W4
+1FA8:  LSR     W4,#8,W4
+1FAA:  MOV     W4,W0
+1FAC:  ADD     8A6,W0
+1FAE:  MOV     W0,W5
+1FB0:  MOV     9D8,W0
+1FB2:  MOV.B   W0L,[W5+#0]
 .................... 				FrmIdx = 0; 
-1DE2:  CLR.B   97D
+1FB4:  CLR.B   97D
 .................... 				Lenght = 0; 
-1DE4:  CLR.B   97E
+1FB6:  CLR.B   97E
 .................... 				Rx1FrameCount++; 
-1DE6:  INC     089E
+1FB8:  INC     089E
 ....................  
 .................... 				QPtrXPut(&Rx1QCB,(void *)RxBuffPtr, &errCode); 
-1DE8:  MOV     #8A8,W4
-1DEA:  MOV     W4,9F4
-1DEC:  PUSH    8A6
-1DEE:  POP     9F6
-1DF0:  MOV     #9D6,W4
-1DF2:  MOV     W4,9F8
-1DF4:  CALL    1A84
+1FBA:  MOV     #8A8,W4
+1FBC:  MOV     W4,9F8
+1FBE:  PUSH    8A6
+1FC0:  POP     9FA
+1FC2:  MOV     #9DA,W4
+1FC4:  MOV     W4,9FC
+1FC6:  CALL    1C56
 .................... 				if (errCode == Q_FULL) 
-1DF8:  MOV     9D6,W4
-1DFA:  CP      W4,#1
-1DFC:  BRA     NZ,1E0A
+1FCA:  MOV     9DA,W4
+1FCC:  CP      W4,#1
+1FCE:  BRA     NZ,1FDC
 .................... 				{ 
 .................... 					/* code */ 
 .................... 					free((void *)RxBuffPtr); 
-1DFE:  PUSH    8A6
-1E00:  POP     9E6
-1E02:  CALL    1BAA
+1FD0:  PUSH    8A6
+1FD2:  POP     9F2
+1FD4:  CALL    1D7C
 .................... 					MemCount--; 
-1E06:  DEC     08DA
+1FD8:  DEC     08DA
 .................... 					Rx1QFullCount++; 
-1E08:  INC     08A4
+1FDA:  INC     08A4
 .................... 				} 
 .................... 				FrameState = FRAME_WAIT; 
-1E0A:  CLR.B   97C
+1FDC:  CLR.B   97C
 ....................  
 .................... 				RxBuffPtr = (int8u *)malloc((sizeof (int8u)) * RX_CMND_FRM_LN); 
-1E0C:  MOV     #10,W4
-1E0E:  MOV     W4,9EC
-1E10:  CALL    1C44
-1E14:  MOV     W0,8A6
+1FDE:  MOV     #10,W4
+1FE0:  MOV     W4,9EE
+1FE2:  CALL    1E16
+1FE6:  MOV     W0,8A6
 .................... 				if(RxBuffPtr == (int8u *)NULL) 
-1E16:  CP0     8A6
-1E18:  BRA     NZ,1E20
+1FE8:  CP0     8A6
+1FEA:  BRA     NZ,1FF2
 .................... 				{ 
 .................... 					disable_interrupts(INT_RDA); 
-1E1A:  BCLR.B  95.3
+1FEC:  BCLR.B  95.3
 .................... 					MemFail++; 
-1E1C:  INC     08D8
+1FEE:  INC     08D8
 .................... 				} 
-1E1E:  BRA     1E22
+1FF0:  BRA     1FF4
 .................... 				else 
 .................... 				{ 
 .................... 					MemCount++; 
-1E20:  INC     08DA
+1FF2:  INC     08DA
 .................... 				} 
 .................... 			} 
 .................... 			 
 .................... 			break; 
-1E22:  BRA     1E26
+1FF4:  BRA     1FF8
 .................... 		default: 
 .................... 			break; 
-1E24:  BRA     1E26
+1FF6:  BRA     1FF8
 .................... 	} 
 .................... 	return; 
 .................... } 
 ....................  
-1E26:  BCLR.B  85.3
-1E28:  MOV     #1A,W0
-1E2A:  REPEAT  #C
-1E2C:  MOV     [--W15],[W0--]
-1E2E:  MOV     [--W15],W0
-1E30:  POP     32
-1E32:  POP     36
-1E34:  POP     42
-1E36:  RETFIE  
+1FF8:  BCLR.B  85.3
+1FFA:  MOV     #1A,W0
+1FFC:  REPEAT  #C
+1FFE:  MOV     [--W15],[W0--]
+2000:  MOV     [--W15],W0
+2002:  POP     32
+2004:  POP     36
+2006:  POP     42
+2008:  RETFIE  
 .................... #INT_TBE 
 .................... void TBE1ISR() 
 *
-1E9C:  BCLR.B  85.4
-1E9E:  PUSH    42
-1EA0:  PUSH    36
-1EA2:  PUSH    32
-1EA4:  MOV     W0,[W15++]
-1EA6:  MOV     #2,W0
-1EA8:  REPEAT  #C
-1EAA:  MOV     [W0++],[W15++]
+206E:  BCLR.B  85.4
+2070:  PUSH    42
+2072:  PUSH    36
+2074:  PUSH    32
+2076:  MOV     W0,[W15++]
+2078:  MOV     #2,W0
+207A:  REPEAT  #C
+207C:  MOV     [W0++],[W15++]
 .................... { 
 .................... 	int8u destChr; 
 .................... 	Q_ERR errCode; 
 .................... 	Q8UXGet (&Tx1QCB, &destChr,&errCode); 
-1EAC:  MOV     #80A,W4
-1EAE:  MOV     W4,9DC
-1EB0:  MOV     #9D4,W4
-1EB2:  MOV     W4,9DE
-1EB4:  MOV     #9D5,W4
-1EB6:  MOV     W4,9E0
-1EB8:  CALL    1E38
+207E:  MOV     #80A,W4
+2080:  MOV     W4,9E2
+2082:  MOV     #9D6,W4
+2084:  MOV     W4,9E4
+2086:  MOV     #9D7,W4
+2088:  MOV     W4,9E6
+208A:  CALL    200A
 .................... 	if (errCode == Q_OK) 
-1EBC:  CP0.B   9D5
-1EBE:  BRA     NZ,1ECC
+208E:  CP0.B   9D7
+2090:  BRA     NZ,209E
 .................... 	{ 
 .................... 		/* code */ 
 .................... 		putc(destChr); 
-1EC0:  MOV.B   9D4,W0L
-1EC2:  BTSC.B  223.1
-1EC4:  BRA     1EC2
-1EC6:  MOV.B   W0L,224
-1EC8:  CLR.B   225
+2092:  MOV.B   9D6,W0L
+2094:  BTSC.B  223.1
+2096:  BRA     2094
+2098:  MOV.B   W0L,224
+209A:  CLR.B   225
 .................... 	} 
-1ECA:  BRA     1ED0
+209C:  BRA     20A2
 .................... 	else 
 .................... 	{ 
 .................... 		disable_interrupts(INT_TBE); 
-1ECC:  BCLR.B  95.4
+209E:  BCLR.B  95.4
 .................... 		Tx1Flag = TX1_READY; 
-1ECE:  BSET.B  898.0
+20A0:  BSET.B  898.0
 .................... 	} 
 .................... 	return; 
 .................... } 
 ....................  
-1ED0:  MOV     #1A,W0
-1ED2:  REPEAT  #C
-1ED4:  MOV     [--W15],[W0--]
-1ED6:  MOV     [--W15],W0
-1ED8:  POP     32
-1EDA:  POP     36
-1EDC:  POP     42
-1EDE:  RETFIE  
+20A2:  MOV     #1A,W0
+20A4:  REPEAT  #C
+20A6:  MOV     [--W15],[W0--]
+20A8:  MOV     [--W15],W0
+20AA:  POP     32
+20AC:  POP     36
+20AE:  POP     42
+20B0:  RETFIE  
 .................... #INT_EXT2 
 .................... void ResetX() 
-1EE0:  PUSH    42
-1EE2:  PUSH    36
-1EE4:  PUSH    32
-1EE6:  MOV     W0,[W15++]
-1EE8:  MOV     #2,W0
-1EEA:  REPEAT  #C
-1EEC:  MOV     [W0++],[W15++]
+20B2:  PUSH    42
+20B4:  PUSH    36
+20B6:  PUSH    32
+20B8:  MOV     W0,[W15++]
+20BA:  MOV     #2,W0
+20BC:  REPEAT  #C
+20BE:  MOV     [W0++],[W15++]
 .................... { 
 .................... 	MotorMovingX(0,BREAK); 
-1EEE:  CLR     9EE
-1EF0:  MOV     #2,W4
-1EF2:  MOV     W4,9F0
-1EF4:  CALL    1210
+20C0:  CLR     9E8
+20C2:  MOV     #2,W4
+20C4:  MOV     W4,9EA
+20C6:  CALL    1210
 .................... 	StateResetX = 0; 
-1EF8:  CLR.B   97A
+20CA:  CLR.B   97A
 .................... 	countDistanceX = 0; 
-1EFA:  CLR     95E
+20CC:  CLR     95E
 .................... 	currentDistanceX = 0;	 
-1EFC:  CLR     952
-1EFE:  CLR     954
+20CE:  CLR     952
+20D0:  CLR     954
 .................... 	//  
 .................... 	speedX = 300; 
-1F00:  MOV     #12C,W4
-1F02:  MOV     W4,970
+20D2:  MOV     #12C,W4
+20D4:  MOV     W4,970
 .................... 	if(((input_b () & 0x08)>>3)>0) 
-1F04:  MOV     2CA,W5
-1F06:  AND     W5,#8,W5
-1F08:  LSR     W5,#3,W5
-1F0A:  CP0     W5
-1F0C:  BRA     Z,1F18
+20D6:  MOV     2CA,W5
+20D8:  AND     W5,#8,W5
+20DA:  LSR     W5,#3,W5
+20DC:  CP0     W5
+20DE:  BRA     Z,20EA
 .................... 	{ 
 .................... 		// printf("FUCK X1"); 
 .................... 		// disable_interrupts( INT_EXT1 ); 
 .................... 		ext_int_edge(2, H_TO_L); 
-1F0E:  BSET.B  82.2
+20E0:  BSET.B  82.2
 .................... 		StateMotorX = 0; 
-1F10:  CLR.B   96B
+20E2:  CLR.B   96B
 .................... 		StateBreakX = 1; 
-1F12:  MOV.B   #1,W0L
-1F14:  MOV.B   W0L,978
+20E4:  MOV.B   #1,W0L
+20E6:  MOV.B   W0L,978
 .................... 	} 
-1F16:  BRA     1F20
+20E8:  BRA     20F2
 .................... 	else 
 .................... 	{ 
 .................... 		// printf("FUCK X0"); 
 .................... 		ext_int_edge(2, L_TO_H); 
-1F18:  BCLR.B  82.2
+20EA:  BCLR.B  82.2
 .................... 		StateMotorX = 1; 
-1F1A:  MOV.B   #1,W0L
-1F1C:  MOV.B   W0L,96B
+20EC:  MOV.B   #1,W0L
+20EE:  MOV.B   W0L,96B
 .................... 		StateDirectionX = 0; 
-1F1E:  CLR.B   975
+20F0:  CLR.B   975
 .................... 		// MotorMovingX(300, CCW); 
 .................... 	} 
 ....................  
 .................... } 
 ....................  
-1F20:  BCLR.B  87.5
-1F22:  MOV     #1A,W0
-1F24:  REPEAT  #C
-1F26:  MOV     [--W15],[W0--]
-1F28:  MOV     [--W15],W0
-1F2A:  POP     32
-1F2C:  POP     36
-1F2E:  POP     42
-1F30:  RETFIE  
+20F2:  BCLR.B  87.5
+20F4:  MOV     #1A,W0
+20F6:  REPEAT  #C
+20F8:  MOV     [--W15],[W0--]
+20FA:  MOV     [--W15],W0
+20FC:  POP     32
+20FE:  POP     36
+2100:  POP     42
+2102:  RETFIE  
 .................... #INT_EXT1 
 .................... void ResetY() 
-1F32:  PUSH    42
-1F34:  PUSH    36
-1F36:  PUSH    32
-1F38:  MOV     W0,[W15++]
-1F3A:  MOV     #2,W0
-1F3C:  REPEAT  #C
-1F3E:  MOV     [W0++],[W15++]
+2104:  PUSH    42
+2106:  PUSH    36
+2108:  PUSH    32
+210A:  MOV     W0,[W15++]
+210C:  MOV     #2,W0
+210E:  REPEAT  #C
+2110:  MOV     [W0++],[W15++]
 .................... { 
 .................... 	MotorMovingY(0,BREAK); 
-1F40:  CLR     9E6
-1F42:  MOV     #2,W4
-1F44:  MOV     W4,9E8
-1F46:  CALL    1248
+2112:  CLR     9F2
+2114:  MOV     #2,W4
+2116:  MOV     W4,9F4
+2118:  CALL    1248
 .................... 	StateResetY = 0; 
-1F4A:  CLR.B   97B
+211C:  CLR.B   97B
 .................... 	countDistanceY = 0; 
-1F4C:  CLR     960
+211E:  CLR     960
 .................... 	currentDistanceY = 0; 
-1F4E:  CLR     95A
-1F50:  CLR     95C
+2120:  CLR     95A
+2122:  CLR     95C
 .................... 	// ext_int_edge(2, L_TO_H); 
 .................... 	speedY = 500; 
-1F52:  MOV     #1F4,W4
-1F54:  MOV     W4,972
+2124:  MOV     #1F4,W4
+2126:  MOV     W4,972
 .................... 	if(((input_b () & 0x02)>>1)>0) 
-1F56:  MOV     2CA,W5
-1F58:  AND     W5,#2,W5
-1F5A:  LSR     W5,#1,W5
-1F5C:  CP0     W5
-1F5E:  BRA     Z,1F6A
+2128:  MOV     2CA,W5
+212A:  AND     W5,#2,W5
+212C:  LSR     W5,#1,W5
+212E:  CP0     W5
+2130:  BRA     Z,213C
 .................... 	{ 
 .................... 		// disable_interrupts( INT_EXT2 ); 
 .................... 		// printf("FUCK Y1"); 
 .................... 		ext_int_edge(1, H_TO_L); 
-1F60:  BSET.B  82.1
+2132:  BSET.B  82.1
 .................... 		StateMotorY = 0; 
-1F62:  CLR.B   974
+2134:  CLR.B   974
 .................... 		StateBreakY = 1; 
-1F64:  MOV.B   #1,W0L
-1F66:  MOV.B   W0L,979
+2136:  MOV.B   #1,W0L
+2138:  MOV.B   W0L,979
 .................... 	} 
-1F68:  BRA     1F72
+213A:  BRA     2144
 .................... 	else 
 .................... 	{ 
 .................... 		// printf("FUCK Y0"); 
 .................... 		ext_int_edge(1, L_TO_H); 
-1F6A:  BCLR.B  82.1
+213C:  BCLR.B  82.1
 .................... 		// ext_int_edge(2, L_TO_H) 
 .................... 		StateMotorY = 1; 
-1F6C:  MOV.B   #1,W0L
-1F6E:  MOV.B   W0L,974
+213E:  MOV.B   #1,W0L
+2140:  MOV.B   W0L,974
 .................... 		StateDirectionY = 0; 
-1F70:  CLR.B   976
+2142:  CLR.B   976
 .................... 		// StateMotorX = 1; 
 .................... 		// StateDirectionX = 0; 
 .................... 		// speedY = 500; 
 .................... 	} 
-1F72:  BCLR.B  86.4
-1F74:  MOV     #1A,W0
-1F76:  REPEAT  #C
-1F78:  MOV     [--W15],[W0--]
-1F7A:  MOV     [--W15],W0
-1F7C:  POP     32
-1F7E:  POP     36
-1F80:  POP     42
-1F82:  RETFIE  
+2144:  BCLR.B  86.4
+2146:  MOV     #1A,W0
+2148:  REPEAT  #C
+214A:  MOV     [--W15],[W0--]
+214C:  MOV     [--W15],W0
+214E:  POP     32
+2150:  POP     36
+2152:  POP     42
+2154:  RETFIE  
 .................... } 
 .................... // /****************************************************************************/ 
 .................... /**                                                                        **/ 
@@ -20399,91 +20618,91 @@ CCS PCD C Compiler, Version 5.015, 5967               13-Nov-17 10:39
 .................... /**                                                                        **/ 
 .................... /****************************************************************************/ 
 .................... void InitialPID(PIDParameter *MOTOR) 
-1F84:  MOV     W5,[W15++]
+2156:  MOV     W5,[W15++]
 .................... { 
 .................... 	 
 .................... 	MOTOR->previousError = 0; 
-1F86:  MOV     #C,W0
-1F88:  ADD     982,W0
-1F8A:  MOV     W0,W5
-1F8C:  CLR.B   [W5]
-1F8E:  MOV.B   #0,W0L
-1F90:  MOV.B   W0L,[W5+#1]
-1F92:  MOV.B   #0,W0L
-1F94:  MOV.B   W0L,[W5+#2]
-1F96:  MOV.B   #0,W0L
-1F98:  MOV.B   W0L,[W5+#3]
+2158:  MOV     #C,W0
+215A:  ADD     982,W0
+215C:  MOV     W0,W5
+215E:  CLR.B   [W5]
+2160:  MOV.B   #0,W0L
+2162:  MOV.B   W0L,[W5+#1]
+2164:  MOV.B   #0,W0L
+2166:  MOV.B   W0L,[W5+#2]
+2168:  MOV.B   #0,W0L
+216A:  MOV.B   W0L,[W5+#3]
 .................... 	MOTOR->errorSummation = 0; 
-1F9A:  MOV     #10,W0
-1F9C:  ADD     982,W0
-1F9E:  MOV     W0,W5
-1FA0:  CLR.B   [W5]
-1FA2:  MOV.B   #0,W0L
-1FA4:  MOV.B   W0L,[W5+#1]
-1FA6:  MOV.B   #0,W0L
-1FA8:  MOV.B   W0L,[W5+#2]
-1FAA:  MOV.B   #0,W0L
-1FAC:  MOV.B   W0L,[W5+#3]
+216C:  MOV     #10,W0
+216E:  ADD     982,W0
+2170:  MOV     W0,W5
+2172:  CLR.B   [W5]
+2174:  MOV.B   #0,W0L
+2176:  MOV.B   W0L,[W5+#1]
+2178:  MOV.B   #0,W0L
+217A:  MOV.B   W0L,[W5+#2]
+217C:  MOV.B   #0,W0L
+217E:  MOV.B   W0L,[W5+#3]
 .................... 	MOTOR->u = 0; 
-1FAE:  MOV     #14,W0
-1FB0:  ADD     982,W0
-1FB2:  MOV     W0,W5
-1FB4:  CLR.B   [W5]
-1FB6:  MOV.B   #0,W0L
-1FB8:  MOV.B   W0L,[W5+#1]
-1FBA:  MOV.B   #0,W0L
-1FBC:  MOV.B   W0L,[W5+#2]
-1FBE:  MOV.B   #0,W0L
-1FC0:  MOV.B   W0L,[W5+#3]
+2180:  MOV     #14,W0
+2182:  ADD     982,W0
+2184:  MOV     W0,W5
+2186:  CLR.B   [W5]
+2188:  MOV.B   #0,W0L
+218A:  MOV.B   W0L,[W5+#1]
+218C:  MOV.B   #0,W0L
+218E:  MOV.B   W0L,[W5+#2]
+2190:  MOV.B   #0,W0L
+2192:  MOV.B   W0L,[W5+#3]
 ....................  
 .................... 	// Paremeter for velocity form 
 .................... 	 
 .................... 	MOTOR->delta_u = 0; 
-1FC2:  MOV     #18,W0
-1FC4:  ADD     982,W0
-1FC6:  MOV     W0,W5
-1FC8:  CLR.B   [W5]
-1FCA:  MOV.B   #0,W0L
-1FCC:  MOV.B   W0L,[W5+#1]
-1FCE:  MOV.B   #0,W0L
-1FD0:  MOV.B   W0L,[W5+#2]
-1FD2:  MOV.B   #0,W0L
-1FD4:  MOV.B   W0L,[W5+#3]
+2194:  MOV     #18,W0
+2196:  ADD     982,W0
+2198:  MOV     W0,W5
+219A:  CLR.B   [W5]
+219C:  MOV.B   #0,W0L
+219E:  MOV.B   W0L,[W5+#1]
+21A0:  MOV.B   #0,W0L
+21A2:  MOV.B   W0L,[W5+#2]
+21A4:  MOV.B   #0,W0L
+21A6:  MOV.B   W0L,[W5+#3]
 .................... 	MOTOR->PreviousU1 = 0; 
-1FD6:  MOV     #1C,W0
-1FD8:  ADD     982,W0
-1FDA:  MOV     W0,W5
-1FDC:  CLR.B   [W5]
-1FDE:  MOV.B   #0,W0L
-1FE0:  MOV.B   W0L,[W5+#1]
-1FE2:  MOV.B   #0,W0L
-1FE4:  MOV.B   W0L,[W5+#2]
-1FE6:  MOV.B   #0,W0L
-1FE8:  MOV.B   W0L,[W5+#3]
+21A8:  MOV     #1C,W0
+21AA:  ADD     982,W0
+21AC:  MOV     W0,W5
+21AE:  CLR.B   [W5]
+21B0:  MOV.B   #0,W0L
+21B2:  MOV.B   W0L,[W5+#1]
+21B4:  MOV.B   #0,W0L
+21B6:  MOV.B   W0L,[W5+#2]
+21B8:  MOV.B   #0,W0L
+21BA:  MOV.B   W0L,[W5+#3]
 .................... 	MOTOR->PreviousE1 = 0; 
-1FEA:  MOV     #20,W0
-1FEC:  ADD     982,W0
-1FEE:  MOV     W0,W5
-1FF0:  CLR.B   [W5]
-1FF2:  MOV.B   #0,W0L
-1FF4:  MOV.B   W0L,[W5+#1]
-1FF6:  MOV.B   #0,W0L
-1FF8:  MOV.B   W0L,[W5+#2]
-1FFA:  MOV.B   #0,W0L
-1FFC:  MOV.B   W0L,[W5+#3]
+21BC:  MOV     #20,W0
+21BE:  ADD     982,W0
+21C0:  MOV     W0,W5
+21C2:  CLR.B   [W5]
+21C4:  MOV.B   #0,W0L
+21C6:  MOV.B   W0L,[W5+#1]
+21C8:  MOV.B   #0,W0L
+21CA:  MOV.B   W0L,[W5+#2]
+21CC:  MOV.B   #0,W0L
+21CE:  MOV.B   W0L,[W5+#3]
 .................... 	MOTOR->PreviousE2 = 0; 
-1FFE:  MOV     #24,W0
-2000:  ADD     982,W0
-2002:  MOV     W0,W5
-2004:  CLR.B   [W5]
-2006:  MOV.B   #0,W0L
-2008:  MOV.B   W0L,[W5+#1]
-200A:  MOV.B   #0,W0L
-200C:  MOV.B   W0L,[W5+#2]
-200E:  MOV.B   #0,W0L
-2010:  MOV.B   W0L,[W5+#3]
-2012:  MOV     [--W15],W5
-2014:  RETURN  
+21D0:  MOV     #24,W0
+21D2:  ADD     982,W0
+21D4:  MOV     W0,W5
+21D6:  CLR.B   [W5]
+21D8:  MOV.B   #0,W0L
+21DA:  MOV.B   W0L,[W5+#1]
+21DC:  MOV.B   #0,W0L
+21DE:  MOV.B   W0L,[W5+#2]
+21E0:  MOV.B   #0,W0L
+21E2:  MOV.B   W0L,[W5+#3]
+21E4:  MOV     [--W15],W5
+21E6:  RETURN  
 .................... } 
 ....................  
 ....................  
@@ -20505,15 +20724,15 @@ CCS PCD C Compiler, Version 5.015, 5967               13-Nov-17 10:39
 ....................  
 .................... 	MOTOR->delta_u = ((MOTOR->Kp + MOTOR->Ki + MOTOR->Kd)*error)-((MOTOR->Kp+2*MOTOR->Kd)*MOTOR->PreviousE1) + MOTOR->Kd*MOTOR->PreviousE2; 
 155E:  MOV     #18,W0
-1560:  ADD     9D8,W0
+1560:  ADD     9DC,W0
 1562:  MOV     W0,W5
 1564:  MOV     #0,W0
-1566:  ADD     9D8,W0
+1566:  ADD     9DC,W0
 1568:  MOV     #C,W4
 156A:  MOV     [W0++],[W4++]
 156C:  MOV     [W0++],[W4++]
 156E:  MOV     #4,W0
-1570:  ADD     9D8,W0
+1570:  ADD     9DC,W0
 1572:  MOV     W0,W4
 1574:  MOV     #0,W3
 1576:  MOV     [W4++],[W3++]
@@ -20526,7 +20745,7 @@ CCS PCD C Compiler, Version 5.015, 5967               13-Nov-17 10:39
 1584:  CALL    1280
 1588:  MOV.D   W0,W6
 158A:  MOV     #8,W0
-158C:  ADD     9D8,W0
+158C:  ADD     9DC,W0
 158E:  MOV     W0,W4
 1590:  MOV     #0,W3
 1592:  MOV     [W4++],[W3++]
@@ -20540,17 +20759,17 @@ CCS PCD C Compiler, Version 5.015, 5967               13-Nov-17 10:39
 15A4:  MOV.D   W0,W6
 15A6:  MOV     W6,W0
 15A8:  MOV     W7,W1
-15AA:  MOV     9D4,W2
-15AC:  MOV     9D6,W3
+15AA:  MOV     9D8,W2
+15AC:  MOV     9DA,W3
 15AE:  CALL    1492
 15B2:  MOV.D   W0,W6
 15B4:  MOV     #0,W0
-15B6:  ADD     9D8,W0
+15B6:  ADD     9DC,W0
 15B8:  MOV     #10,W4
 15BA:  MOV     [W0++],[W4++]
 15BC:  MOV     [W0++],[W4++]
 15BE:  MOV     #8,W0
-15C0:  ADD     9D8,W0
+15C0:  ADD     9DC,W0
 15C2:  MOV     W0,W4
 15C4:  MOV     #0,W3
 15C6:  MOV     [W4++],[W3++]
@@ -20568,7 +20787,7 @@ CCS PCD C Compiler, Version 5.015, 5967               13-Nov-17 10:39
 15E0:  CALL    1280
 15E4:  MOV.D   W0,W8
 15E6:  MOV     #20,W0
-15E8:  ADD     9D8,W0
+15E8:  ADD     9DC,W0
 15EA:  MOV     W0,W4
 15EC:  MOV     #0,W3
 15EE:  MOV     [W4++],[W3++]
@@ -20586,12 +20805,12 @@ CCS PCD C Compiler, Version 5.015, 5967               13-Nov-17 10:39
 1608:  CALL    1280
 160C:  MOV.D   W0,W6
 160E:  MOV     #8,W0
-1610:  ADD     9D8,W0
+1610:  ADD     9DC,W0
 1612:  MOV     #10,W4
 1614:  MOV     [W0++],[W4++]
 1616:  MOV     [W0++],[W4++]
 1618:  MOV     #24,W0
-161A:  ADD     9D8,W0
+161A:  ADD     9DC,W0
 161C:  MOV     W0,W4
 161E:  MOV     #0,W3
 1620:  MOV     [W4++],[W3++]
@@ -20612,15 +20831,15 @@ CCS PCD C Compiler, Version 5.015, 5967               13-Nov-17 10:39
 1642:  MOV     [W4++],[W5++]
 .................... 	MOTOR->u = MOTOR->PreviousU1 + MOTOR->delta_u; 
 1644:  MOV     #14,W0
-1646:  ADD     9D8,W0
+1646:  ADD     9DC,W0
 1648:  MOV     W0,W5
 164A:  MOV     #1C,W0
-164C:  ADD     9D8,W0
+164C:  ADD     9DC,W0
 164E:  MOV     #C,W4
 1650:  MOV     [W0++],[W4++]
 1652:  MOV     [W0++],[W4++]
 1654:  MOV     #18,W0
-1656:  ADD     9D8,W0
+1656:  ADD     9DC,W0
 1658:  MOV     W0,W4
 165A:  MOV     #0,W3
 165C:  MOV     [W4++],[W3++]
@@ -20640,25 +20859,25 @@ CCS PCD C Compiler, Version 5.015, 5967               13-Nov-17 10:39
 .................... 	// } 
 .................... 	MOTOR->PreviousU1 = MOTOR->u; 
 1674:  MOV     #1C,W0
-1676:  ADD     9D8,W0
+1676:  ADD     9DC,W0
 1678:  MOV     W0,W5
 167A:  MOV     #14,W0
-167C:  ADD     9D8,W0
+167C:  ADD     9DC,W0
 167E:  MOV     [W0++],[W5++]
 1680:  MOV     [W0++],[W5++]
 .................... 	MOTOR->PreviousE2 = MOTOR->PreviousE1; 
 1682:  MOV     #24,W0
-1684:  ADD     9D8,W0
+1684:  ADD     9DC,W0
 1686:  MOV     W0,W5
 1688:  MOV     #20,W0
-168A:  ADD     9D8,W0
+168A:  ADD     9DC,W0
 168C:  MOV     [W0++],[W5++]
 168E:  MOV     [W0++],[W5++]
 .................... 	MOTOR->PreviousE1 = error; 
 1690:  MOV     #20,W0
-1692:  ADD     9D8,W0
+1692:  ADD     9DC,W0
 1694:  MOV     W0,W5
-1696:  MOV     #9D4,W4
+1696:  MOV     #9D8,W4
 1698:  MOV     [W4++],[W5++]
 169A:  MOV     [W4++],[W5++]
 169C:  MOV     #12,W5
