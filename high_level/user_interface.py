@@ -133,6 +133,8 @@ class mainWin(QtGui.QMainWindow, Ui_MainWindow):
 
 		self.select_camera_matrix.clicked.connect(self.select_camera_matrix_file)
 
+		self.retr_tree.clicked.connect( lambda x:self.retr_external.setChecked(False) )
+		self.retr_external.clicked.connect( lambda x:self.retr_tree.setChecked(False) )
 
 	def set_filter_manager_factory(self, filter_manager_factory):
 		self.__filter_manager_factory = filter_manager_factory
@@ -182,7 +184,7 @@ class mainWin(QtGui.QMainWindow, Ui_MainWindow):
 		time.sleep(1)
 		self.__ImageProcessing_thread = ImageProcessing(start_flag = self.__start_flag, is_arrayFile = self.__is_arrayFile, ui = self, config = self.__config)
 		filter_manager = self.__filter_manager_factory(self)
-		tween = self.__tween_factory(self)
+		tween = self.__tween_factory
 		self.__ImageProcessing_thread.attach_filter( filter_manager )
 		self.__ImageProcessing_thread.attach_tween( tween )
 
@@ -251,5 +253,10 @@ if __name__ == "__main__":
 	MainWindow = QtGui.QMainWindow()
 	ui = mainWin(MainWindow, "development.cfg")
 	ui.set_filter_manager_factory(filter_factory)
+
+	kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(3,3))
+	# dilated = cv2.dilate(image, kernel)
+	# ui.set_tween_factory( lambda x:cv2.morphologyEx(x, cv2.MORPH_OPEN, kernel))
+	ui.set_tween_factory( lambda x:cv2.dilate(x, kernel))
 	MainWindow.show()
 	sys.exit(app.exec_())
