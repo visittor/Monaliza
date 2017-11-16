@@ -1,0 +1,12 @@
+>>> Warning 202 "MainMonalisa.c" Line 114(24,34): Variable never used:   Tx1BuffPtr
+>>> Warning 202 "MainMonalisa.c" Line 127(5,18): Variable never used:   countDistance
+>>> Warning 202 "MainMonalisa.c" Line 139(15,17): Variable never used:   tX
+>>> Warning 202 "MainMonalisa.c" Line 140(12,14): Variable never used:   cX
+>>> Warning 202 "MainMonalisa.c" Line 146(15,17): Variable never used:   tY
+>>> Warning 202 "MainMonalisa.c" Line 147(12,14): Variable never used:   cY
+>>> Warning 202 "MainMonalisa.c" Line 160(7,17): Variable never used:   distantofX
+>>> Warning 202 "MainMonalisa.c" Line 161(7,17): Variable never used:   distantofY
+>>> Warning 202 "MainMonalisa.c" Line 163(5,18): Variable never used:   stateBackward
+>>> Warning 202 "MainMonalisa.c" Line 185(23,33): Variable never used:   StateBreak
+C:\Users\Nasrun\Documents\Monalisa\MainMonalisa\Monaliza\low_level\MainMonalisa.o ===>  0 Errors,  10 Warnings.
+Build Successful.

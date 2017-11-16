@@ -1,0 +1,20 @@
+[PROJECT]
+Target=ModuleMonalisa.hex
+Processor_Text=PIC24FJ48GA002
+CCSVersion=5.015
+Compiler=PCD
+[Target Data]
+FileList=ModuleMonalisa.c
+[Directories]
+Include=C:\Program Files (x86)\PICC\devices\;C:\Program Files (x86)\PICC\drivers\
+[ModuleMonalisa.c]
+Type=4
+[mru-list]
+1=ModuleMonalisa.c
+[Units]
+Count=4
+1=BITWISE_LIB
+2=EVENT_DRIVEN_CCS
+3=PIDModule
+4=TestModule
+Link=1

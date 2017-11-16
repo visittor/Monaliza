@@ -1,0 +1,93 @@
+
+ROM used:   4440/33788 (13%)
+            4440/33788 (13%) including unused fragments
+
+            0.8 Average locations per line
+            4.3 Average locations per statement
+
+RAM used:   267/8192 (3%) at main() level
+            364/8192 (4%) worst case
+
+Stack size: 128
+
+Lines Stmts  %   Files
+----- ----- ---  -----
+    5     0   0  $linker.c
+  158    24   2  BITWISE_LIB.c
+  144     0   0  BITWISE_LIB.H
+  109     0   0  CONFIG_PIC24.H
+  862     0   0  ..\..\..\..\..\Program Files (x86)\PICC\devices\24FJ48GA002.H
+ 1351   524  50  ..\..\..\..\..\Program Files (x86)\PICC\drivers\stdlib.h
+   32     0   0  ..\..\..\..\..\Program Files (x86)\PICC\drivers\stddef.h
+  423     0   0  ..\..\..\..\..\Program Files (x86)\PICC\drivers\string.h
+   28     0   0  ..\..\..\..\..\Program Files (x86)\PICC\drivers\ctype.h
+   37     0   0  ..\..\..\..\..\Program Files (x86)\PICC\drivers\stdio.h
+  326   134  13  ..\..\..\..\..\Program Files (x86)\PICC\drivers\stdlibm.h
+   76    13   1  ..\..\..\..\..\Program Files (x86)\PICC\drivers\memmgmt.c
+  163     0   0  ..\..\..\..\..\Program Files (x86)\PICC\drivers\stdint.h
+   32     0   0  BL_support.h
+   37     0   0  CDATPIC24.H
+  451   160  15  EVENT_DRIVEN_CCS.c
+  273     0   0  EVENT_DRIVEN_CCS.h
+  108     0   0  EVENT_TYPE_CCS.h
+  358   138  13  PIDModule.c
+  198     0   0  PIDModule.h
+  220    50   5  TestModule.c
+   91     0   0  TestModule.H
+----- -----
+ 5482  1043 Total
+
+Page ROM  %  RAM   Vol Diff  Functions:
+---- --- --- ---   --- ----  ----------
+0    196   2    8             @MULFF
+0    426   5    8             @ADDFF
+0    272   3    0             @MULFF64
+0    264   3    8             @DIVFF64
+0     10   0    0    21  0.9  DisableIntr
+0      8   0    0    21  0.9  EnableIntr
+0    202   2   17   447  3.5  InitialPID
+0    350   4   13   494  3.8  PIDVelocityForm
+0    110   1    5   270  2.8  InitialMotorControl
+0     84   1    0   920  2.4  InitialInterruptController
+0     38   0    4   160  3.3  MovingMotor
+0     56   1    3   436  4.3  MovingMotorX
+0     56   1    3   436  4.3  MotorMovingY
+0    156   2   11   650  7.7  qudratureEncoderChannelAXAxis
+0    156   2   11   650  7.7  qudratureEncoderChannelBXAxis
+0    156   2   11   650  7.7  qudratureEncoderChannelAYAxis
+0    156   2   11   650  7.7  qudratureEncoderChannelBYAxis
+0    192   2   13   119  2.8  computeDistance
+0    100   1    0             @I64TOF64
+0     68   1    0             @F64TO48
+0    202   2    0   318  3.7  main
+0     28   0    3   145  1.8  HardwareInit
+0    338   4    5  1130  7.6  INTERRUPTFUNCTIONOFTIMER5
+0    104   1    8             @FLT
+0     44   0    4             @SFTOI
+0     40   0    0    20  1.3  READENCODERCHANNELAXAXIS
+0     40   0    0    20  1.3  READENCODERCHANNELBXAXIS
+0     40   0    0    20  1.3  READENCODERCHANNELAYAXIS
+0     40   0    0    20  1.3  READENCODERCHANNELBYAXIS
+ Inline         0             @cinit1
+
+Program metrics:
+    Functions               21
+    Statements              1043
+    Comments                324
+    Volume (V)              12841
+    Difficulty (D)          79.8
+    Effort to implement (E) 1025261
+    Time to implement (T)   15 hours, 49 minutes
+    Est Delivered Bugs (B)  3
+    Cyclomatic Complexity   22
+    Maintainability (MI)    64
+
+ Segment     Used  Free
+-----------  ----  ----
+00000-00BFE     0  3072  
+00C00-00C02     4  0  
+00C04-00DFA   504  0  
+00DFC-083FA  3932  26276  
+
+
+
