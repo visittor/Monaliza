@@ -91,6 +91,7 @@ class ImageProcessing(threading.Thread):
 		if self.__is_arrayFile is None:
 			self.__is_arrayFile = self.artificial_flag()
 		self.__start_flag.wait()
+		print 'start loop'
 		while self.__start_flag is None or self.__start_flag.is_set():
 			if self.__is_arrayFile.is_set() == False:
 				img = self.__image.copy()
@@ -217,9 +218,12 @@ class Edge_detection(object):
 
 	def __find_contour(self):
 		self.__edges = self.__tween(self.__edges) if callable(self.__tween) else self.__edges
-		c = cv2.findContours( self.__edges, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+		if self.__ui.retr_external.isChecked():
+			retrieval_mode = cv2.RETR_EXTERNAL
+		else:
+			retrieval_mode = cv2.RETR_TREE
+		c = cv2.findContours( self.__edges, retrieval_mode, cv2.CHAIN_APPROX_SIMPLE)
 		cnts_filtered = self.__filter_contour(c[1])
-		print cnts_filtered[0].shape
 		if self.__ui.is_arc_lenght.isChecked():
 			for i in range(len(cnts_filtered)):
 				epsilon = float((self.__ui.epsilon.value())*cv2.arcLength(cnts_filtered[i],True))/1000.0
@@ -227,6 +231,8 @@ class Edge_detection(object):
 			self.__contour_points = cnts_filtered
 		elif self.__ui.is_cnt_step.isChecked():
 			self.__contour_points = [ np.array(i[::self.__ui.cnt_step.value()]) for i in cnts_filtered if len(i[::self.__ui.cnt_step.value()]) > 1]
+			# print self.__contour_points[0].shape
+			# print self.__contour_points[0].reshape(-1,2).shape
 		else:
 			self.__contour_points = cnts_filtered
 		self.__hierarchy = c[2]

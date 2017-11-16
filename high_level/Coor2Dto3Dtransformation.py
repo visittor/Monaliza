@@ -35,6 +35,7 @@ def getPsuedoInvPMatAndCpoint(translation_vector, rotation_vector, camera_matrix
 	return pseudoInvPMat, CPoint
 
 def Project2Dto3D_(points, pseudoInvPMat, Cpoint):
+	'''If output from contour should be reshape to (-1,2) before use pass to this function'''
 	pOut = np.zeros((len(points),2), np.float32 )
 	for i,p in enumerate(points):
 		p = np.hstack((p, np.ones(1, np.float32))).reshape(-1,1) #[u, v, 1]
