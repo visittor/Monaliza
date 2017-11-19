@@ -1,12 +1,12 @@
 
-ROM used:   7444/33788 (22%)
-            7444/33788 (22%) including unused fragments
+ROM used:   8648/33788 (26%)
+            8648/33788 (26%) including unused fragments
 
-            1.3 Average locations per line
-            5.7 Average locations per statement
+            1.5 Average locations per line
+            6.6 Average locations per statement
 
 RAM used:   511/8192 (6%) at main() level
-            678/8192 (8%) worst case
+            674/8192 (8%) worst case
 
 Stack size: 128
 
@@ -30,17 +30,18 @@ Lines Stmts  %   Files
   451   160  12  EVENT_DRIVEN_CCS.c
   275     0   0  EVENT_DRIVEN_CCS.h
   108     0   0  EVENT_TYPE_CCS.h
-  938   427  33  MainMonalisa.c
+  956   440  34  MainMonalisa.c
    89     0   0  MainMonalisa.h
   121     0   0  PIDModule.H
   135    15   1  PIDModule.c
 ----- -----
- 5900  1297 Total
+ 5918  1310 Total
 
 Page ROM  %  RAM   Vol Diff  Functions:
 ---- --- --- ---   --- ----  ----------
 0    196   1    8             @MULFF
-0    426   3    8             @ADDFF
+0    426   2    8             @ADDFF
+0    202   1    8             @DIVFF
 0    272   2    0             @MULFF64
 0    264   2    8             @DIVFF64
 0     36   0    9   150  3.6  create_node
@@ -59,7 +60,7 @@ Page ROM  %  RAM   Vol Diff  Functions:
 0     16   0    5    35  2.4  Q8UXCount
 0     10   0    0    21  0.9  DisableIntr
 0      8   0    0    21  0.9  EnableIntr
-0    406   3    0  1036  6.3  main
+0    406   2    0  1036  6.3  main
 0    110   1    3  1163  2.9  HardwareInit
 0     22   0    0   209  2.3  GlobalVarInit
 0     44   0    0   204  4.8  DynamicMemInit
@@ -71,35 +72,38 @@ Page ROM  %  RAM   Vol Diff  Functions:
 0    100   1    0             @I64TOF64
 0     68   0    0             @F64TO48
 0    170   1    9    80  2.1  computeInstantlyDistantY
-0    660   4    6  3539  5.9  CheckProtocal
+0   1594   9   14  5451  7.7  CheckProtocal
 0     58   0    2             @ITOF
 0     44   0    4             @SFTOI
+0     56   0    0             @const1599
+0    246   1    0             @PRINTFD16_115200_5725_5724
+0     56   0    0             @const1603
 0     26   0    5    83  2.9  convert_8to16bit
-0    714   5    7  2173  8.0  INT_TMR5
+0    638   4    9  2029  7.8  INT_TMR5
 0    104   1    8             @FLT
-0    246   2    0             @PRINTFD16_115200_5725_5724
+0     32   0    0             @const1608
 0    116   1    7   468  6.6  testIC1
 0    110   1    7   441  6.1  testIC2
 0    116   1    7   468  6.6  testIC3
 0    110   1    7   441  6.1  testIC4
 0    322   2    6  1918 11.1  RDA1
 0     68   0    2   197  4.4  TBE1ISR
-0     82   1    3   359  4.7  ResetX
-0     82   1    3   359  4.7  ResetY
+0     82   0    3   359  4.7  ResetX
+0     82   0    3   359  4.7  ResetY
 0    146   1    5   233  2.8  InitialPID
 0    336   2   17   490  4.3  PIDVelocityForm
  Inline         0             @cinit1
 
 Program metrics:
     Functions               39
-    Statements              1297
+    Statements              1310
     Comments                331
-    Volume (V)              35767
-    Difficulty (D)          194.9
-    Effort to implement (E) 6970423
-    Time to implement (T)   107 hours, 34 minutes
-    Est Delivered Bugs (B)  12
-    Cyclomatic Complexity   86
+    Volume (V)              38025
+    Difficulty (D)          197.2
+    Effort to implement (E) 7497489
+    Time to implement (T)   115 hours, 42 minutes
+    Est Delivered Bugs (B)  13
+    Cyclomatic Complexity   89
     Maintainability (MI)    29
 
  Segment     Used  Free
@@ -107,7 +111,7 @@ Program metrics:
 00000-00BFE     0  3072  
 00C00-00C02     4  0  
 00C04-00DFA   504  0  
-00DFC-083FA  6936  23272  
+00DFC-083FA  8140  22068  
 
 
 

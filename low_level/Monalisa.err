@@ -2,7 +2,8 @@
 >>> Warning 216 "C:\Users\Nasrun\Documents\Monalisa\MainMonalisa\Monaliza\low_level\$linker.c" Line 4(8,14): Interrupts disabled during call to prevent re-entrancy:  (MotorMovingX)
 >>> Warning 216 "C:\Users\Nasrun\Documents\Monalisa\MainMonalisa\Monaliza\low_level\$linker.c" Line 4(8,14): Interrupts disabled during call to prevent re-entrancy:  (MotorMovingY)
 >>> Warning 216 "C:\Users\Nasrun\Documents\Monalisa\MainMonalisa\Monaliza\low_level\$linker.c" Line 4(8,14): Interrupts disabled during call to prevent re-entrancy:  (@SFTOI)
+>>> Warning 216 "C:\Users\Nasrun\Documents\Monalisa\MainMonalisa\Monaliza\low_level\$linker.c" Line 4(8,14): Interrupts disabled during call to prevent re-entrancy:  (@ADDFF)
 >>> Warning 216 "C:\Users\Nasrun\Documents\Monalisa\MainMonalisa\Monaliza\low_level\$linker.c" Line 4(8,14): Interrupts disabled during call to prevent re-entrancy:  (free)
-      Memory usage:   ROM=22%      RAM=6% - 8%
-      0 Errors,  5 Warnings.
+      Memory usage:   ROM=26%      RAM=6% - 8%
+      0 Errors,  6 Warnings.
 Build Successful.

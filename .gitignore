@@ -55,3 +55,5 @@ Temporary Items
 high_level/parameter.txt
 *.xlsx
 covert_byte.c
+*.o
+*.o

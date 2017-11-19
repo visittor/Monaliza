@@ -2,61 +2,61 @@ W0      @SCRATCH
 W0L     _RETURN_
 W0 -W1  @READ_ROM_MEMORY.P1
 W0 -W1  @ADDFF.P2
-W0      @ITOF.P3
-W0 -W1  @DIV3232B.P4
-W0      @delay_ms1.P5
-W0 -W2  @MULFF48.P6
-W0      @delay_us1.P7
-W0 -W3  @ADDFF64.P8
+W0 -W3  @SI64TOF64.P3
+W0      @delay_ms1.P4
+W0 -W1  @DIV3232B.P5
+W0      @delay_us1.P6
+W0 -W1  @DIVS3232A.P7
+W0 -W3  @SI64TOF48.P8
 W0 -W1  @MULS3232.P9
-W0 -W2  @DIVFF48.P10
-W0 -W2  @ADDFF48.P11
-W0 -W3  @MULFF64.P12
-W0      @PRINTFD16_115200_5725_5724.P13
+W0 -W3  @DIVS6464.P10
+W0      @SITOF.P11
+W0 -W2  @ADDFF48.P12
+W0 -W1  @FLT.P13
 W0 -W1  @MUL3232.P14
 W0 -W2  @MULS4848.P15
-W0 -W2  @DIVS4848.P16
+W0 -W1  @SFTOI.P16
 W0 -W3  @I64TOF64.P17
-W0      @SITOF.P18
-W0 -W3  @SI64TOF64.P19
-W0 -W1  @SFTOI.P20
+W0 -W3  @F64TO48.P18
+W0      @ITOF.P19
+W0 -W3  @ADDFF64.P20
 W0 -W1  @DIVFF.P21
-W0 -W1  @DIVS3232A.P22
-W0 -W1  @MULFF.P23
-W0 -W3  @DIVS6464.P24
-W0 -W1  @FLT.P25
-W0 -W3  @F64TO48.P26
-W0 -W3  @SI64TOF48.P27
-W0 -W3  @MULS6464.P28
-W0 -W3  @DIVFF64.P29
+W0 -W2  @MULFF48.P22
+W0 -W2  @DIVFF48.P23
+W0 -W3  @MULFF64.P24
+W0      @PRINTFD16_115200_5725_5724.P25
+W0 -W3  @DIVFF64.P26
+W0 -W1  @MULFF.P27
+W0 -W2  @DIVS4848.P28
+W0 -W3  @MULS6464.P29
 W1      @SCRATCH
 W1      @WRITE_PACKED_MEMORY.P1
 W1      @READ_PACKED_MEMORY.P2
-W2 -W3  @MUL3232.P1
-W2 -W3  @ADDFF.P2
-W2      @READ_ROM_MEMORY.P3
-W2 -W3  @MULFF.P4
+W2      @READ_ROM_MEMORY.P1
+W2      @WRITE_PACKED_MEMORY.P2
+W2 -W3  @ADDFF.P3
+W2 -W3  @MUL3232.P4
 W2 -W3  @DIVS3232A.P5
-W2 -W3  @FLT.P6
-W2 -W3  @MULS3232.P7
+W2 -W3  @DIV3232B.P6
+W2 -W3  @FLT.P7
 W2 -W3  @DIVFF.P8
-W2      @READ_PACKED_MEMORY.P9
-W2      @WRITE_PACKED_MEMORY.P10
-W2 -W3  @DIV3232B.P11
-W3 -W5  @MULFF48.P1
-W3 -W5  @ADDFF48.P2
-W3      @READ_ROM_MEMORY.P3
-W3      @WRITE_PACKED_MEMORY.P4
-W3      @READ_PACKED_MEMORY.P5
-W3 -W5  @DIVFF48.P6
-W3 -W5  @MULS4848.P7
-W3 -W5  @DIVS4848.P8
-W4      @PRINTFD16_115200_5725_5724.P1
+W2 -W3  @MULFF.P9
+W2 -W3  @MULS3232.P10
+W2      @READ_PACKED_MEMORY.P11
+W3 -W5  @ADDFF48.P1
+W3      @WRITE_PACKED_MEMORY.P2
+W3 -W5  @MULFF48.P3
+W3      @READ_ROM_MEMORY.P4
+W3 -W5  @DIVS4848.P5
+W3 -W5  @MULS4848.P6
+W3 -W5  @DIVFF48.P7
+W3      @READ_PACKED_MEMORY.P8
+W4 -W7  @MULFF64.P1
 W4 -W7  @DIVS6464.P2
 W4 -W7  @DIVFF64.P3
 W4 -W7  @MULS6464.P4
-W4 -W7  @MULFF64.P5
-W4 -W7  @ADDFF64.P6
+W4 -W7  @ADDFF64.P5
+W4      @PRINTFD16_115200_5725_5724.P6
 085.4   TX1IF
 630.6   C1OUT
 630.7   C2OUT
@@ -129,19 +129,19 @@ W4 -W7  @ADDFF64.P6
 97E     RDA1.Lenght
 980     main.errCode
 981     main.SendTx1Count
-982-983 QPtrXGet.qStructPtr
-982-983 QPtrXInit.qStructPtr
-982-983 Q8UXInit.qStructPtr
-982-983 InitialPID.MOTOR
 982-983 CheckProtocal.arrayPtr
-984-985 QPtrXInit.buffPtr
-984-985 Q8UXInit.buffPtr
+982-983 InitialPID.MOTOR
+982-983 QPtrXGet.qStructPtr
+982-983 Q8UXInit.qStructPtr
+982-983 QPtrXInit.qStructPtr
 984-985 QPtrXGet.destPtr
+984-985 QPtrXInit.buffPtr
 984-985 CheckProtocal.high_byteX
-986-987 QPtrXGet.errPtr
+984-985 Q8UXInit.buffPtr
+986-987 CheckProtocal.low_byteX
 986-987 Q8UXInit.qL
 986-987 QPtrXInit.qL
-986-987 CheckProtocal.low_byteX
+986-987 QPtrXGet.errPtr
 988-989 CheckProtocal.high_byteY
 98A-98B CheckProtocal.low_byteY
 990-991 SendTx1.strPtr
@@ -156,100 +156,104 @@ W4 -W7  @ADDFF64.P6
 99C-99D Q8UXPut.qStructPtr
 99E     Q8UXPut.dataSource
 9A0-9A1 Q8UXPut.errPtr
-9D6     TBE1ISR.destChr
-9D6-9D7 testIC3.ipY
-9D6-9D7 testIC4.ipY
 9D6-9D7 testIC1.ipX
+9D6     TBE1ISR.destChr
+9D6-9D7 testIC4.ipY
+9D6-9D7 testIC3.ipY
+9D6-9D9 PIDVelocityForm.error
 9D6-9D7 testIC2.ipX
 9D7     TBE1ISR.errCode
-9D8-9DB PIDVelocityForm.error
-9D8     RDA1.Chr
-9DA-9DB RDA1.errCode
-9DC-9DD PIDVelocityForm.MOTOR
-9E2-9E3 Q8UXGet.qStructPtr
-9E4-9E5 Q8UXGet.destPtr
-9E6-9E7 Q8UXGet.errPtr
-9E8-9E9 MotorMovingX.speed
-9EA-9EB MotorMovingX.direction
-9EE-9EF malloc.size
-9F0-9F1 malloc.node
-9F2-9F3 malloc.new
-9F2-9F3 free.ptr
-9F2-9F3 MotorMovingY.speed
-9F4-9F5 malloc.nsize
-9F4-9F5 free.node
-9F4-9F5 MotorMovingY.direction
-9F6-9F7 free.nsize
-9F8-9F9 QPtrXPut.qStructPtr
-9FA-9FB QPtrXPut.ptrStruct
-9FC-9FD QPtrXPut.errPtr
-A08-A09 traverse.node
-A0A-A0B traverse.temp
-A0C-A0D traverse.nsize
-A0E-A0F insert_node_after.place
-A0E-A0F traverse.nextsize
-A10-A11 insert_node_after.node
-A18-A19 create_node.size
-A1A-A1B create_node.ptr
-A1C-A1D create_node.result
-A20-A21 remove_node.node
-A22-A23 update_node.node
-A22-A23 remove_node.ptr
-A24-A25 update_node.size
+9DA-9DB PIDVelocityForm.MOTOR
+9DC     RDA1.Chr
+9DE-9DF RDA1.errCode
+9DE-9DF Q8UXGet.qStructPtr
+9E0-9E1 Q8UXGet.destPtr
+9E2-9E3 Q8UXGet.errPtr
+9E6-9E7 QPtrXPut.qStructPtr
+9E8-9E9 QPtrXPut.ptrStruct
+9EA-9EB QPtrXPut.errPtr
+9EC-9ED MotorMovingY.speed
+9EE-9EF MotorMovingY.direction
+9F0-9F1 MotorMovingX.speed
+9F2-9F3 MotorMovingX.direction
+9F4-9F5 free.ptr
+9F6-9F7 free.node
+9F6-9F7 malloc.size
+9F8-9F9 malloc.node
+9F8-9F9 free.nsize
+9FA-9FB malloc.new
+9FC-9FD malloc.nsize
+A02-A03 traverse.node
+A04-A05 traverse.temp
+A06-A07 traverse.nsize
+A08-A09 insert_node_after.place
+A08-A09 traverse.nextsize
+A0A-A0B insert_node_after.node
+A12-A13 create_node.size
+A14-A15 create_node.ptr
+A16-A17 create_node.result
+A1A-A1B update_node.node
+A1C-A1D update_node.size
+A1E-A1F remove_node.node
+A20-A21 remove_node.ptr
 2780-27FF Stack
 
 ROM Allocation:
-000DFC  @I64TOF64
-000E60  @MULFF64
-000F70  @DIVFF64
-001078  @F64TO48
-0010BC  computeInstantlyDistantX
-001166  computeInstantlyDistantY
-001210  MotorMovingX
-001248  MotorMovingY
-001280  @ADDFF
-00142A  @FLT
-001492  @MULFF
-001556  PIDVelocityForm
-0016A6  @SFTOI
-0016D2  @PRINTFD16_115200_5725_5724
-0017C8  INT_TMR5
-001A92  testIC1
-001B06  testIC2
-001B74  testIC3
-001BE8  testIC4
-001C56  QPtrXPut
-001CC0  update_node
-001CD0  remove_node
-001CFE  traverse
-001D7C  free
-001DBE  create_node
-001DE2  insert_node_after
-001E16  malloc
-001EC8  RDA1
-00200A  Q8UXGet
-00206E  TBE1ISR
-0020B2  ResetX
-002104  ResetY
-002156  InitialPID
-0021E8  DisableIntr
-0021F2  HardwareInit
-002260  GlobalVarInit
-002276  DynamicMemInit
-0022A2  QPtrXInit
-0022E0  Q8UXInit
-00231E  UARTQueueInit
-002340  EnableIntr
-002348  QPtrXGet
-0023B2  convert_8to16bit
-0023CC  @ITOF
-002406  Q8UXCount
-002416  Q8UXPut
-002482  SendTx1
-0024EA  CheckProtocal
-00277E  @cinit1
-00277E  main
-00286E  @cinit2
+000DFC  @const1599.call
+000E34  @const1603.call
+000E6C  @const1608.call
+000E8C  @I64TOF64
+000EF0  @MULFF64
+001000  @DIVFF64
+001108  @F64TO48
+00114C  computeInstantlyDistantX
+0011F6  computeInstantlyDistantY
+0012A0  MotorMovingX
+0012D8  MotorMovingY
+001310  @ADDFF
+0014BA  @FLT
+001522  @MULFF
+0015E6  PIDVelocityForm
+001736  @SFTOI
+001762  @PRINTFD16_115200_5725_5724
+001858  INT_TMR5
+001AD6  testIC1
+001B4A  testIC2
+001BB8  testIC3
+001C2C  testIC4
+001C9A  QPtrXPut
+001D04  update_node
+001D14  remove_node
+001D42  traverse
+001DC0  free
+001E02  create_node
+001E26  insert_node_after
+001E5A  malloc
+001F0C  RDA1
+00204E  Q8UXGet
+0020B2  TBE1ISR
+0020F6  ResetX
+002148  ResetY
+00219A  InitialPID
+00222C  DisableIntr
+002236  HardwareInit
+0022A4  GlobalVarInit
+0022BA  DynamicMemInit
+0022E6  QPtrXInit
+002324  Q8UXInit
+002362  UARTQueueInit
+002384  EnableIntr
+00238C  QPtrXGet
+0023F6  convert_8to16bit
+002410  @ITOF
+00244A  @DIVFF
+002514  Q8UXCount
+002524  Q8UXPut
+002590  SendTx1
+0025F8  CheckProtocal
+002C32  main
+002C32  @cinit1
+002D22  @cinit2
 0136  StrtoulGO
 0136  StrtolGO
 
@@ -274,12 +278,12 @@ Project Files:
     EVENT_DRIVEN_CCS.c (link)                               [13-Nov-17 20:14  CRC=860299B9]
     EVENT_DRIVEN_CCS.h                                      [13-Nov-17 20:14  CRC=17966B4E]
     EVENT_TYPE_CCS.h                                        [13-Nov-17 20:14  CRC=F1AEA9FB]
-    MainMonalisa.c (link)                                   [14-Nov-17 19:08  CRC=DB4126A1]
+    MainMonalisa.c (link)                                   [15-Nov-17 22:51  CRC=61C750B1]
     MainMonalisa.h                                          [13-Nov-17 20:14  CRC=65B954CE]
     PIDModule.H                                             [13-Nov-17 20:14  CRC=04CD9246]
     PIDModule.c (link)                                      [13-Nov-17 20:14  CRC=94BC331B]
 
-Source signature=2CEB1D8A
+Source signature=B371479A
 
 Units:
     C:\Users\Nasrun\Documents\Monalisa\MainMonalisa\Monaliza\low_level\BITWISE_LIB.o

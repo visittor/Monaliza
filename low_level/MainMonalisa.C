@@ -213,7 +213,7 @@ void main ()
 	// MotorX.Ki = 0.3;
 	// MotorX.Kd = 60 ;
 
-	MotorX.Kp = 10;
+	MotorX.Kp = 30;
 	MotorX.Ki = 0;
 	MotorX.Kd = 0 ;
 	
@@ -529,8 +529,8 @@ void CheckProtocal(int8u *arrayPtr)
 				}
 				if(arrayPtr[4] == 7)
 				{
-					referenceDesireX = convert_8to16bit(arrayPtr[5], arrayPtr[6]);
-					referenceDesireY = convert_8to16bit(arrayPtr[7], arrayPtr[8]);
+					referenceDesireX = ((float)convert_8to16bit(arrayPtr[5], arrayPtr[6])/10.0);
+					referenceDesireY = ((float)convert_8to16bit(arrayPtr[7], arrayPtr[8])/10.0);
 					StatePID = 1;
 					MotorMovingX(0, BREAK);
 					MotorMovingY(0, BREAK);
@@ -554,6 +554,24 @@ void CheckProtocal(int8u *arrayPtr)
 					Send_Buffer[9] = (input_b () & 0xff00)>>8;
 					Send_Buffer[10] = 0x0f;
 					SendTx1(Send_Buffer);
+				}
+
+				if(arrayPtr[4] == 55)
+				{
+					if(arrayPtr[5] == 0)
+					{
+						MotorX.Kp = (float)arrayPtr[6] + ((float)arrayPtr[7]/100);
+						MotorX.Ki = (float)arrayPtr[8] + ((float)arrayPtr[9]/100);
+						MotorX.Kd = (float)arrayPtr[10] + ((float)arrayPtr[11]/100);
+						printf("X : Kp = %d.%d , Kd = %d.%d\n , Ki = %d.%d", arrayPtr[6],arrayPtr[7],arrayPtr[8],arrayPtr[9],arrayPtr[10],arrayPtr[11]);
+					}
+					else if(arrayPtr[5] == 1)
+					{
+						MotorY.Kp = (float)arrayPtr[6] + ((float)arrayPtr[7]/100);
+						MotorY.Ki = (float)arrayPtr[8] + ((float)arrayPtr[9]/100);
+						MotorY.Kd = (float)arrayPtr[10] + ((float)arrayPtr[11]/100);
+						printf("Y : Kp = %d.%d , Kd = %d.%d\n , Ki = %d.%d", arrayPtr[6],arrayPtr[7],arrayPtr[8],arrayPtr[9],arrayPtr[10],arrayPtr[11]);
+					}
 				}
 			}
 		}
@@ -618,7 +636,7 @@ void INT_TMR5()
 		errorX = referenceDesireX - currentDistanceX;
 		errorY = referenceDesireY - currentDistanceY;
 
-		if( abs(errorX) > 1)
+		if( abs(errorX) > 0.5)
 		{
 			PIDVelocityForm(errorX,&MotorX);
 			if(MotorX.u >= 0)
@@ -636,16 +654,16 @@ void INT_TMR5()
 
 		}
 
-		if( abs(errorY) > 1)
+		if( abs(errorY) > 0.5)
 		{
 			PIDVelocityForm(errorY,&MotorY);
 			if(MotorY.u >= 0)
 			{
-				MotorMovingY((int16)MotorY.u,CW);
+				MotorMovingY((int16)MotorY.u,CCW);
 			}
 			else if(MotorY.u < 0)
 			{
-				MotorMovingY((int16)(-1*MotorY.u),CCW);
+				MotorMovingY((int16)(-1*MotorY.u),CW);
 			}
 		}
 		else
@@ -654,9 +672,9 @@ void INT_TMR5()
 		}
 	}
 
-	printf("X:%d,%d,%d,%d\n", (int16)MotorX.u,(int16)errorX,(int16)referenceDesireX,(int16)countDistanceX);
+	printf("X : %d,%d,%d,%d,%d\n", (int16)MotorX.u,(int16)errorX,(int16)referenceDesireX,(int16)currentDistanceX,(int16)countDistanceX);
 
-	printf("Y:%d,%d,%d,%d\n", (int16)MotorY.u,(int16)errorY,(int16)referenceDesireY,(int16)countDistanceY);
+	// printf("Y:%d,%d,%d,%d\n", (int16)MotorY.u,(int16)errorY,(int16)referenceDesireY,(int16)countDistanceY);
 
 
 }
@@ -715,11 +733,11 @@ void testIC3()
 	stateCHAY = ~(((ipY & 0x80)>>4) ^ ((ipY & 0x40)>>5)) & 0x01;
 	if ( (ipY & 0x80)>>7 == (ipY & 0x40)>>6 ) {
 		directionReadY = 1;
-		countDistanceY += 1;
+		countDistanceY -= 1;
 	}
 	else{
 		directionReadY = 2;
-		countDistanceY -= 1;
+		countDistanceY += 1;
 	}
 	timeOldY = timeNewY;
 
@@ -738,11 +756,11 @@ void testIC4()
 	stateCHBY = ((ipY & 0x80)>>4) ^ ((ipY & 0x40)>>5);
 	if ( (ipY & 0x80)>>7 != (ipY & 0x40)>>6 ){
 		directionReadY = 1;
-		countDistanceY += 1;
+		countDistanceY -= 1;
 	}
 	else{
 		directionReadY = 2;
-		countDistanceY -= 1;
+		countDistanceY += 1;
 	}
 
 	timeOldY = timeNewY;
