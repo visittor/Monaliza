@@ -37,7 +37,10 @@ class Threshold(Filter):
 			block_size = 2*self.ui.Threshold_block_size.value() + 1
 			c = self.ui.Threshold_c.value()
 			ksize = 2*self.ui.Threshold_ksize_median_blur.value() + 1
-			gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+			if len(img.shape) > 2 :
+				gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+			else:
+				gray = img
 			ret,th1 = cv2.threshold(gray,c,255,cv2.THRESH_BINARY_INV)
 			img = cv2.bitwise_and(img, img, mask = th1)
 			return img
@@ -170,7 +173,10 @@ class PencilEffect(Filter):
 			img_inv[:,:,1] = 0
 			img_inv = cv2.cvtColor(img_inv, cv2.COLOR_HSV2BGR)
 			img_inv = 255 - img_inv
-			img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) if len(img.shape) > 2 else img
+			if len(img.shape) > 2:
+				img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+			else:
+				img = img
 			img_inv = cv2.cvtColor(img_inv, cv2.COLOR_BGR2GRAY) if len(img_inv.shape) > 2 else img_inv
 			cv2.GaussianBlur(img_inv, (ksize,ksize), 0.0, img_inv)
 			img = self.__color_dodge(img, img_inv)

@@ -149,9 +149,9 @@ def generate_point(numPoint, img, cutoff = 220):
 
 
 if __name__ == '__main__':
-	img = cv2.imread("picture/nice_1.jpg", 0)
+	img = cv2.imread("picture/panda_filter.jpg", 0)
 	# img = cv2.resize(img, None, fx = 2, fy = 2)
 	print "image shape is:", img.shape
-	point = np.array( stipper(img, 2, itr = 75, max_size = 10000, cutoff = 190) )
+	point = np.array( stipper(img, 2, itr = 75, max_size = 1000, cutoff = 190) )
 	path = "output/point.npz"
 	# np.savez(path, point = point[0])

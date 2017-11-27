@@ -48,14 +48,14 @@ def finding_line( contour ):
 		centroid[i,0] = cx
 		centroid[i,1] = cy
 	centroid = centroid[np.lexsort( np.transpose(centroid)[:-1] )] #sort by x then by y (https://stackoverflow.com/questions/2706605/sorting-a-2d-numpy-array-by-multiple-axes)
-	print "centroid", centroid
+	# print "centroid", centroid
 	xMin = centroid[0]
 	xMax = centroid[-1]
 	v1 = xMax - xMin #find a vector from xMin to xMax.
 	vectors = centroid - xMin #find vectors from xMin to any poit.
 	crossProduct = (vectors[:,1])*v1[0] - vectors[:,0]*v1[1] #find a cross-product.
-	print xMax, xMin
-	print crossProduct
+	# print xMax, xMin
+	# print crossProduct
 	upper = centroid[ np.where(crossProduct<0) ] #if cross product is positive it above a line between xMin to xMax.
 	lower = centroid[ np.where(crossProduct>0) ][::-1] #otherwise it below that line. (sort in decent direction)
 	final = np.vstack([xMin, upper]) #Stack every point together

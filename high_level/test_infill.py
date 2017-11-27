@@ -43,7 +43,7 @@ def clipping(cnt, section_line, step = 1):
 
 
 def infill_polygon(cnts, shape = (640,480), step = 10):
-	infill = [[]]*len(cnts)
+	infill = [np.zeros((0,2), dtype = int)]*len(cnts)
 	for sec in range(10,shape[0], step):
 		indx = 0
 		for cnt in cnts:
@@ -52,23 +52,26 @@ def infill_polygon(cnts, shape = (640,480), step = 10):
 				points = points[np.argsort(points[:,0])]
 				points = points.astype(int)
 				for i in range(0, len(points), 2):
-					infill[indx].append( np.array([points[i], points[i+1]])) 
+					infill[indx] = np.vstack((infill[indx],points[i]))
+					infill[indx] = np.vstack((infill[indx],points[i+1]))
 			indx += 1
 	return infill
 
-# with np.load( 'picture/test_open_polygon_infill.npz' ) as data:
-# with np.load( 'picture/test_close_polygon_infill.npz' ) as data:
-with np.load( 'picture/geometry.npz' ) as data:
-	contour = data['contour']
-	hierarchy = data['hierarchy'].copy()
-	shape = data['shape']
-infills = infill_polygon(contour, shape = shape, step = 1)
-blank = np.zeros(shape)
-cv2.drawContours(blank, contour, -1, 255, 1)
-for inf in infills:
-	for line in inf:
-		cv2.line(blank, (line[0,0], line[0,1]), (line[1,0], line[1,1]), 255, 1)
+if __name__ == '__main__':
+	# with np.load( 'picture/test_open_polygon_infill.npz' ) as data:
+	# with np.load( 'picture/test_close_polygon_infill.npz' ) as data:
+	with np.load( 'picture/geometry.npz' ) as data:
+		contour = data['contour']
+		hierarchy = data['hierarchy'].copy()
+		shape = data['shape']
+	infills = infill_polygon(contour, shape = shape, step = 10)
+	blank = np.zeros(shape)
+	cv2.drawContours(blank, contour, -1, 255, 1)
+	for inf in infills:
+		for i in range(0, len(inf), 2):
+			print inf
+			cv2.line(blank, (inf[i,0], inf[i,1]), (inf[i+1,0], inf[i+1,1]), 255, 1)
 
-cv2.imshow("blank", blank)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+	cv2.imshow("blank", blank)
+	cv2.waitKey(0)
+	cv2.destroyAllWindows()

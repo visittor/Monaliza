@@ -34,6 +34,13 @@ def getPsuedoInvPMatAndCpoint(translation_vector, rotation_vector, camera_matrix
 	pseudoInvPMat = np.linalg.pinv(pMat)
 	return pseudoInvPMat, CPoint
 
+def getInvPMat(translation_vector, rotation_vector, camera_matrix):
+	rotMat, jacobian = cv2.Rodrigues(rotation_vector)
+	tvec = translation_vector
+	RTMat = np.hstack((rotMat, tvec))
+	pMat = np.dot(camera_matrix, RTMat)
+	return pMat
+
 def Project2Dto3D_(points, pseudoInvPMat, Cpoint):
 	'''If output from contour should be reshape to (-1,2) before use pass to this function'''
 	pOut = np.zeros((len(points),2), np.float32 )
@@ -51,9 +58,26 @@ def Project2Dto3D(points, translation_vector, rotation_vector, camera_matrix):
 	points = Project2Dto3D_(points.copy(), pseudoInvPMat, Cpoint)
 	return points
 
+def Project3Dto2D_(points, pMat):
+	pOut = np.zeros( (len(points), 2), np.float32 )
+	for i,p in enumerate(points):
+		p = np.hstack((p, np.zeros(1, np.float32 )))
+		p = np.hstack((p, np.ones(1, np.float32 ))).reshape(-1,1)
+		p = np.dot(pMat, p).reshape(-1)
+		p = p / p[2]
+		pOut[i] = p[:2]
+	return pOut
+
+def Project3Dto2D( points, translation_vector, rotation_vector, camera_matrix ):
+	pMat = getInvPMat(translation_vector, rotation_vector, camera_matrix)
+	points = Project3Dto2D_(points, pMat)
+	return points
+
 def Calibrate_Camera(file_names, output_dir,pattern_size, square_size, origin, planar_name = None):
 	objp = np.zeros( (pattern_size[0]*pattern_size[1], 3), np.float32 )
 	objp[:, :2] = np.indices(pattern_size).T.reshape(-1, 2)
+	objp[:,0] = objp[:,0]*-1 
+	objp[:,1] = objp[:,1]*-1
 	objp *= square_size
 	objp[:,0] += origin[0]
 	objp[:,1] += origin[1]

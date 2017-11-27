@@ -6,6 +6,7 @@ import time
 from PyQt4 import QtCore, QtGui
 from serial_ui import Ui_MainWindow
 from serial_thread import Serilal_sender
+from FSM_sender import Line_sender, Circle_sender,BasicPattern,GripperPattern
 import ConfigParser
 
 import sys
@@ -29,40 +30,86 @@ except AttributeError:
 	def _translate(context, text, disambig):
 		return QtGui.QApplication.translate(context, text, disambig)
 
-def find_line_trajectory_coeff(point1, point2, t):
-	R = np.linalg.norm(point2 - point1)
-	deltaX = point2[0] - point1[0]
-	deltaY = point2[1] - point1[1]
-	theta = np.arctan2(deltaY, deltaX)
-	M = np.array([	[      0,      0,      0,      0,      0,      1],
-					[      0,      0,      0,      0,      1,      0],
-					[      0,      0,      0,      2,      0,      0],
-					[   t**5,   t**4,   t**3,   t**2,      t,      1],
-					[ 5*t**4, 4*t**3, 3*t**2,    2*t,      1,      0],
-					[20*t**3,12*t**2,    6*t,      2,      0,      0],])
-	rMat = np.array([0, 0, 0, R, 0, 0]).reshape(-1,1)
-	invM = np.linalg.inv(M)
-	coeffs = np.dot(invM, rMat).reshape(-1)
-
-class XY_ui_interface(Ui_MainWindow):
+class XY_ui_interface(QtGui.QMainWindow, Ui_MainWindow):
 	axis_dict = {'x':9, 'y':10, 'z':11}
 	direction = {'CCW':0, 'CW':1, 'up':0, 'down':1}
-	gripper_action = {'active':1, 'release':0}
+	gripper_action = {'pull':2, 'push':3,'grap':4, 'degrap':5}
+
+	class Camera_matrix_holder(object):
+		def __init__(self, shape, mtx, dist, rvec, tvec):
+			self._shape = shape
+			self._mtx = mtx
+			self._dist = dist
+			self._rvec = rvec
+			self._tvec = tvec
+
+		def reinitial(self, shape, mtx, dist, rvec, tvec):
+			self._shape = shape
+			self._mtx = mtx
+			self._dist = dist
+			self._rvec = rvec
+			self._tvec = tvec
+
+		@property
+		def shape(self):
+			return self._shape.copy()
+		@property
+		def mtx(self):
+			return self._mtx.copy()
+		@property
+		def dist(self):
+			self._dist.copy()
+		@property
+		def rvec(self):
+			return self._rvec.copy()
+		@property
+		def tvec(self):
+			return self._tvec.copy()
+
+	class Contour_Holder(object):
+		def __init__(self, contour, hierarchy, shape, color):
+			self._contour = contour
+			self._shape = shape
+			self._color = color
+
+		def reinitial(self, contour, hierarchy, shape, color):
+			self._contour = contour
+			self._shape = shape
+			self._color = color
+		
+		@property
+		def contour(self):
+			return self._contour.copy()
+		@property
+		def shape(self):
+			return self._shape.copy()
+		@property
+		def color(self):
+			return self._color.copy()
 
 	def __init__(self, MainWindow, file_cfg):
 		super(XY_ui_interface, self).__init__()
 		self.setupUi(MainWindow)
+		self.Pen_position = {}
 		self.get_config(file_cfg)
 		self.set_ui_signal()
-		self.serial = serial.Serial()
+		self.serial = serial.Serial(rtscts=False,dsrdtr=False)
 		self.start_flag = threading.Event()
+		self.FSM_start_flag = threading.Event()
 		self.sender_thread = None
+		self.FSM_sender = None
 		self.sending_buffer = Queue()
 		self.recieving_buffer = Queue()
+		self.camera_matrix_holder = XY_ui_interface.Camera_matrix_holder(None, None, None, None, None)
+		self.contour_holder = XY_ui_interface.Contour_Holder(None, None, None, None)
 
 	def get_config(self, file_cfg):
 		self.__config = ConfigParser.ConfigParser()
 		self.__config.read(file_cfg)
+		for value in self.__config.items("color_index"):
+			indx = int(value[1])
+			pos = eval(self.__config.get("color_position", value[0]))
+			self.Pen_position[indx] = pos
 
 	def set_ui_signal(self):
 		self.set_list_serial_port()
@@ -87,24 +134,40 @@ class XY_ui_interface(Ui_MainWindow):
 		self.moveZ_down.clicked.connect( lambda x:self.Command_move('z', 'down'))
 		self.breakZ.clicked.connect( lambda x:self.Command_break('z'))
 		self.breakAll.clicked.connect( self.Command_breakAll )
-		self.active_gripper.clicked.connect( lambda x:self.Command_gripper('active') )
-		self.release_gripper.clicked.connect( lambda x:self.Command_gripper('release') )
+
+		self.pullButton.clicked.connect( lambda x:self.Command_gripper('pull') )
+		self.pushButton.clicked.connect( lambda x:self.Command_gripper('push') )
+		self.grapButton.clicked.connect( lambda x:self.Command_gripper('grap') )
+		self.degrapButton.clicked.connect( lambda x:self.Command_gripper('degrap') )
+
+		self.TunePID_button.clicked.connect(self.Command_tune_PID)
+		self.TuneTrajX_button.clicked.connect(self.Command_tune_TrajX)
+		self.TuneTrajY_button.clicked.connect(self.Command_tune_TrajY)
+		self.TuneCircle_buttonX.clicked.connect(self.Command_tune_CirX)
+		self.TuneCircle_buttonY.clicked.connect(self.Command_tune_CirY)
+
+		self.Load_camera_matrix_button.clicked.connect( self.Load_camera_matrix)
+		self.Load_contour_button.clicked.connect(self.Load_contour)
+		self.start_button.clicked.connect(self.START)
+		self.kill_button.clicked.connect(self.KILL)
+		self.threadLock = threading.Lock()
 
 	def connect_serial_port(self):
-		self.set_list_serial_port()
 		self.start_flag.clear()
+		self.FSM_start_flag.clear()
 		if self.sender_thread is not None and self.sender_thread.is_alive():
 			print "waiting..."
 			self.sender_thread.join()
-		del self.sender_thread
 		with self.sending_buffer.mutex:
 			self.sending_buffer.queue.clear()
 		with self.recieving_buffer.mutex:
 			self.recieving_buffer.queue.clear()
 		self.serial.port = str( self.Serial_port_combo.currentText() )
+		print self.serial.port
+		# self.serial.port = str( 'COM5' )
+		self.serial.baudrate = 115200
 		self.serial.setDTR(False)
 		self.serial.setRTS(False)
-		self.serial.baudrate = 115200
 		self.serial.open()
 
 		self.sender_thread = Serilal_sender(self.serial, "Serial Thread", self.sending_buffer, self.recieving_buffer, flag=self.start_flag)
@@ -118,6 +181,7 @@ class XY_ui_interface(Ui_MainWindow):
 			print "Fail to connect."
 	def disconnect_serial_port(self):
 		self.start_flag.clear()
+		self.FSM_start_flag.clear()
 		if self.sender_thread is not None and self.sender_thread.is_alive():
 			print "waiting..."
 			self.sender_thread.join()
@@ -125,6 +189,8 @@ class XY_ui_interface(Ui_MainWindow):
 			self.sending_buffer.queue.clear()
 		with self.recieving_buffer.mutex:
 			self.recieving_buffer.queue.clear()
+		self.serial.setDTR(False)
+		self.serial.setRTS(False)
 		self.sender_thread = None
 		self.serial.close()
 		self.set_list_serial_port()
@@ -169,7 +235,9 @@ class XY_ui_interface(Ui_MainWindow):
 		result = []
 		for port in ports:
 			try:
-				s = serial.Serial(port)
+				s = serial.Serial(port,rtscts=False,dsrdtr=False)
+				s.setDTR(False)
+				s.setRTS(False)
 				s.close()
 				result.append(port)
 			except (OSError, serial.SerialException):
@@ -180,23 +248,35 @@ class XY_ui_interface(Ui_MainWindow):
 		self.sending_buffer.put(INSTRUCTION_PACKET)
 
 	def Command_circle(self):
-		x = self.Circle_X.value()
-		y = self.Circle_Y.value()
-		r = self.Circle_radius.value()
-		H_X, L_X = divmod(x, 256)
-		H_Y, L_Y = divmod(y, 256)
-		H_R, L_R = divmod(r, 256)
+		R = self.Circle_R.value()
+		theta = self.Circle_theta.value()
+		T = self.Circle_T.value()
 		ID = 1
-		PACKAGE = [255, 255, ID, 1, H_R, L_R, H_X, L_X, H_Y, L_Y]
-		self.WriteData(PACKAGE)
+		H_R,L_R = divmod( int(R),256)
+		sign = 0x00
+		H_theta, L_theta = divmod( int(theta), 256 )
+		H_T, L_T = divmod(int(T),256)
+		PACKET = [255, 255, 1, 250, H_R, L_R, H_T, L_T, H_theta, L_theta, sign]
+		self.WriteData(PACKET)
 		
 	def Command_line(self):
-		H_X1, L_X1 = divmod(self.Line_X1.value(), 256)
-		H_Y1, L_Y1 = divmod(self.Line_Y1.value(), 256)
-		H_X2, L_X2 = divmod(self.Line_X2.value(), 256)
-		H_Y2, L_Y2 = divmod(self.Line_Y2.value(), 256)
-		ID = 1
-		PACKAGE = [255, 255, ID, 5, H_X1, L_X1, H_Y1, L_Y1, H_X2, L_X2, H_Y2, L_Y2]
+		R = self.Line_R.value()
+		theta = float(self.Line_theta.value()) / 100.0
+		T = self.Line_T.value()
+		H_R,L_R = divmod( int(R),256)
+		sign = 0x00
+		cosTheta = np.cos(theta)*100
+		if cosTheta < 0 :
+			cosTheta = -1*cosTheta
+			sign += 1
+		sinTheta = np.sin(theta)*100
+		if sinTheta < 0 :
+			sinTheta = -1*sinTheta
+			sign += 2
+
+		H_T, L_T = divmod(int(T),256)
+		print "sin:", sinTheta, "cos:",cosTheta
+		PACKAGE = [255, 255, 1, 200, H_R, L_R, H_T, L_T, int(cosTheta), int(sinTheta),sign]
 		self.WriteData(PACKAGE)
 		
 	def __Command_goto_position(self, X, Y):
@@ -239,7 +319,7 @@ class XY_ui_interface(Ui_MainWindow):
 		self.WriteData(PACKAGE)
 		
 	def Free_position(self):
-		img = np.zeros((1080, 1080), dtype = np.uint8) + 255
+		img = np.zeros((350, 350), dtype = np.uint8) + 255
 		ax = plt.gca()
 		fig = plt.gcf()
 		implot  = ax.imshow(img, cmap = 'gray')
@@ -266,7 +346,7 @@ class XY_ui_interface(Ui_MainWindow):
 		motor_axis = self.axis_dict[axis]
 		motor_direction = self.direction[direction]
 		ID = 1
-		PACKAGE = [255,255,ID,motor_axis,2,0,motor_direction]
+		PACKAGE = [255,255,ID,motor_axis,0x09,0xC4,motor_direction]
 		self.WriteData(PACKAGE)
 
 	def Command_break(self, axis):
@@ -284,9 +364,111 @@ class XY_ui_interface(Ui_MainWindow):
 		self.Command_break('z')
 		time.sleep(0.1)
 
-	def Command_gripper(self, action):
-		print "gripper", action
+	def __Command_tune_PID(self, axis, kp, ki, kd):
+		kp_H, kp_L = divmod(kp, 100)
+		ki_H, ki_L = divmod(ki, 100)
+		kd_H, kd_L = divmod(kd, 100)
+		PACKAGE = [255, 255, 0x01, 55, axis, kp_H, kp_L, ki_H, ki_L, kd_H, kd_L]
+		self.WriteData(PACKAGE)
 
+	def Command_tune_PID(self):
+		if self.PID_Yaxis.isChecked():
+			self.__Command_tune_PID(1, self.PID_Kp.value(), self.PID_Ki.value(), self.PID_Kd.value())
+		else:
+			self.__Command_tune_PID(0, self.PID_Kp.value(), self.PID_Ki.value(), self.PID_Kd.value())
+
+	def __Command_tune_Traj(self, Ins, axis, a, kp, kd, ki):
+		a_H, a_L = divmod(a, 256)
+		kp_H, kp_L = divmod(kp, 256)
+		kd_H, kd_L = divmod(kd, 256)
+		PACKAGE = [255,255,0x01,Ins,axis,a_H,a_L,kp_H,kp_L,kd_H,kd_L,ki]
+		self.WriteData(PACKAGE)
+
+	def Command_tune_TrajX(self):
+		# axis = 1 if self.Traj_Yaxis.isChecked() else 0
+		# ins = 57 if self.Traj_Circle.isChecked() else 56
+		self.__Command_tune_Traj(56, 0, self.TrajX_a.value(), self.TrajX_Kp.value(), self.TrajX_Kd.value(), self.TrajX_Ki.value())
+
+	def Command_tune_TrajY(self):
+		self.__Command_tune_Traj(56, 1, self.TrajY_a.value(), self.TrajY_Kp.value(), self.TrajY_Kd.value(), self.TrajY_Ki.value())
+
+	def Command_tune_CirX(self):
+		self.__Command_tune_Traj(57, 0, self.TrajCirX_a.value(), self.TrajCirX_Kp.value(), self.TrajCirX_Kd.value(), self.TrajCirX_Ki.value())
+
+	def Command_tune_CirY(self):
+		self.__Command_tune_Traj(57, 1, self.TrajCirY_a.value(), self.TrajCirY_Kp.value(), self.TrajCirY_Kd.value(), self.TrajCirY_Ki.value())
+
+	def Command_gripper(self, action):
+		PACKAGE = [255, 255, 2, self.gripper_action[action]]
+		self.WriteData(PACKAGE)
+
+	def Load_camera_matrix(self):
+		filename = str( QtGui.QFileDialog.getOpenFileName(self, 'Open File') )
+		with np.load( filename ) as data:
+			shape = data['shape']
+			mtx = data['camera_matrix']
+			dist = data['distortion_ceff']
+			rvecs = data['rotation_vector']
+			tvecs = data['translation_vector']
+			planar_index = data['planar_index']
+			rvec = rvecs[planar_index[0]]
+			tvec = tvecs[planar_index[0]]
+			print "Load successful"
+		self.camera_matrix_holder.reinitial(shape, mtx, dist, rvec, tvec)
+
+	def Load_contour(self):
+		filename = str( QtGui.QFileDialog.getOpenFileName(self, 'Open File') )
+		with np.load( filename ) as data:
+			contour = data['contour']
+			hierarchy = data['hierarchy'].copy()
+			shape = data['shape']
+			try:
+				color = data['color']
+				print "Load successful"
+			except Exception as e:
+				color = np.zeros(len(contour))
+				print e
+		self.contour_holder.reinitial(contour, hierarchy, shape, color)
+
+	def START(self):
+		if self.sender_thread is None or not self.sender_thread.is_alive():
+			print "sender thread is not alive please connect serial port."
+			return
+		elif not self.serial.is_open:
+			print "Serial port is not open."
+			return
+		self.FSM_start_flag.clear()
+		if self.FSM_sender is not None and self.FSM_sender.is_alive():
+			self.FSM_sender.join()
+		with self.sending_buffer.mutex:
+			self.sending_buffer.queue.clear()
+		with self.recieving_buffer.mutex:
+			self.recieving_buffer.queue.clear()
+		self.FSM_sender = None
+		if self.Line_option.isChecked():
+			self.FSM_sender = Line_sender( self.sending_buffer, self.recieving_buffer, self.camera_matrix_holder, self.contour_holder, self.Pen_position, flag = self.FSM_start_flag)
+		elif self.Circle_option.isChecked():
+			self.FSM_sender = Circle_sender(self.sending_buffer, self.recieving_buffer, self.camera_matrix_holder, self.contour_holder, self.Pen_position, flag = self.FSM_start_flag)
+		elif self.Test_option.isChecked():
+			self.FSM_sender = BasicPattern("Testing Thread", self.sending_buffer, self.recieving_buffer, self.Pen_position, flag = self.FSM_start_flag)
+		elif self.TestGripper_option.isChecked():
+			self.FSM_sender = GripperPattern("Test Gripper Thread", self.sending_buffer, self.recieving_buffer, self.Pen_position, flag = self.FSM_start_flag)
+		elif self.Circle_option.isChecked():
+			self.FSM_sender = Circle_sender(self.sending_buffer, self.recieving_buffer, self.camera_matrix_holder, self.contour_holder, self.Pen_position, flag = self.FSM_start_flag)
+
+		if self.FSM_sender is not None:
+			self.FSM_sender.start()
+			self.FSM_start_flag.set()
+
+	def KILL(self):
+		self.FSM_start_flag.clear()
+		if self.FSM_sender is not None and self.FSM_sender.is_alive():
+			self.FSM_sender.join()
+		with self.sending_buffer.mutex:
+			self.sending_buffer.queue.clear()
+		with self.recieving_buffer.mutex:
+			self.recieving_buffer.queue.clear()
+		self.FSM_sender = None
 
 if __name__ == '__main__':
 	import sys

@@ -7,6 +7,7 @@ from rank_nullspace import nullspace
 from Coor2Dto3Dtransformation import Project2Dto3D, Calibrate_Camera
 
 if __name__ == '__main__':
+	print sys.argv
 	try:
 		image_dir = sys.argv[1]
 	except Exception as e:
@@ -110,6 +111,10 @@ if __name__ == '__main__':
 	cv2.drawChessboardCorners(vis, pattern_size, imgPoints, ret)
 	print imgPoints[0]
 	cv2.circle(vis, (int(imgPoints[0][0]) , int(imgPoints[0][1])), 5, (0,0,255), -1)
+	for i in range(len(p)):
+		cv2.circle(vis, (int(imgPoints[i][0]) , int(imgPoints[i][1])), 5, (0,0,255), -1)
+		cv2.putText(vis, str(int(p[i][0]))+","+str(int(p[i][1])), (int(imgPoints[i][0]) - 25,int(imgPoints[i][1])-20), cv2.FONT_HERSHEY_PLAIN, 0.5, (0,0,255), 1)
+	cv2.imwrite("vis.jpg",vis)
 	cv2.imshow("vis", vis)
 	cv2.waitKey(0)
 	cv2.destroyAllWindows()

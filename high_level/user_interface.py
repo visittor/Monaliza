@@ -215,23 +215,31 @@ class mainWin(QtGui.QMainWindow, Ui_MainWindow):
 		print "loading ..."
 		roi = cv2.imread(file_name, 0)
 		# roi = cv2.threshold(roi, 127, 255, cv2.THRESH_BINARY) 
-		self.__roi = np.zeros((roi.shape[0],roi.shape[1],3), np.uint8)
-		self.__roi[:,:,0] = roi
-		self.__roi[:,:,1] = roi
-		self.__roi[:,:,2] = roi
+		# self.__roi = np.zeros((roi.shape[0],roi.shape[1],3), np.uint8)
+		# self.__roi[:,:,0] = roi
+		# self.__roi[:,:,1] = roi
+		# self.__roi[:,:,2] = roi
+		if self.__ImageProcessing_thread is not None and self.__ImageProcessing_thread.is_alive():
+			self.__ImageProcessing_thread.set_roi(roi)
 		print "Done!!"
 
 	def capture(self):
-		cap = cv2.VideoCapture(self.camera_ID_spinbox.value())
+		cap = cv2.VideoCapture(int(self.camera_ID_spinbox.value()))
+		print "Capturing."
+		for i in range(100):
+			ret,img = cap.read()
+			time.sleep(0.01)
 		ret,img = cap.read()
 		if ret:
 			if self.__camera_mtx is not None and self.__dist_coeff is not None:
 				img = cv2.undistort(img, self.__camera_mtx, self.__dist_coeff)
-			if self.__roi is not None:
-				shape0 = self.__roi.shape[0] if self.__roi.shape[0] < img.shape[0] else img.shape[0]
-				shape1 = self.__roi.shape[1] if self.__roi.shape[1] < img.shape[1] else img.shape[1]
-				img[:shape0, :shape1] = ((img[:shape0,:shape1].astype(np.uint16) * self.__roi[:shape0,:shape1].astype(np.uint16))/255).astype(np.uint8)
-			img_rgb = img[:,:,::-1]
+				print "Undistort"
+			# if self.__roi is not None:
+			# 	shape0 = self.__roi.shape[0] if self.__roi.shape[0] < img.shape[0] else img.shape[0]
+			# 	shape1 = self.__roi.shape[1] if self.__roi.shape[1] < img.shape[1] else img.shape[1]
+			# 	img[:shape0, :shape1] = ((img[:shape0,:shape1].astype(np.uint16) * self.__roi[:shape0,:shape1].astype(np.uint16))/255).astype(np.uint8)
+			# 	print "Use roi"
+			img_rgb = img
 			plt.imshow(img_rgb)
 			plt.show()
 			filename = str( QtGui.QFileDialog.getSaveFileName(self, 'Save File') )
@@ -239,11 +247,12 @@ class mainWin(QtGui.QMainWindow, Ui_MainWindow):
 				try:
 					cv2.imwrite( filename, img)
 				except cv2.error as e:
-					filename += ".jpg"
+					filename += ".png"
 					cv2.imwrite( filename, img)
 				finally:
 					cap.release
 		else:
+			print "Cannot Found Camera."
 			cap.release()
 
 

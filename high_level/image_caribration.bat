@@ -1,1 +1,1 @@
-Camera_calibration.py "Image_calib/" "Image_calib/output" (9,6) *.jpg 25.0 (0,0) "Image_calib\planar1.jpg"
+Camera_calibration.py ImgCalib_19112017\ ImgCalib_19112017\output (9,6) *.png 25 (292,278) ImgCalib_19112017\planar.png
