@@ -7,6 +7,7 @@ from PyQt4 import QtCore, QtGui
 from serial_ui import Ui_MainWindow
 from serial_thread import Serilal_sender
 from FSM_sender import Line_sender, Circle_sender,BasicPattern,GripperPattern
+from contour_sender import ContourSender
 import ConfigParser
 
 import sys
@@ -33,7 +34,7 @@ except AttributeError:
 class XY_ui_interface(QtGui.QMainWindow, Ui_MainWindow):
 	axis_dict = {'x':9, 'y':10, 'z':11}
 	direction = {'CCW':0, 'CW':1, 'up':0, 'down':1}
-	gripper_action = {'pull':2, 'push':3,'grap':4, 'degrap':5}
+	gripper_action = {'pull':3, 'push':5,'grap':4, 'degrap':7}
 
 	class Camera_matrix_holder(object):
 		def __init__(self, shape, mtx, dist, rvec, tvec):
@@ -94,6 +95,7 @@ class XY_ui_interface(QtGui.QMainWindow, Ui_MainWindow):
 		self.get_config(file_cfg)
 		self.set_ui_signal()
 		self.serial = serial.Serial(rtscts=False,dsrdtr=False)
+		# self.serial2 = serial.Serial(rtscts=False,dsrdtr=False)
 		self.start_flag = threading.Event()
 		self.FSM_start_flag = threading.Event()
 		self.sender_thread = None
@@ -211,7 +213,9 @@ class XY_ui_interface(QtGui.QMainWindow, Ui_MainWindow):
 	def set_list_serial_port(self):
 		comport_list = self.find_comport()
 		self.Serial_port_combo.clear()
+		self.Serial_port2_combo.clear()
 		self.Serial_port_combo.addItems(comport_list)
+		self.Serial_port2_combo.addItems(comport_list)
 		print 'fuck yeah'
 
 	def find_comport(self):
@@ -235,10 +239,12 @@ class XY_ui_interface(QtGui.QMainWindow, Ui_MainWindow):
 		result = []
 		for port in ports:
 			try:
-				s = serial.Serial(port,rtscts=False,dsrdtr=False)
-				s.setDTR(False)
-				s.setRTS(False)
-				s.close()
+				self.serial = serial.Serial(rtscts=False,dsrdtr=False)
+				self.serial.setDTR(False)
+				self.serial.setRTS(False)
+				self.serial.port = port
+				self.serial.open()
+				self.serial.close()
 				result.append(port)
 			except (OSError, serial.SerialException):
 				pass
@@ -256,7 +262,7 @@ class XY_ui_interface(QtGui.QMainWindow, Ui_MainWindow):
 		sign = 0x00
 		H_theta, L_theta = divmod( int(theta), 256 )
 		H_T, L_T = divmod(int(T),256)
-		PACKET = [255, 255, 1, 250, H_R, L_R, H_T, L_T, H_theta, L_theta, sign]
+		PACKET = [255, 255, 1, 5, H_R, L_R, H_theta, L_theta]
 		self.WriteData(PACKET)
 		
 	def Command_line(self):
@@ -276,14 +282,14 @@ class XY_ui_interface(QtGui.QMainWindow, Ui_MainWindow):
 
 		H_T, L_T = divmod(int(T),256)
 		print "sin:", sinTheta, "cos:",cosTheta
-		PACKAGE = [255, 255, 1, 200, H_R, L_R, H_T, L_T, int(cosTheta), int(sinTheta),sign]
+		PACKAGE = [255, 255, 1, 4, H_R, L_R, sign, int(sinTheta), int(cosTheta)]
 		self.WriteData(PACKAGE)
 		
 	def __Command_goto_position(self, X, Y):
 		H_X, L_X = divmod(X, 256)
 		H_Y, L_Y = divmod(Y, 256)
 		ID = 1
-		PACKAGE = [255, 255, ID, 7, H_X, L_X, H_Y, L_Y]
+		PACKAGE = [255, 255, ID, 1, H_X, L_X, H_Y, L_Y]
 		self.WriteData(PACKAGE)
 
 	def __Command_Grap_pen(self, X, Y):
@@ -306,7 +312,7 @@ class XY_ui_interface(QtGui.QMainWindow, Ui_MainWindow):
 		
 	def Command_reset(self):
 		ID = 1
-		PACKAGE = [255, 255, ID, 0]
+		PACKAGE = [255, 255, ID, 3]
 		self.WriteData(PACKAGE)
 		
 	def send_custom_package(self):
@@ -351,9 +357,10 @@ class XY_ui_interface(QtGui.QMainWindow, Ui_MainWindow):
 
 	def Command_break(self, axis):
 		print "Break",axis
-		motor_axis = self.axis_dict[axis]
+		# motor_axis = self.axis_dict[axis]
 		ID = 1
-		PACKAGE = [255,255,ID,12,motor_axis]
+		# PACKAGE = [255,255,ID,12,motor_axis]
+		PACKAGE = [255, 255, ID, 2]
 		self.WriteData(PACKAGE)
 
 	def Command_breakAll(self):
@@ -453,8 +460,8 @@ class XY_ui_interface(QtGui.QMainWindow, Ui_MainWindow):
 			self.FSM_sender = BasicPattern("Testing Thread", self.sending_buffer, self.recieving_buffer, self.Pen_position, flag = self.FSM_start_flag)
 		elif self.TestGripper_option.isChecked():
 			self.FSM_sender = GripperPattern("Test Gripper Thread", self.sending_buffer, self.recieving_buffer, self.Pen_position, flag = self.FSM_start_flag)
-		elif self.Circle_option.isChecked():
-			self.FSM_sender = Circle_sender(self.sending_buffer, self.recieving_buffer, self.camera_matrix_holder, self.contour_holder, self.Pen_position, flag = self.FSM_start_flag)
+		elif self.Contour_option.isChecked():
+			self.FSM_sender = ContourSender(self.sending_buffer, self.recieving_buffer,self.contour_holder,flag = self.FSM_start_flag, CntIndx = self.CntIndx.value(), PtIndx = self.PointIndx.value())
 
 		if self.FSM_sender is not None:
 			self.FSM_sender.start()

@@ -234,9 +234,12 @@ class Edge_detection(object):
 		self.__edges = self.__tween(self.__edges) if callable(self.__tween) else self.__edges
 		if self.__ui.retr_external.isChecked():
 			retrieval_mode = cv2.RETR_EXTERNAL
+		elif self.__ui.retr_ccomp.isChecked():
+			retrieval_mode = cv2.RETR_CCOMP 
 		else:
 			retrieval_mode = cv2.RETR_TREE
-		c = cv2.findContours( self.__edges, retrieval_mode, cv2.CHAIN_APPROX_SIMPLE)
+		# c = cv2.findContours( self.__edges, retrieval_mode, cv2.CHAIN_APPROX_SIMPLE)
+		c = self.__select_retrievalmode(retrieval_mode)
 		cnts_filtered = self.__filter_contour(c[1])
 		if self.__ui.is_arc_lenght.isChecked():
 			for i in range(len(cnts_filtered)):
@@ -251,7 +254,21 @@ class Edge_detection(object):
 			self.__contour_points = cnts_filtered
 		self.__hierarchy = c[2]
 
+	def __select_retrievalmode(self, mode):
+		if mode == cv2.RETR_EXTERNAL:
+			return cv2.findContours( self.__edges, mode, cv2.CHAIN_APPROX_SIMPLE)
+		elif mode == cv2.RETR_TREE:
+			return cv2.findContours( self.__edges, mode, cv2.CHAIN_APPROX_SIMPLE)
+		elif mode == cv2.RETR_CCOMP:
+			i,c,h = cv2.findContours( self.__edges, mode, cv2.CHAIN_APPROX_SIMPLE)
+			# c = c[np.where(h[:,3] < 0)]
+			c = [ c[i] for i in range(len(c)) if i in np.where(h[0,:,3] == -1)[0] ]
+			h = h[np.where(h[:,:,3] == -1)]
+			return i,c,h
+
 	def __filter_contour(self, cnts):
+		if self.__ui.cnt_max_lenght.value() == 0:
+			return [ np.array(i) for i in cnts if len(i) >= self.__ui.cnt_min_lenght.value()]
 		return [ np.array(i) for i in cnts if self.__ui.cnt_max_lenght.value()>= len(i) >= self.__ui.cnt_min_lenght.value()]
 
 	def identify_polygons(self, cnts, img):

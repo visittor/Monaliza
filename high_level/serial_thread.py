@@ -39,7 +39,7 @@ def write_data(serial, INSTRUCTION_PACKET, Lock = None):
 		if not serial.is_open:
 			print "Serial port is not open."
 		elif serial.is_open and len(INSTRUCTION_PACKET) > 0:
-			INSTRUCTION_PACKET.insert(3, len(INSTRUCTION_PACKET)-2)
+			INSTRUCTION_PACKET.insert(4, len(INSTRUCTION_PACKET)-3)
 			CHKSUM = 0
 			for i in range(2, len(INSTRUCTION_PACKET)):
 				CHKSUM += INSTRUCTION_PACKET[i]
@@ -215,9 +215,13 @@ class FSM_sender(threading.Thread):
 			elif self.STATE.packetState == self.STATE.ID:
 				if self.__dataByte == id:
 					# print "To LENGHT"
-					self.STATE.packetState = self.STATE.LENGHT
+					self.STATE.packetState = self.STATE.INST
 				else:
 					self.STATE.packetState = self.STATE.HEADER1
+
+			elif self.STATE.packetState == self.STATE.INST:
+				self.__dataBytes.append(self.__dataByte)
+				self.STATE.packetState = self.STATE.LENGHT
 
 			elif self.STATE.packetState == self.STATE.LENGHT:
 				self.__packageLenght = self.__dataByte
@@ -227,7 +231,7 @@ class FSM_sender(threading.Thread):
 			elif self.STATE.packetState == self.STATE.DATA_BYTE:
 				self.__dataBytes.append(self.__dataByte)
 				self.__packageLenght -= 1
-				# print self.__packageLenght, "REMAIN"
+				print self.__packageLenght, "REMAIN"
 				if self.__packageLenght == 0:
 					return True, self.__dataBytes
 		return False, []
@@ -247,7 +251,7 @@ class FSM_sender(threading.Thread):
 
 		elif self.STATE.currentState == self.STATE.RECIEVE:
 			ret, data = recieving_handler(id = id)
-			if ret and len(data) >= 2:
+			if ret:
 				if data[0] == instruction:
 					# if data[1] & error != 0x00:
 					# 	self.STATE.currentState = self.STATE.ERROR
@@ -286,7 +290,6 @@ class FSM_sender(threading.Thread):
 			self.contour[i][:,1] = (self.contour[i][:,1].astype(float) * (self.camera_shape[0].astype(float) / self.contour_shape[0].astype(float))).astype(int)
 
 	def initialize(self):
-		print "Am here"
 		self.STATE.currentState = self.STATE.SENDING
 		self.STATE.packetState = self.STATE.HEADER1
 		self.__status_packet = []
@@ -299,3 +302,9 @@ class FSM_sender(threading.Thread):
 		self.flag.wait()
 		while self.flag is None or self.flag.is_set():
 			pass
+
+class StateEnum(object):
+	stateEnum = {'pid':0, 'reset':1, 'pull':2, 'push':3, 'draw_line':4, 'draw_circle':5}
+	def __init__(self):
+		for name,val in self.stateEnum.items():
+			setattr(self, name, val)

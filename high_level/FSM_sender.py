@@ -1,7 +1,7 @@
 from serial_thread import *
 import numpy as np
 import cv2
-
+import time
 from Queue import Queue, Full, Empty
 from Coor2Dto3Dtransformation import Project2Dto3D, getPsuedoInvPMatAndCpoint, Project2Dto3D_, Project3Dto2D
 from send_trajectory import finding_line
@@ -28,7 +28,7 @@ class BasicPattern(FSM_sender):
 		H_X, L_X = divmod(x, 256)
 		H_Y, L_Y = divmod(y, 256)
 		ID = 1
-		PACKAGE = [255, 255, ID, 7, H_X, L_X, H_Y, L_Y]
+		PACKAGE = [255, 255, ID, 1, H_X, L_X, H_Y, L_Y]
 		return PACKAGE
 
 	def Command_Draw_line(self, R, theta, T):
@@ -45,7 +45,7 @@ class BasicPattern(FSM_sender):
 			sinTheta = -1*sinTheta
 			sign += 2
 		H_T, L_T = divmod(int(T),256)
-		PACKET = [255, 255, 1, 200, H_R, L_R, H_T, L_T, int(cosTheta), int(sinTheta),sign]
+		PACKET = [255, 255, 1, 4, H_R, L_R, sign, int(sinTheta), int(cosTheta)]
 		return PACKET
 
 	def Command_Draw_circle(self, R, theta, T):
@@ -54,11 +54,15 @@ class BasicPattern(FSM_sender):
 		sign = 0x00
 		H_theta, L_theta = divmod( int(theta), 256 )
 		H_T, L_T = divmod(int(T),256)
-		PACKET = [255, 255, 1, 250, H_R, L_R, H_T, L_T, H_theta, L_theta, sign]
+		PACKET = [255, 255, 1, 5, H_R, L_R, H_theta, L_theta]
+		return PACKET
+
+	def Command_Reset(self):
+		PACKET = [255,255,1,3]
 		return PACKET
 
 	def go_to_position(self, x, y):
-		return super(BasicPattern, self).state_handler(int(x),int(y),Command_handler=self.Command_Go_to_position,instruction = 7)
+		return super(BasicPattern, self).state_handler(int(x),int(y),Command_handler=self.Command_Go_to_position,instruction = 1)
 		# if self.STATE.currentState == self.STATE.SENDING:
 		# 	print "Send Command Go To Position."
 		# 	self.STATE.currentState = self.STATE.RECIEVE
@@ -105,7 +109,7 @@ class BasicPattern(FSM_sender):
 		# return False,[]
 
 	def draw_line(self, R, theta, T):
-		return super(BasicPattern, self).state_handler(int(R), theta, int(T), Command_handler=self.Command_Draw_line,instruction = 200)
+		return super(BasicPattern, self).state_handler(int(R), theta, int(T), Command_handler=self.Command_Draw_line,instruction = 1)
 		# if self.STATE.currentState == self.STATE.SENDING:
 		# 	print "Sending Command Draw Line:"
 		# 	self.STATE.currentState = self.STATE.RECIEVE
@@ -127,7 +131,7 @@ class BasicPattern(FSM_sender):
 		# return False, []
 
 	def draw_circle(self, R, theta, T):
-		return super(BasicPattern, self).state_handler(int(R), theta, int(T),Command_handler=self.Command_Draw_circle,instruction = 250)
+		return super(BasicPattern, self).state_handler(int(R), theta, int(T),Command_handler=self.Command_Draw_circle,instruction = 1)
 		# if self.STATE.currentState == self.STATE.SENDING:
 		# 	print "Sending Command Draw Circle:"
 		# 	self.STATE.currentState = self.STATE.RECIEVE
@@ -148,8 +152,10 @@ class BasicPattern(FSM_sender):
 		# 	self.STATE.currentState = self.STATE.SENDING
 		# return False, []
 
+	def reset_position(self):
+		return super(BasicPattern, self).state_handler(Command_handler=self.Command_Reset,instruction = 2)
+
 	def initialize(self):
-		print "Am FONT_HERSHEY_PLAIN"
 		super(BasicPattern, self).initialize()
 		self.__dataByte = 0x00
 		self.__status_packet = []
@@ -187,11 +193,11 @@ class GripperPattern(FSM_sender):
 		# self.__dataBytes = []
 
 	def Command_Pull(self):
-		packet = [255,255,2,2]
+		packet = [255,255,2,3]
 		return packet
 
 	def Command_Push(self):
-		packet = [255,255,2,3]
+		packet = [255,255,2,5]
 		return packet
 
 	def Command_Grap(self):
@@ -199,7 +205,7 @@ class GripperPattern(FSM_sender):
 		return packet
 
 	def Command_Degrap(self):
-		packet = [255,255,2,5]
+		packet = [255,255,2,7]
 		return packet
 
 	def pull_Gripper(self):
@@ -221,12 +227,23 @@ class GripperPattern(FSM_sender):
 		while self.flag.is_set():
 			if flag == 0:
 				ret,_ = self.pull_Gripper()
+				time.sleep(7)
 			elif flag == 1:
 				ret,_ = self.push_Gripper()
+				time.sleep(7)
 			elif flag == 2:
-				ret,_ = self.grap_Gripper()
+				ret,_ = self.pull_Gripper()
+				time.sleep(7)
 			elif flag == 3:
+				ret,_ = self.grap_Gripper()
+				time.sleep(12)
+			elif flag == 4:
+				ret,_ = self.pull_Gripper()
+				time.sleep(7)
+			elif flag == 5:
 				ret,_ = self.degrap_Gripper()
+				time.sleep(12)
+			ret = True
 			if ret:
 				flag = (flag+1)%4
 				self.initialize()
@@ -399,33 +416,6 @@ class Line_sender(GripperPattern,BasicPattern,FSM_sender):
 				state = self.drawPolyState()
 			elif self.drawInfillState():
 				break
-			# if state == self.stateEnum["pull"]:
-			# 	ret,_ = self.pull_Gripper()
-			# 	if ret:
-			# 		if len(self.trajectory) == 0:
-			# 			break
-			# 		self.initialize()
-			# 		state = self.stateEnum["to_pos"]
-			# elif state == self.stateEnum["push"]:
-			# 	ret,_ = self.push_Gripper()
-			# 	if ret:
-			# 		self.initialize()
-			# 		state = self.stateEnum["draw_line"]
-			# elif state == self.stateEnum["to_pos"]:
-			# 	ret,_ = self.go_to_position(self.polygon_world_coor[0][0] + 5, self.polygon_world_coor[0][1] - 5)
-			# 	if ret:
-			# 		state = self.stateEnum["push"]
-			# 		self.initialize()
-			# 		coeff = self.trajectory.pop(0)
-			# elif state == self.stateEnum["draw_line"]:
-			# 	ret,_ = self.draw_line(*coeff)
-			# 	if ret:
-			# 		if len(self.trajectory) == 0:
-			# 			state = self.stateEnum["pull"]
-			# 			self.initialize()
-			# 			continue
-			# 		coeff = self.trajectory.pop(0)
-			# 		self.initialize()
 		print "Stop..."
 
 class Circle_sender(GripperPattern,BasicPattern,FSM_sender):
@@ -588,7 +578,3 @@ class Circle_sender(GripperPattern,BasicPattern,FSM_sender):
 			if ret:
 				break
 		print "Stop ..."
-
-# class Contour_sender(BasicPattern, GripperPattern, FSM_sender):
-
-# 	def __init__

@@ -79,7 +79,11 @@ class Sharpening(Filter):
 			ksize = 2*self.ui.Sharpening_ksize.value() + 1
 			weight = float(self.ui.Sharpening_weight.value()) / 100.0
 			mode = self.ui.Sharpening_mode.value()
-			return self.unsharp_masking(img, ksize, weight) if mode == 0 else self.high_pass_filter(img, ksize, weight) 
+			if len(img.shape) > 2:
+				img = cv2.cvtColor(img, cv2.COLOR_BGR2Lab)
+				img = self.unsharp_masking(img, ksize, weight) if mode == 0 else self.high_pass_filter(img, ksize, weight)
+				return cv2.cvtColor(img, cv2.COLOR_Lab2BGR)
+			return  self.unsharp_masking(img, ksize, weight) if mode == 0 else self.high_pass_filter(img, ksize, weight)
 		return img
 
 class Grammar(Filter):
