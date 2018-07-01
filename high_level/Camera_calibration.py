@@ -60,12 +60,12 @@ if __name__ == '__main__':
 		h,  w = img.shape[:2]
 		org_dst = cv2.undistort(img, mtx, dist)
 		if i == planar_indx:
-			cv2.imwrite(output_dir+"\undistorted\undistorted_planar"+".png", org_dst)
+			cv2.imwrite(output_dir+"/undistorted/undistorted_planar"+".png", org_dst)
 		else:
-			cv2.imwrite(output_dir+"\undistorted\undistorted"+str(i)+".png", org_dst)
+			cv2.imwrite(output_dir+"/undistorted/undistorted"+str(i)+".png", org_dst)
 
-	input_undistorted = output_dir+'\\undistorted'+'\\'
-	output_undistorted = output_dir+'\\output_undistorted'
+	input_undistorted = output_dir+'/undistorted'+'/'
+	output_undistorted = output_dir+'/output_undistorted'
 	image_undistorted_list = glob.glob(input_undistorted + "*.png")
 
 	try:
@@ -101,19 +101,20 @@ if __name__ == '__main__':
 
 	newcameramtx, roi=cv2.getOptimalNewCameraMatrix(mtx_2, dist_2, (w,h), 1, (w,h))
 
-	p = Project2Dto3D(imgPoints.copy(), tvecs_2[planar_indx_2], rvecs_2[planar_indx_2], mtx_2)
+	p = Project2Dto3D(imgPoints.copy(), tvecs[planar_indx], rvecs[planar_indx], mtx)
 
 	diff = (np.abs(p - objp[:,:2]) / square_size) * 100
-	print diff
+	print p
 	print "error x,y respect to square size : ",np.mean(diff, axis = 0)
 
 	vis = cv2.cvtColor(planar_image, cv2.COLOR_GRAY2BGR)
-	cv2.drawChessboardCorners(vis, pattern_size, imgPoints, ret)
+	vis[:,:,:] = 0
+	# cv2.drawChessboardCorners(vis, pattern_size, imgPoints, ret)
 	print imgPoints[0]
 	cv2.circle(vis, (int(imgPoints[0][0]) , int(imgPoints[0][1])), 5, (0,0,255), -1)
 	for i in range(len(p)):
-		cv2.circle(vis, (int(imgPoints[i][0]) , int(imgPoints[i][1])), 5, (0,0,255), -1)
-		cv2.putText(vis, str(int(p[i][0]))+","+str(int(p[i][1])), (int(imgPoints[i][0]) - 25,int(imgPoints[i][1])-20), cv2.FONT_HERSHEY_PLAIN, 0.5, (0,0,255), 1)
+		# cv2.circle(vis, (int(imgPoints[i][0]) , int(imgPoints[i][1])), 5, (0,0,255), -1)
+		cv2.putText(vis, str(int(p[i][0]))+","+str(int(p[i][1])), (int(imgPoints[i][0]) - 25,int(imgPoints[i][1])-20), cv2.FONT_HERSHEY_PLAIN, 0.4, (0,0,255), 1)
 	cv2.imwrite("vis.jpg",vis)
 	cv2.imshow("vis", vis)
 	cv2.waitKey(0)

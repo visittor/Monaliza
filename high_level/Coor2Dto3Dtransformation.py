@@ -76,13 +76,13 @@ def Project3Dto2D( points, translation_vector, rotation_vector, camera_matrix ):
 def Calibrate_Camera(file_names, output_dir,pattern_size, square_size, origin, planar_name = None):
 	objp = np.zeros( (pattern_size[0]*pattern_size[1], 3), np.float32 )
 	objp[:, :2] = np.indices(pattern_size).T.reshape(-1, 2)
-	objp[:,0] = objp[:,0]*-1 
-	objp[:,1] = objp[:,1]*-1
+	# objp[:,0] = objp[:,0]*-1 
+	# objp[:,1] = objp[:,1]*-1
 	objp *= square_size
 	objp[:,0] += origin[0]
 	objp[:,1] += origin[1]
 	objp[:,2] += origin[2] if len(origin) >= 3 else 0
-
+	print "objp", objp
 	objpoints = [] 
 	imgpoints = []
 
@@ -97,7 +97,7 @@ def Calibrate_Camera(file_names, output_dir,pattern_size, square_size, origin, p
 		ret, corners = cv2.findChessboardCorners(gray, pattern_size,None)
 
 		if ret == True:
-			print "Found Chess Board On", filename
+			# print "Found Chess Board On", filename
 			criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_COUNT, 30, 0.1)
 			cv2.cornerSubPix(gray,corners,(5,5),(-1,-1),criteria)
 			imgpoints.append(corners.reshape(-1,2))
@@ -110,9 +110,9 @@ def Calibrate_Camera(file_names, output_dir,pattern_size, square_size, origin, p
 		vis = cv2.cvtColor(gray, cv2.COLOR_GRAY2BGR)
 		cv2.drawChessboardCorners(vis, pattern_size, corners, ret)
 		if planar_indx == i:
-			cv2.imwrite(output_dir+"\Detect_chessboard\planar"+".png", vis)
+			cv2.imwrite(output_dir+"/Detect_chessboard/planar"+".png", vis)
 			continue
-		cv2.imwrite(output_dir+"\Detect_chessboard\output"+str(i)+".png",vis)
+		cv2.imwrite(output_dir+"/Detect_chessboard/output"+str(i)+".png",vis)
 
 	ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(objpoints, imgpoints, (w, h),None,None,flags = cv2.CALIB_RATIONAL_MODEL)
 
